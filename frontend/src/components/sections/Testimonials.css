@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Spark International Salon — Interactive Testimonials Deck Model
+   Exact reproduction of client stacked card deck prototype
+   ========================================================================== */
+
+.testimonials-section {
+  position: relative;
+  background: var(--black, #080808);
+  padding: clamp(24px, 4vw, 48px) 0;
+  overflow: hidden;
+}
+
+.testimonials-stage {
+  --black: #080808;
+  --white: #F7F5F2;
+  --red: #D71920;
+  --red-deep: #A8131A;
+  --card-line: rgba(215, 25, 32, 0.35);
+
+  position: relative;
+  height: clamp(620px, 86vh, 840px);
+  background: var(--red);
+  margin: 0 14px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px -20px rgba(0, 0, 0, 0.7);
+  user-select: none;
+}
+
+.testimonials-stage button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.t-deck {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.t-card {
+  position: absolute;
+  width: min(76vw, 900px);
+  height: min(56vh, 520px);
+  background: var(--white);
+  border: 1.5px solid var(--card-line);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 4vw, 56px);
+  text-align: center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+}
+
+.t-card-inner {
+  width: 100%;
+  max-width: 760px;
+}
+
+.t-card h2 {
+  font-family: var(--font-serif, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(28px, 4.4vw, 56px);
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.t-card .body {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(20px, 4vw, 56px);
+  align-items: center;
+  margin-top: clamp(24px, 4vw, 44px);
+  text-align: left;
+}
+
+.t-person {
+  text-align: center;
+}
+
+.t-avatar {
+  width: clamp(100px, 15vw, 160px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin: 0 auto;
+  background: linear-gradient(160deg, #2a2a2a, #080808);
+  border: 3px solid var(--red);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.t-person .name {
+  margin-top: 14px;
+  font-family: var(--font-sans, 'Jost', -apple-system, sans-serif);
+  font-weight: 700;
+  color: var(--red);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.t-person .role {
+  font-family: var(--font-sans, 'Jost', -apple-system, sans-serif);
+  font-size: 14.5px;
+  color: var(--black);
+  margin-top: 2px;
+  opacity: 0.85;
+}
+
+.t-quote {
+  font-family: var(--font-sans, 'Jost', -apple-system, sans-serif);
+  font-size: clamp(16px, 1.7vw, 21px);
+  line-height: 1.52;
+  color: var(--black);
+  margin: 0;
+}
+
+.t-zone {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  z-index: 8;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.t-zone-top {
+  top: 0;
+}
+
+.t-zone-bottom {
+  bottom: 0;
+}
+
+.t-dots {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 10;
+}
+
+.t-dot {
+  width: 26px;
+  height: 2.5px;
+  background: rgba(247, 245, 242, 0.45);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+.t-dot.is-on {
+  width: 40px;
+  background: var(--white);
+}
+
+.t-counter {
+  position: absolute;
+  left: 30px;
+  bottom: 36px;
+  color: var(--white);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  z-index: 10;
+}
+
+@media (max-width: 760px) {
+  .testimonials-stage {
+    height: 100vh;
+    min-height: 560px;
+    margin: 0 8px;
+    border-radius: 8px;
+  }
+  .t-card {
+    width: 90vw;
+    height: auto;
+    min-height: 440px;
+    padding: 24px 18px;
+  }
+  .t-card h2 {
+    font-size: 23px;
+  }
+  .t-card .body {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .t-quote {
+    text-align: center;
+    font-size: 15px;
+  }
+  .t-avatar {
+    width: 88px;
+  }
+  .t-person .name {
+    margin-top: 8px;
+    font-size: 16px;
+  }
+  .t-person .role {
+    font-size: 13px;
+  }
+  .t-dots {
+    right: 12px;
+  }
+  .t-counter {
+    display: none;
+  }
+}

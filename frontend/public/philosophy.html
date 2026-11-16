@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Philosophy | Spark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #f4f2f1;
+  color: #0c0c0c;
+  font-family: "Jost", system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --paper: #f4f2f1;
+  --ink: #0c0c0c;
+  --white: #ffffff;
+  --red: #c8102e;
+  --red-light: #ff3b4e;
+  --muted: rgba(12, 12, 12, 0.62);
+  --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.ph {
+  position: relative;
+  height: 240vh;
+  height: 240svh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  overflow-x: clip;
+}
+
+.ph-stage {
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 2;
+}
+
+.ph-copy {
+  position: absolute;
+  z-index: 3;
+  left: max(24px, 6vw, var(--gutter-l));
+  top: 50%;
+  width: min(40vw, 520px);
+  transform: translateY(-50%);
+}
+
+.rv {
+  display: block;
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+  filter: blur(6px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
+}
+
+.ph.is-revealed .rv {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0px);
+}
+
+.ph.is-revealed .rv-1 { transition-delay: 0.05s; }
+.ph.is-revealed .rv-2 { transition-delay: 0.14s; }
+.ph.is-revealed .rv-3 { transition-delay: 0.22s; }
+.ph.is-revealed .rv-4 { transition-delay: 0.30s; }
+.ph.is-revealed .rv-5 { transition-delay: 0.38s; }
+
+.ph.is-scrolling .rv {
+  transition: none;
+}
+
+.ph-copy .eyebrow {
+  margin: 0;
+  font: 500 11px/1 var(--sans);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.ph-copy h2 {
+  margin: 22px 0 0;
+  font: 600 clamp(40px, min(6vw, 11svh), 96px)/0.95 var(--serif);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.ph-copy h2 .l2 {
+  display: block;
+  margin-top: 0.08em;
+  font: 700 clamp(36px, min(5.2vw, 9.6svh), 84px)/0.98 var(--sans);
+  color: var(--red);
+  letter-spacing: -0.01em;
+}
+
+.ph-copy .lead {
+  margin: 26px 0 0;
+  max-width: 42ch;
+  font: 400 clamp(15px, min(1.3vw, 2.4svh), 19px)/1.65 var(--sans);
+  color: var(--muted);
+}
+
+.ph-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.ph-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 52px;
+  padding: 0 30px;
+  border: 1px solid var(--red);
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--white);
+  font: 600 12px/1 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.ph-btn.alt {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.ph-btn:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+.ph-btn.alt:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+  box-shadow: none;
+}
+
+.ph-slot {
+  position: absolute;
+  z-index: 1;
+  right: max(24px, 6vw, var(--gutter-r));
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(40vw, 580px, calc(74vh * 0.91), calc(74svh * 0.91));
+  aspect-ratio: 0.91;
+}
+
+.ph-blob {
+  position: absolute;
+  z-index: -1;
+  inset: -10% -8% -6% -10%;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(42% 36% at 30% 20%, rgba(200, 16, 46, 0.55), rgba(200, 16, 46, 0) 70%),
+    radial-gradient(38% 34% at 80% 40%, rgba(255, 59, 78, 0.4), rgba(255, 59, 78, 0) 70%),
+    radial-gradient(40% 40% at 60% 90%, rgba(200, 16, 46, 0.35), rgba(200, 16, 46, 0) 70%);
+  filter: blur(10px);
+  transition: opacity 0.8s ease;
+}
+
+.ph.is-revealed .ph-blob {
+  opacity: 1;
+}
+
+.ph.is-scrolling .ph-blob {
+  transition: none;
+}
+
+.ph-img {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  background: var(--ink);
+  will-change: clip-path;
+  transition: clip-path 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ph.is-scrolling .ph-img {
+  transition: none;
+}
+
+.ph-photo {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  background: radial-gradient(70% 60% at 40% 30%, #4a0a14, #140406 70%);
+}
+
+.ph-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ph-tag {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  z-index: 1;
+  padding: 9px 15px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--ink);
+  font: 500 10.5px/1 var(--sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.ph.is-revealed .ph-tag {
+  opacity: 1;
+}
+
+.ph.is-scrolling .ph-tag {
+  transition: none;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  .ph-stage {
+    display: flex;
+    flex-direction: column;
+    padding: max(84px, 11svh) max(20px, 6vw, var(--gutter-r)) max(18px, 3svh) max(20px, 6vw, var(--gutter-l));
+  }
+  .ph-copy {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 600px;
+    transform: none;
+    flex: 0 0 auto;
+  }
+  .ph-copy h2 {
+    font-size: clamp(38px, 11vw, 76px);
+    margin-top: 16px;
+  }
+  .ph-copy h2 .l2 {
+    font-size: clamp(34px, 10vw, 68px);
+  }
+  .ph-copy .lead {
+    margin-top: 14px;
+    font-size: clamp(14px, 3.7vw, 17px);
+    line-height: 1.55;
+  }
+  .ph-actions {
+    margin-top: 20px;
+    gap: 10px;
+  }
+  .ph-btn {
+    flex: 1 1 auto;
+    height: 46px;
+    padding: 0 20px;
+    font-size: 11px;
+  }
+  .ph-slot {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: min(78vw, 480px);
+    aspect-ratio: auto;
+    flex: 1 1 0;
+    min-height: 150px;
+    align-self: flex-end;
+    margin-top: clamp(18px, 3svh, 32px);
+  }
+}
+
+@media (max-width: 900px) and (orientation: portrait) and (max-height: 640px) {
+  .ph-stage {
+    padding-top: max(68px, 9svh);
+    padding-bottom: 12px;
+  }
+  .ph-copy .eyebrow {
+    font-size: 10px;
+  }
+  .ph-copy h2 {
+    margin-top: 8px;
+    font-size: clamp(28px, 9.5vw, 50px);
+  }
+  .ph-copy h2 .l2 {
+    font-size: clamp(26px, 8.8vw, 46px);
+  }
+  .ph-copy .lead {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  .ph-actions {
+    margin-top: 12px;
+    gap: 8px;
+  }
+  .ph-btn {
+    height: 38px;
+    padding: 0 16px;
+    font-size: 10.5px;
+  }
+  .ph-slot {
+    min-height: 120px;
+    margin-top: 12px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .ph-copy .eyebrow {
+    font-size: 10px;
+  }
+  .ph-copy h2 {
+    margin-top: 10px;
+    font-size: clamp(26px, 8svh, 48px);
+  }
+  .ph-copy h2 .l2 {
+    font-size: clamp(24px, 7.2svh, 42px);
+  }
+  .ph-copy .lead {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+    max-width: 48ch;
+  }
+  .ph-actions {
+    margin-top: 12px;
+    gap: 8px;
+  }
+  .ph-btn {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 10px;
+  }
+  .ph-slot {
+    width: min(38vw, calc(78vh * 0.91));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ph {
+    height: auto !important;
+  }
+  .ph-stage {
+    position: relative !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100svh !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: clamp(32px, 6vh, 64px) !important;
+    padding: clamp(72px, 12svh, 120px) max(24px, 6vw, var(--gutter-l)) !important;
+  }
+  .ph-copy {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: min(44%, 520px) !important;
+    opacity: 1 !important;
+  }
+  .ph-slot {
+    position: relative !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: min(44%, 560px) !important;
+    aspect-ratio: 0.91 !important;
+    flex: 0 0 auto !important;
+  }
+  .rv {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .ph-blob {
+    opacity: 1 !important;
+  }
+  .ph-tag {
+    opacity: 1 !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<section class="ph is-revealed" id="philosophy" aria-labelledby="phTitle" data-ph>
+  <div class="ph-stage" data-ph-stage>
+
+    <div class="ph-copy" data-ph-copy>
+      <p class="eyebrow rv rv-1" data-rv>THE PHILOSOPHY</p>
+      <h2 id="phTitle">
+        <span class="rv rv-2" data-rv>Beauty is not a look.</span>
+        <span class="rv l2 rv-3" data-rv>It's a signature.</span>
+      </h2>
+      <p class="lead rv rv-4" data-rv>
+        A sanctuary where cutting-edge dermatological science, bespoke hair artistry and deep tranquil luxury converge to reveal your most radiant self.
+      </p>
+      <div class="ph-actions rv rv-5" data-rv>
+        <a class="ph-btn" href="#services">Explore services</a>
+        <a class="ph-btn alt" href="#atelier">Visit atelier</a>
+      </div>
+    </div>
+
+    <div class="ph-slot" data-ph-slot aria-hidden="true">
+      <span class="ph-blob" data-ph-blob></span>
+    </div>
+
+    <div class="ph-img" data-ph-img>
+      <div class="ph-photo" data-ph-photo>
+        <img src="/philosophy.jpg" alt="Spark Salon Philosophy sanctuary" onerror="this.remove()">
+      </div>
+      <span class="ph-tag" data-ph-tag>Spark · Philosophy</span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(() => {
+  const root = document.querySelector('[data-ph]');
+  if (!root) return;
+  const stage = root.querySelector('[data-ph-stage]');
+  const copy = root.querySelector('[data-ph-copy]');
+  const slot = root.querySelector('[data-ph-slot]');
+  const blob = root.querySelector('[data-ph-blob]');
+  const img = root.querySelector('[data-ph-img]');
+  const photo = root.querySelector('[data-ph-photo]');
+  const tag = root.querySelector('[data-ph-tag]');
+
+  let reduce = false;
+  try {
+    reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch (_) {
+    reduce = false;
+  }
+
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  let card = { t: 0, l: 0, r: 0, b: 0 };
+  const RADIUS = 32;
+
+  function measure() {
+    if (!stage || !slot) return;
+    const s = stage.getBoundingClientRect();
+    const r = slot.getBoundingClientRect();
+    card = {
+      t: Math.max(0, r.top - s.top),
+      l: Math.max(0, r.left - s.left),
+      r: Math.max(0, s.right - r.right),
+      b: Math.max(0, s.bottom - r.bottom),
+    };
+  }
+
+  function getProgress() {
+    if (reduce) return 0;
+    const top = root.getBoundingClientRect().top + window.scrollY;
+    const span = root.offsetHeight - window.innerHeight;
+    if (span <= 0) return 0;
+    return clamp((window.scrollY - top) / span, 0, 1);
+  }
+
+  function draw(p) {
+    if (!stage || !img || !photo || !tag || !copy) return;
+    const H = stage.clientHeight;
+    const ZOOM_MAX = 0.55;
+    const ze = easeInOut(clamp(p / ZOOM_MAX, 0, 1));
+
+    if (p > 0.005) {
+      root.classList.add('is-scrolling');
+    } else {
+      root.classList.remove('is-scrolling');
+    }
+
+    copy.style.opacity = (1 - ze).toFixed(3);
+
+    const top = lerp(card.t, 0, ze);
+    const left = lerp(card.l, 0, ze);
+    const right = lerp(card.r, 0, ze);
+    const bottom = lerp(card.b, 0, ze);
+    const radius = lerp(RADIUS, 0, ze);
+
+    img.style.clipPath = `inset(${top.toFixed(1)}px ${right.toFixed(1)}px ${bottom.toFixed(1)}px ${left.toFixed(1)}px round ${radius.toFixed(1)}px)`;
+    photo.style.transform = `scale(${(1.1 - 0.1 * ze).toFixed(4)})`;
+
+    tag.style.opacity = (1 - ze).toFixed(3);
+    tag.style.left = `${lerp(card.l + 16, 24, ze).toFixed(1)}px`;
+    tag.style.bottom = `${lerp(card.b + 16, 24, ze).toFixed(1)}px`;
+
+    if (blob) {
+      blob.style.opacity = (1 - ze).toFixed(3);
+    }
+  }
+
+  let target = 0, current = 0, running = false;
+  const SMOOTH = 0.12;
+
+  function tick() {
+    current += (target - current) * SMOOTH;
+    if (Math.abs(target - current) < 0.0005) {
+      current = target;
+    }
+    draw(current);
+    if (current !== target) {
+      requestAnimationFrame(tick);
+    } else {
+      running = false;
+    }
+  }
+
+  function onScroll() {
+    target = getProgress();
+    if (!running) {
+      running = true;
+      requestAnimationFrame(tick);
+    }
+  }
+
+  let rt = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => {
+      measure();
+      target = getProgress();
+      current = target;
+      draw(current);
+    }, 120);
+  });
+
+  if (!reduce) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  measure();
+  target = getProgress();
+  current = target;
+  draw(current);
+})();
+</script>
+</body>
+</html>

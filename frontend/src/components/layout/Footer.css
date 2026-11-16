@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Spark International Salon — Exact Footer Design (spark-site-v2.html)
+   ========================================================================== */
+
+/* Shared liquid keyframes for footer */
+@keyframes morph {
+  0%, 100% { border-radius: 58% 42% 52% 48% / 46% 56% 44% 54%; }
+  50% { border-radius: 44% 56% 40% 60% / 60% 42% 58% 40%; }
+}
+
+@keyframes wave-x {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.site-footer {
+  position: relative;
+  z-index: 10;
+  padding: 88px 0 28px;
+  background: var(--black, #0c0c0c);
+  color: rgba(255, 255, 255, 0.78);
+  font-family: var(--font-sans);
+}
+
+/* Dual Animated Flowing Wave Transition at Top Edge */
+.site-footer .wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -89px;
+  height: 90px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.site-footer .wave .wave-track {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: wave-x 12s linear infinite;
+  will-change: transform;
+}
+
+.site-footer .wave .wave-track.wave-front {
+  animation-duration: 8s;
+  animation-direction: reverse;
+}
+
+.site-footer .wave svg {
+  display: block;
+  width: 50%;
+  height: 100%;
+}
+
+.site-footer .wave .wave-back path {
+  fill: var(--red, #c8102e);
+}
+
+.site-footer .wave .wave-front path {
+  fill: var(--black, #0c0c0c);
+}
+
+/* 5-Column Navigation Grid */
+.f-top {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1.3fr;
+  gap: 44px 40px;
+}
+
+/* Column 1 — Brand */
+.f-brand .brand {
+  display: inline-flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--white, #ffffff);
+  line-height: 1;
+}
+
+.f-brand .brand-name {
+  display: block;
+  font: 600 30px/1 var(--font-serif);
+  letter-spacing: 0.2em;
+  color: var(--white, #ffffff);
+}
+
+.f-brand .brand-sub {
+  margin-top: 6px;
+  font: 500 8.5px/1 var(--font-sans);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--red-on-dark, #ff3b4e);
+}
+
+.f-tag {
+  max-width: 30ch;
+  margin: 22px 0 28px;
+  font: 400 19px/1.45 var(--font-serif);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Columns 2, 3, 4, 5 */
+.f-col h3 {
+  margin: 0 0 20px;
+  font: 500 10.5px/1 var(--font-sans);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--red-on-dark, #ff3b4e);
+}
+
+.f-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.f-col li + li {
+  margin-top: 10px;
+}
+
+.f-col a,
+.f-col address,
+.f-col p {
+  font-style: normal;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  font-family: var(--font-sans);
+}
+
+/* Left-to-Right Red Underline Link Hover Interaction */
+.f-col a {
+  position: relative;
+  display: inline-block;
+  padding: 2px 0;
+  transition: color 260ms ease;
+}
+
+.f-col a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--red-on-dark, #ff3b4e);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 320ms var(--ease-liquid);
+}
+
+.f-col a:hover,
+.f-col a:focus-visible {
+  color: var(--white, #ffffff);
+  outline: none;
+}
+
+.f-col a:hover::after,
+.f-col a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.f-social {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.f-social a {
+  margin-right: 0;
+}
+
+/* Oversized SPARK Wordmark with Rising Red Liquid-Fill on Hover */
+.f-mega {
+  margin: 72px 0 0;
+  font: 600 clamp(84px, 21vw, 300px)/0.82 var(--font-serif);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background:
+    linear-gradient(var(--red, #c8102e), var(--red, #c8102e)) bottom / 100% 0% no-repeat,
+    linear-gradient(var(--white, #ffffff), var(--white, #ffffff)) center / 100% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: background-size 700ms var(--ease-liquid);
+  user-select: none;
+  cursor: pointer;
+  will-change: background-size;
+}
+
+.f-mega:hover {
+  background-size: 100% 100%, 100% 100%;
+}
+
+/* Bottom Information Row */
+.f-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 28px;
+  margin-top: 40px;
+  padding-top: 22px;
+  border-top: 1px solid var(--rule-dark, rgba(255, 255, 255, 0.14));
+  font: 400 12px/1.5 var(--font-sans);
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.f-bottom nav {
+  display: flex;
+  gap: 22px;
+}
+
+.f-bottom a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 260ms ease;
+}
+
+.f-bottom a:hover,
+.f-bottom a:focus-visible {
+  color: var(--red-on-dark, #ff3b4e);
+  outline: none;
+}
+
+/* Back to Top Liquid Pill Interaction */
+.to-top {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 20px;
+  border: 1px solid var(--rule-dark, rgba(255, 255, 255, 0.14));
+  border-radius: 999px;
+  color: var(--white, #ffffff) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font: 500 10.5px/1 var(--font-sans);
+  text-decoration: none;
+  overflow: hidden;
+  isolation: isolate;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 300ms ease;
+}
+
+.to-top::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -10%;
+  right: -10%;
+  top: 100%;
+  height: 160%;
+  background: var(--red, #c8102e);
+  border-radius: 45% 55% 40% 60% / 50% 40% 60% 50%;
+  transition: top 560ms var(--ease-liquid);
+}
+
+.to-top:hover::before {
+  top: -30%;
+  animation: morph 4s ease-in-out infinite;
+}
+
+.to-top:hover {
+  border-color: var(--red, #c8102e);
+}
+
+/* Responsive Composition */
+@media (max-width: 1080px) {
+  .f-top {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .f-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer {
+    padding: 72px 0 24px;
+  }
+  .f-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 24px;
+  }
+  .f-top > .f-col:last-child {
+    grid-column: 1 / -1;
+  }
+  .f-mega {
+    margin-top: 48px;
+    font-size: clamp(60px, 20vw, 110px);
+  }
+  .f-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .f-top {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .site-footer .wave .wave-track {
+    animation: none !important;
+  }
+  .f-mega {
+    transition: none !important;
+  }
+  .to-top::before {
+    animation: none !important;
+    transition: none !important;
+  }
+  .f-col a::after {
+    transition: none !important;
+  }
+}

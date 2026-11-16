@@ -1,0 +1,1336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Hair Couture & Balayage Atelier · Spark International Salon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500&display=swap">
+<style>
+/* Studio service page, in the Spark red, white and black system.
+   Sections: hero, about, pinned horizontal service reel (rail on phones), process (How it works), artists, ready-to-book band, footer.
+   The appointment form is a dialog opened from every Book button. */
+:root {
+  --red: #c8102e;
+  --black: #0c0c0c;
+  --white: #ffffff;
+  --paper: #f4f2f1;
+  --ink: #0c0c0c;
+  --muted: rgba(12, 12, 12, 0.64);
+  --rule: rgba(12, 12, 12, 0.14);
+  --ease: cubic-bezier(0.5, 0.1, 0.2, 1);
+  --ease-liquid: cubic-bezier(0.5, 0.1, 0.2, 1);
+  --red-on-dark: #ff3b4e;
+  --rule-dark: rgba(255, 255, 255, 0.14);
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, p, ul, dl, dd, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+
+@keyframes morph {
+  0%, 100% { border-radius: 58% 42% 52% 48% / 46% 56% 44% 54%; }
+  50% { border-radius: 44% 56% 40% 60% / 60% 42% 58% 40%; }
+}
+@keyframes wave-x {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ---------- Navbar ---------- */
+.site-nav {
+  position: fixed;
+  z-index: 50;
+  top: max(16px, env(safe-area-inset-top, 0px));
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  max-width: 1240px;
+  margin: 0 auto;
+}
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  height: 68px;
+  padding: 0 12px 0 28px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: 34px;
+  box-shadow: 0 1px 2px rgba(12, 12, 12, 0.06), 0 14px 32px -18px rgba(12, 12, 12, 0.4);
+}
+.brand { justify-self: start; align-self: center; text-decoration: none; line-height: 1; }
+.brand-name { display: block; font: 600 24px/1 var(--font-serif); letter-spacing: 0.2em; }
+.brand-sub { display: block; margin-top: 6px; font-size: 8.5px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--red); }
+.main-nav { display: flex; align-items: stretch; gap: clamp(6px, 1vw, 14px); }
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  height: 68px;
+  padding: 0 14px;
+  font: 500 12.5px/1 var(--font-sans);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+.nav-link:hover, .nav-link[aria-current="page"] { color: var(--red); }
+.actions { display: flex; align-items: center; gap: 8px; justify-self: end; }
+.menu-btn {
+  display: none;
+  height: 42px;
+  padding: 0 16px;
+  background: none;
+  border: 1px solid var(--black);
+  border-radius: 999px;
+  cursor: pointer;
+  font: 500 11px/1 var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.sheet {
+  display: grid;
+  gap: 4px;
+  opacity: 0;
+  visibility: hidden;
+  translate: 0 -12px;
+  transition: opacity 320ms var(--ease), translate 420ms var(--ease), visibility 320ms;
+  position: fixed;
+  z-index: 49;
+  top: 92px;
+  left: max(16px, env(safe-area-inset-left, 0px));
+  right: max(16px, env(safe-area-inset-right, 0px));
+  padding: 14px 18px;
+  background: var(--white);
+  border-radius: 26px;
+  box-shadow: 0 30px 60px -28px rgba(12, 12, 12, 0.5);
+}
+.sheet.open { opacity: 1; visibility: visible; translate: 0 0; }
+.sheet .sheet-book { margin-top: 10px; height: 46px; border: 0; border-radius: 999px; background: var(--red); color: var(--white); font: 500 11.5px/1 var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+.sheet a { padding: 14px 4px; border-bottom: 1px solid var(--rule); font: 500 13px/1 var(--font-sans); letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 26px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 0;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--white);
+  font: 500 11.5px/1 var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -15%;
+  right: -15%;
+  top: 100%;
+  height: 160%;
+  background: var(--black);
+  border-radius: 45% 55% 40% 60% / 50% 40% 60% 50%;
+  transition: top 620ms var(--ease);
+}
+.btn:hover::before, .btn:focus-visible::before { top: -35%; animation: morph 4s ease-in-out infinite; }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--black); }
+.btn.ghost::before { background: var(--black); }
+.btn.ghost:hover { color: var(--white); }
+.btn.sm { height: 40px; padding: 0 20px; }
+.btn:focus-visible, .nav-link:focus-visible, .card:focus-visible, .close:focus-visible, a:focus-visible {
+  outline: 1px solid var(--red);
+  outline-offset: 3px;
+}
+.eyebrow { font: 500 11px/1 var(--font-sans); letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); }
+.h-section { font: 600 clamp(38px, 4.6vw, 64px)/0.98 var(--font-serif); text-wrap: balance; }
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: max(28px, env(safe-area-inset-left, 0px));
+  padding-right: max(28px, env(safe-area-inset-right, 0px));
+}
+.section { padding: 110px 0; position: relative; overflow: hidden; }
+.marble-slot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 64%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 44%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 44%);
+}
+.marble-slot svg { display: block; width: 100%; height: 100%; }
+
+/* ---------- Hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  align-content: center;
+  padding: 140px 0 90px;
+  background: var(--white);
+  border-bottom: 1px solid var(--rule);
+}
+.hero h1 { margin-top: 22px; font: 600 clamp(52px, 10vw, 150px)/0.92 var(--font-serif); letter-spacing: -0.015em; }
+.hero-lead { max-width: 54ch; margin-top: 28px; font-size: 18px; line-height: 1.6; color: var(--muted); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 14px 40px; margin-top: 60px; font-size: 13px; color: var(--muted); }
+.hero-meta strong { display: block; margin-bottom: 4px; font: 600 26px/1 var(--font-serif); color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ---------- About ---------- */
+.about { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.about p { margin-top: 24px; font-size: 17px; line-height: 1.7; color: var(--muted); max-width: 56ch; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 40px; border-top: 1px solid var(--rule); }
+.facts div { padding: 22px 0; }
+.facts div + div { padding-left: 20px; border-left: 1px solid var(--rule); }
+.facts dt { font: 500 10.5px/1 var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin-top: 10px; font: 600 40px/1 var(--font-serif); font-variant-numeric: tabular-nums; }
+
+/* ---------- Services reel (pinned, horizontal, WHITE background, INK text) ---------- */
+.reel { position: relative; background: var(--white); color: var(--ink); }
+.pin { position: relative; height: 100vh; height: 100svh; overflow: hidden; background: var(--white); }
+.reel-label { position: absolute; z-index: 5; left: clamp(20px, 6vw, 96px); top: clamp(24px, 6vh, 64px); font: 500 11px/1 var(--font-sans); letter-spacing: 0.26em; text-transform: uppercase; color: var(--red); }
+.reel-track { position: absolute; inset: 0 auto 0 0; display: flex; will-change: transform; }
+.slide { position: relative; flex: none; height: 100%; z-index: 1; }
+.slide-h { position: absolute; left: clamp(20px, 7vw, 120px); top: 21%; max-width: 28vw; font: 600 clamp(34px, 4.1vw, 70px)/0.98 var(--font-serif); color: var(--ink); }
+.line { display: block; }
+.mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+.in { display: inline-block; will-change: transform; }
+.copy { position: absolute; right: clamp(20px, 7vw, 120px); bottom: 17%; width: min(25vw, 380px); }
+.copy p { font: 500 clamp(16px, 1.5vw, 22px)/1.35 var(--font-serif); color: var(--ink); }
+.copy dl { display: flex; gap: 28px; margin-top: 22px; }
+.copy dt { font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.copy dd { margin-top: 4px; font: 600 17px var(--font-sans); color: var(--red); }
+.copy .book { margin-top: 26px; }
+.num { position: absolute; right: clamp(20px, 7vw, 120px); top: 21%; font: 700 clamp(48px, 7vw, 112px)/1 var(--font-serif); color: transparent; -webkit-text-stroke: 1px rgba(12, 12, 12, 0.28); }
+.frame {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  height: min(78vh, 78svh, 680px);
+  aspect-ratio: 11 / 16;
+  transform: translate(-50%, -50%);
+  border-radius: 8px 40px 8px 40px;
+  overflow: hidden;
+  background: var(--black);
+  will-change: transform, clip-path;
+}
+.frame .marble-slot { position: absolute; inset: 0; width: 100%; height: 100%; -webkit-mask-image: none; mask-image: none; }
+.frame-tag { position: absolute; left: 22px; bottom: 22px; z-index: 2; padding: 8px 14px; background: var(--white); color: var(--ink); border-radius: 999px; font: 500 10.5px/1 var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; }
+.count { position: absolute; z-index: 5; left: clamp(20px, 6vw, 96px); right: clamp(20px, 6vw, 96px); bottom: clamp(22px, 5vh, 48px); display: flex; align-items: center; gap: 20px; font-size: 12px; letter-spacing: 0.2em; color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { flex: 1; height: 1px; background: var(--rule); overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--red); transform: scaleX(0.02); transform-origin: left; }
+
+/* Services on phones, tablets and reduced motion: a swipe rail with progress dots */
+.reel-static { display: none; padding: 96px 0 56px; background: var(--white); color: var(--ink); }
+.rail-s {
+  display: flex;
+  gap: 18px;
+  margin-top: 36px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  padding: 4px max(20px, env(safe-area-inset-left, 0px)) 8px max(20px, env(safe-area-inset-left, 0px));
+  scroll-padding: 0 max(20px, env(safe-area-inset-left, 0px));
+}
+.rail-s::-webkit-scrollbar { display: none; }
+.svc-s {
+  flex: 0 0 min(84vw, 380px);
+  min-width: 0;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 8px 32px 8px 32px;
+  box-shadow: 0 18px 40px -26px rgba(12, 12, 12, 0.35);
+}
+.svc-s-art { position: relative; height: 200px; overflow: hidden; }
+.svc-s-art svg { display: block; width: 100%; height: 100%; }
+.svc-s-body { display: grid; gap: 12px; padding: 22px 24px 24px; }
+.svc-s-num { font: 500 11px/1 var(--font-sans); letter-spacing: 0.2em; color: var(--red); }
+.svc-s h3 { font: 600 30px/1.02 var(--font-serif); }
+.svc-s p { font-size: 14px; line-height: 1.55; color: var(--muted); }
+.svc-s dl { display: flex; gap: 24px; }
+.svc-s dt { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.svc-s dd { margin-top: 4px; font: 600 16px var(--font-sans); }
+.svc-s .btn { justify-self: start; margin-top: 4px; }
+.rail-dots { display: flex; justify-content: center; gap: 8px; margin-top: 22px; }
+.rail-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--rule); transition: background-color 300ms ease, transform 300ms var(--ease); }
+.rail-dots i.on { background: var(--red); transform: scale(1.25); }
+
+@media (max-width: 960px), (prefers-reduced-motion: reduce) {
+  .pin { display: none; }
+  .reel-static { display: block; }
+}
+
+/* ---------- How it works (Process) - EXACT styling from original ---------- */
+.process {
+  padding: clamp(90px, 10vw, 140px) 0;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  border-top: 1px solid var(--rule);
+}
+.pr-grid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+  position: relative;
+}
+.pr-head {
+  position: sticky;
+  top: clamp(100px, 14vh, 160px);
+  align-self: start;
+  height: fit-content;
+}
+.pr-head .h2 {
+  font: 600 clamp(38px, 4.6vw, 64px)/0.98 var(--font-serif);
+  color: var(--ink);
+  margin-top: 18px;
+}
+.pr-steps {
+  position: relative;
+  padding-left: clamp(36px, 5vw, 64px);
+}
+.pr-line {
+  position: absolute;
+  left: 0;
+  top: 18px;
+  bottom: 18px;
+  width: 1px;
+  background: var(--rule);
+}
+.pr-line i {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--red);
+  transform-origin: top;
+  transform: scaleY(var(--p, 0));
+}
+.step {
+  position: relative;
+  padding: 0 0 70px;
+}
+.step:last-child {
+  padding-bottom: 0;
+}
+.step::before {
+  content: "";
+  position: absolute;
+  left: calc(-1 * clamp(36px, 5vw, 64px) - 5px);
+  top: 12px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 2px solid var(--red);
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.15);
+}
+.step .num {
+  position: static;
+  display: block;
+  margin-bottom: 12px;
+  font: 600 clamp(32px, 3.8vw, 52px)/1 var(--font-serif);
+  color: var(--red);
+  -webkit-text-stroke: 0;
+}
+.step h3 {
+  margin-bottom: 12px;
+  font: 600 clamp(22px, 2.2vw, 28px)/1.2 var(--font-serif);
+  color: var(--ink);
+}
+.step p {
+  max-width: 48ch;
+  color: var(--muted);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+@media (max-width: 960px) {
+  .pr-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .pr-head {
+    position: static;
+  }
+}
+
+/* ---------- Artists ---------- */
+.artists-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px 40px; }
+.artist-grid { margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.card {
+  --fill: var(--black);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  background: var(--white);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 8px 40px 8px 40px;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(12, 12, 12, 0.05), 0 18px 40px -26px rgba(12, 12, 12, 0.35);
+  transition: color 520ms ease, transform 520ms var(--ease), box-shadow 520ms ease;
+}
+.card[data-tone="red"] { --fill: var(--red); }
+.card:hover, .card:focus-visible { color: var(--white); transform: translate3d(0, -4px, 0); box-shadow: 0 1px 2px rgba(12, 12, 12, 0.05), 0 30px 50px -28px rgba(12, 12, 12, 0.5); }
+.lq-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 76%;
+  z-index: 1;
+  background: var(--fill);
+  transform: translate3d(0, 130%, 0);
+  transition: transform 780ms var(--ease);
+  pointer-events: none;
+}
+.card:hover .lq-fill, .card:focus-visible .lq-fill { transform: translate3d(0, 0, 0); }
+.lq-wave { position: absolute; left: 0; top: -26px; width: 200%; height: 28px; display: flex; animation: wave-x 5s linear infinite; }
+.lq-wave svg { display: block; width: 50%; height: 100%; }
+.lq-wave path { fill: var(--fill); }
+.card-art { position: relative; height: 260px; overflow: hidden; z-index: 0; border-radius: 8px 40px 0 0; }
+.card-art svg { display: block; width: 100%; height: 100%; }
+.card-body { position: relative; z-index: 2; display: grid; gap: 10px; padding: 22px 26px 26px; }
+.card-role { font: 500 10.5px/1 var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); transition: color 420ms ease; }
+.card:hover .card-role, .card:focus-visible .card-role { color: var(--white); }
+.card h3 { font: 600 34px/1 var(--font-serif); }
+.card-meta { font-size: 13px; color: var(--muted); transition: color 420ms ease; }
+.card:hover .card-meta, .card:focus-visible .card-meta { color: rgba(255, 255, 255, 0.86); }
+
+/* ---------- Dialogs ---------- */
+dialog {
+  width: min(900px, calc(100vw - 32px));
+  max-height: min(92vh, 900px);
+  padding: 0;
+  border: 0;
+  border-radius: 8px 40px 8px 40px;
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 50px 90px -40px rgba(12, 12, 12, 0.7);
+}
+dialog::backdrop { background: rgba(12, 12, 12, 0.6); }
+.dlg-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 28px 32px 20px; border-bottom: 1px solid var(--rule); }
+.dlg-head h2 { font: 600 44px/1 var(--font-serif); }
+.close {
+  flex: 0 0 auto;
+  height: 38px;
+  padding: 0 16px;
+  background: none;
+  border: 1px solid var(--black);
+  border-radius: 999px;
+  cursor: pointer;
+  font: 500 10.5px/1 var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.close:hover { background: var(--black); color: var(--white); }
+.dlg-body { max-height: calc(min(92vh, 900px) - 110px); overflow-y: auto; padding: 28px 32px 32px; }
+.dlg-cols { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 32px; }
+.dlg-art { position: relative; min-height: 300px; overflow: hidden; isolation: isolate; border-radius: 8px 34px 8px 34px; background: var(--paper); }
+.dlg-art svg { display: block; width: 100%; height: 100%; }
+.dlg-art .frame-tag { z-index: 2; }
+.dlg-body h4 { margin-bottom: 10px; font: 500 10.5px/1 var(--font-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); }
+.dlg-body p { font-size: 15px; line-height: 1.65; color: var(--muted); }
+.dlg-body .block + .block { margin-top: 26px; }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span { padding: 8px 14px; border: 1px solid var(--black); border-radius: 999px; font-size: 13px; }
+.works { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.works div { aspect-ratio: 1 / 1; overflow: hidden; border-radius: 8px 22px 8px 22px; }
+.works svg { display: block; width: 100%; height: 100%; }
+.dlg-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; margin-top: 10px; }
+.dlg-meta div { padding: 14px 0; border-top: 1px solid var(--rule); }
+.dlg-meta dt { font: 500 10px/1 var(--font-sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.dlg-meta dd { margin-top: 8px; font-size: 15px; }
+
+/* Appointment form */
+.appt-form { display: grid; grid-template-columns: 1fr 1fr; gap: 18px 20px; }
+.field { display: grid; gap: 8px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field label, .field legend { font: 500 10.5px/1 var(--font-sans); letter-spacing: 0.18em; text-transform: uppercase; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 12px 0;
+  border: 0;
+  border-bottom: 1px solid var(--black);
+  border-radius: 0;
+  background: transparent;
+  font-size: 16px;
+  outline: none;
+}
+.field textarea { resize: vertical; min-height: 90px; }
+.field input:focus, .field select:focus, .field textarea:focus { border-bottom: 2px solid var(--red); padding-bottom: 11px; }
+[aria-invalid="true"] { border-bottom-color: var(--red) !important; }
+.err { font-size: 13px; line-height: 1.4; color: var(--red); }
+.err[hidden] { display: none; }
+.hint { font-size: 12px; line-height: 1.5; color: var(--muted); }
+.appt-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 26px; }
+.ready {
+  margin-top: 22px;
+  padding: 22px 24px;
+  background: var(--black);
+  color: var(--white);
+  border-radius: 8px 30px 8px 30px;
+  display: grid;
+  gap: 14px;
+}
+.ready p { color: rgba(255, 255, 255, 0.82); font-size: 14px; line-height: 1.55; }
+.ready strong { font: 600 24px/1.1 var(--font-serif); }
+
+/* Ready-when-you-are band (from spark-site-v2) */
+.cta-band { position: relative; overflow: hidden; background: var(--red); color: var(--white); }
+.cta-band .liquid-cap {
+  position: absolute;
+  right: -6%;
+  top: -40%;
+  width: 46%;
+  height: 180%;
+  background: var(--black);
+  border-radius: 45% 55% 40% 60% / 50% 40% 60% 50%;
+  animation: morph 9s ease-in-out infinite;
+  opacity: 0.9;
+  pointer-events: none;
+}
+.cta-band .wrap { position: relative; z-index: 1; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px; }
+.cta-band .eyebrow { color: var(--white); opacity: 0.8; }
+.cta-band .h-section { max-width: 16ch; color: var(--white); }
+.cta-band .btn { background: var(--black); }
+.cta-band .btn::before { background: var(--white); }
+.cta-band .btn:hover { color: var(--ink); }
+
+/* Footer (from spark-site-v2) */
+.site-footer { position: relative; z-index: 1; padding: 88px 0 28px; background: var(--black); color: rgba(255, 255, 255, 0.78); }
+.wave { position: absolute; left: 0; right: 0; top: -89px; height: 90px; overflow: hidden; pointer-events: none; }
+.wave .wave-track { position: absolute; left: 0; bottom: 0; display: flex; width: 200%; height: 100%; animation: wave-x 12s linear infinite; }
+.wave .wave-track.wave-front { animation-duration: 8s; animation-direction: reverse; }
+.wave svg { display: block; width: 50%; height: 100%; }
+.wave .wave-back path { fill: var(--red); }
+.wave .wave-front path { fill: var(--black); }
+.f-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr 1.3fr; gap: 44px 40px; }
+.f-brand .brand-name { display: block; font-size: 30px; color: var(--white); }
+.f-brand .brand-sub { color: var(--red-on-dark); }
+.f-tag { max-width: 30ch; margin: 22px 0 28px; font: 400 19px/1.45 var(--font-serif); color: rgba(255, 255, 255, 0.8); }
+.f-col h3 { margin: 0 0 20px; font: 500 10.5px/1 var(--font-sans); letter-spacing: 0.3em; text-transform: uppercase; color: var(--red-on-dark); }
+.f-col ul { list-style: none; margin: 0; padding: 0; }
+.f-col li + li { margin-top: 10px; }
+.f-col a, .f-col address, .f-col p { font-style: normal; font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.78); text-decoration: none; }
+.f-col a { position: relative; display: inline-block; padding: 2px 0; transition: color 260ms ease; }
+.f-col a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--red-on-dark); transform: scaleX(0); transform-origin: left; transition: transform 320ms var(--ease-liquid); }
+.f-col a:hover, .f-col a:focus-visible { color: var(--white); outline: none; }
+.f-col a:hover::after, .f-col a:focus-visible::after { transform: scaleX(1); }
+.f-social a { margin-right: 18px; }
+.f-mega {
+  margin: 72px 0 0;
+  font: 600 clamp(84px, 21vw, 300px)/0.82 var(--font-serif);
+  text-align: center;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background:
+    linear-gradient(var(--red), var(--red)) bottom / 100% 0% no-repeat,
+    linear-gradient(var(--white), var(--white)) center / 100% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: background-size 700ms var(--ease-liquid);
+  user-select: none;
+}
+.f-mega:hover { background-size: 100% 100%, 100% 100%; }
+.f-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--rule-dark); font-size: 12px; letter-spacing: 0.08em; color: rgba(255, 255, 255, 0.55); }
+.f-bottom nav { display: flex; gap: 22px; }
+.f-bottom a { color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 260ms ease; }
+.f-bottom a:hover, .f-bottom a:focus-visible { color: var(--red-on-dark); outline: none; }
+.to-top { position: relative; display: inline-flex; align-items: center; height: 38px; padding: 0 18px; border: 1px solid var(--rule-dark); border-radius: 999px; color: var(--white) !important; overflow: hidden; isolation: isolate; text-transform: uppercase; letter-spacing: 0.2em; font-size: 10.5px; }
+.to-top::before { content: ""; position: absolute; z-index: -1; left: -10%; right: -10%; top: 100%; height: 160%; background: var(--red); border-radius: 45% 55% 40% 60% / 50% 40% 60% 50%; transition: top 560ms var(--ease-liquid); }
+.to-top:hover::before { top: -30%; animation: morph 4s ease-in-out infinite; }
+
+/* ---------- Motion: reveals, section edges, floating button, dialogs ---------- */
+html.js .reveal {
+  opacity: 0;
+  translate: 0 40px;
+  filter: blur(6px);
+  transition: opacity 900ms var(--ease) var(--d, 0ms), translate 900ms var(--ease) var(--d, 0ms), filter 900ms var(--ease) var(--d, 0ms);
+}
+html.js .reveal.is-in { opacity: 1; translate: 0 0; filter: blur(0); }
+html.js .wipe { clip-path: inset(0 0 100% 0); transition: clip-path 1100ms var(--ease) var(--d, 0ms); }
+html.js .wipe.is-in { clip-path: inset(0 0 -20% 0); }
+.section .marble-slot { top: -10%; height: 120%; }
+.edge { position: absolute; left: 0; right: 0; top: -89px; height: 90px; z-index: 2; pointer-events: none; }
+.edge svg { display: block; width: 100%; height: 100%; }
+.edge path { fill: var(--red); }
+dialog[open] { animation: dlg-in 520ms var(--ease); }
+dialog::backdrop { animation: fade-in 320ms ease; }
+@keyframes dlg-in { from { opacity: 0; translate: 0 24px; scale: 0.98; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.float-book {
+  display: none;
+  position: fixed;
+  z-index: 45;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  height: 50px;
+  padding: 0 30px;
+  translate: -50% 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--white);
+  font: 500 11.5px/1 var(--font-sans);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  box-shadow: 0 18px 36px -16px rgba(12, 12, 12, 0.6);
+  cursor: pointer;
+  transition: opacity 360ms var(--ease), background-color 320ms ease;
+}
+body.reel-on .float-book { opacity: 0; pointer-events: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  .artist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav-link { padding: 0 9px; }
+  .f-top { grid-template-columns: 1fr 1fr 1fr; }
+  .f-brand { grid-column: 1 / -1; }
+}
+@media (max-width: 960px) {
+  .bar { grid-template-columns: 1fr auto; padding-left: 20px; }
+  .main-nav, .actions .btn { display: none; }
+  .menu-btn { display: inline-flex; align-items: center; }
+  .about { grid-template-columns: 1fr; gap: 40px; }
+  .marble-slot { width: 100%; opacity: 0.7; }
+  .dlg-cols { grid-template-columns: 1fr; }
+  .slide-h { top: 12%; max-width: 78vw; font-size: clamp(30px, 9vw, 46px); }
+  .num { display: none; }
+  .copy { left: clamp(20px, 6vw, 40px); right: clamp(20px, 6vw, 40px); bottom: 11%; width: auto; }
+  .copy p { font-size: 16px; }
+  .copy dl { margin-top: 14px; }
+  .frame { width: min(60vw, 280px); height: auto; aspect-ratio: 4 / 3; top: 47%; }
+  .float-book { display: inline-flex; align-items: center; }
+}
+@media (max-width: 640px) {
+  .section { padding: 84px 0; }
+  .hero { padding: 130px 0 70px; }
+  .facts { grid-template-columns: 1fr; }
+  .facts div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule); }
+  .artist-grid { grid-template-columns: 1fr; }
+  .appt-form { grid-template-columns: 1fr; }
+  dialog { width: 100vw; max-width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
+  .dlg-body { max-height: none; height: calc(100vh - 110px); }
+  .works { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .dlg-meta { grid-template-columns: 1fr; }
+  .dlg-head h2 { font-size: 34px; }
+  .card h3 { font-size: 30px; }
+  .hero-actions .btn { flex: 1 1 100%; }
+  .f-top { grid-template-columns: 1fr 1fr; gap: 36px 24px; }
+  .f-top > .f-col:last-child { grid-column: 1 / -1; }
+  .f-bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 420px) {
+  .f-top { grid-template-columns: 1fr; }
+}
+@media (max-width: 380px) {
+  .wrap { padding-left: 20px; padding-right: 20px; }
+  .brand-sub { display: none; }
+  .hero-meta { gap: 12px 24px; }
+  .facts dd { font-size: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  html.js .reveal, html.js .wipe { opacity: 1; translate: none; filter: none; clip-path: none; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="marble-static" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.008" numOctaves="3" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="340" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+      <feGaussianBlur in="disp" stdDeviation="8"/>
+    </filter>
+  </defs>
+</svg>
+
+<header class="site-nav" id="siteNav">
+  <div class="bar">
+    <a class="brand" href="/" aria-label="Spark International Salon, home">
+      <span class="brand-name">Spark</span>
+      <span class="brand-sub">Salon &amp; Beauty Mall</span>
+    </a>
+    <nav class="main-nav" aria-label="Main">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="#services" aria-current="page">Services</a>
+      <a class="nav-link" href="/products">Products</a>
+      <a class="nav-link" href="/academy">Academy</a>
+      <a class="nav-link" href="#footer">Contact</a>
+    </nav>
+    <div class="actions">
+      <button class="btn sm" type="button" data-open="appt">Book Appointment</button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="sheet">Menu</button>
+    </div>
+  </div>
+  <nav class="sheet" id="sheet" aria-label="Mobile">
+    <a href="/">Home</a>
+    <a href="#services">Services</a>
+    <a href="/products">Products</a>
+    <a href="/academy">Academy</a>
+    <a href="#footer">Contact</a>
+    <button class="sheet-book" type="button" data-open="appt">Book Appointment</button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="marble-slot" aria-hidden="true">
+      <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice"><g filter="url(#marble-static)">
+        <rect width="1000" height="800" fill="#ffffff"/>
+        <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e"/>
+        <ellipse cx="700" cy="530" rx="260" ry="230" fill="#0c0c0c"/>
+        <ellipse cx="840" cy="170" rx="170" ry="140" fill="#c8102e"/>
+        <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff"/>
+      </g></svg>
+    </div>
+    <div class="wrap">
+      <p class="eyebrow">STUDIO 01 — HAUTE COIFFURE</p>
+      <h1>Hair Couture & Balayage Atelier</h1>
+      <p class="hero-lead">Sculptural Precision & Color Alchemy Tailored to Your Facial Architecture</p>
+      <div class="hero-actions">
+        <button class="btn" type="button" data-open="appt">Request an appointment</button>
+        <a class="btn ghost" href="#services">View services</a>
+      </div>
+      <dl class="hero-meta">
+        <div><strong id="statServices">6</strong>Services</div>
+        <div><strong id="statArtists">2</strong>Artists</div>
+        <div><strong>Studio</strong>HAIR</div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="wrap about">
+      <div>
+        <p class="eyebrow">About the studio</p>
+        <h2 class="h-section" style="margin-top:18px">A studio built around the chair</h2>
+        <p>Hair is sculptural art in living motion. We reject cookie-cutter formulas in favor of anatomical bone-structure analysis, custom hair-weight redistribution, and French multidimensional pigment weaving that grows out seamlessly.</p>
+      </div>
+      <dl class="facts">
+        <div><dt>Services</dt><dd id="factServices">6</dd></div>
+        <div><dt>Artists</dt><dd id="factArtists">2</dd></div>
+        <div><dt>Protocols</dt><dd>14</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Services: pinned horizontal reel (WHITE background, INK text) -->
+  <section class="reel" id="services" aria-label="Hair Couture & Balayage Atelier services">
+    <div class="edge" aria-hidden="true"><svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 90 L0 46 C200 6 380 70 620 40 S1040 4 1280 40 S1400 60 1440 44 L1440 90 Z"/></svg></div>
+    <div class="pin" id="pin">
+      <p class="reel-label">Hair · Services</p>
+      <div class="reel-track" id="reelTrack"></div>
+      <figure class="frame" id="frame" aria-hidden="true"></figure>
+      <div class="count" aria-hidden="true"><span id="cnt">01 / 06</span><div class="bar"><i id="bar"></i></div></div>
+    </div>
+    <div class="reel-static" id="reelStatic"></div>
+  </section>
+
+  <!-- How it works (Process) - EXACT original section kept where it is -->
+  <section class="process" id="process" aria-labelledby="pr-title">
+    <div class="wrap">
+      <div class="pr-grid">
+        <div class="pr-head">
+          <p class="eyebrow">How it works</p>
+          <h2 class="h2 split" id="pr-title">How the visit works</h2>
+        </div>
+        <div class="pr-steps" id="prSteps">
+          <div class="pr-line" aria-hidden="true">
+            <i></i>
+          </div>
+          <div id="stepsList">
+            
+            <article class="step">
+              <span class="num">01</span>
+              <h3>Consultation</h3>
+              <p>We discuss your goals, lifestyle and hair history, and check condition before any product touches your hair.</p>
+            </article>
+            
+            <article class="step">
+              <span class="num">02</span>
+              <h3>Style selection</h3>
+              <p>Your artist proposes a cut and colour direction and explains the trade-offs of each choice.</p>
+            </article>
+            
+            <article class="step">
+              <span class="num">03</span>
+              <h3>Professional treatment</h3>
+              <p>Cut, colour or treatment is carried out in stages, with checks along the way.</p>
+            </article>
+            
+            <article class="step">
+              <span class="num">04</span>
+              <h3>Final result</h3>
+              <p>A finished style, a review of home care and a plan for your next visit.</p>
+            </article>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artists -->
+  <section class="section" id="artists">
+    <div class="wrap">
+      <div class="artists-head">
+        <div>
+          <p class="eyebrow">Artists</p>
+          <h2 class="h-section" style="margin-top:18px">Meet the artists</h2>
+        </div>
+      </div>
+      <div class="artist-grid" id="artistGrid"></div>
+    </div>
+  </section>
+
+  <!-- Ready when you are (from spark-site-v2) -->
+  <div class="cta-band section">
+    <span class="liquid-cap" aria-hidden="true"></span>
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">Ready when you are</p>
+        <h2 class="h-section">Book your next visit.</h2>
+      </div>
+      <button class="btn" type="button" data-open="appt">Book appointment</button>
+    </div>
+  </div>
+</main>
+
+<button class="float-book" type="button" data-open="appt">Book appointment</button>
+
+<!-- Footer (from spark-site-v2) -->
+<footer class="site-footer" id="footer" aria-labelledby="footerTitle">
+  <div class="wave" aria-hidden="true">
+    <div class="wave-track wave-back">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 45 C160 10 320 80 480 45 C640 10 800 80 960 45 C1120 10 1280 80 1440 45 L1440 90 L0 90 Z"></path></svg>
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 45 C160 10 320 80 480 45 C640 10 800 80 960 45 C1120 10 1280 80 1440 45 L1440 90 L0 90 Z"></path></svg>
+    </div>
+    <div class="wave-track wave-front">
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 C200 20 360 85 540 55 C720 25 900 85 1080 55 C1200 35 1320 70 1440 60 L1440 90 L0 90 Z"></path></svg>
+      <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0 60 C200 20 360 85 540 55 C720 25 900 85 1080 55 C1200 35 1320 70 1440 60 L1440 90 L0 90 Z"></path></svg>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="f-top">
+      <div class="f-brand">
+        <a class="brand" href="/" aria-label="Spark International Salon, home">
+          <span class="brand-name">Spark</span>
+          <span class="brand-sub">Salon &amp; Beauty Mall</span>
+        </a>
+        <p class="f-tag">Hair, skin and ritual for an international clientele.</p>
+        <button class="btn sm" type="button" data-open="appt">Book Appointment</button>
+      </div>
+      <nav class="f-col" aria-label="Services">
+        <h3>Services</h3>
+        <ul data-footer-services>
+          <li><a href="/studio/hair">Hair</a></li><li><a href="/studio/beard-grooming">Beard & Grooming</a></li><li><a href="/studio/nail">Nail</a></li><li><a href="/studio/face">Face</a></li><li><a href="/studio/waxing">Waxing</a></li><li><a href="/studio/bridal">Bridal</a></li><li><a href="/studio/spa">Spa</a></li><li><a href="/studio/tattoo">Tattoo</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col" aria-label="Shop and academy">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="/products">All products</a></li>
+          <li><a href="/products#hair">Hair</a></li>
+          <li><a href="/products#skin">Skin</a></li>
+          <li><a href="/products#nails">Nails</a></li>
+        </ul>
+        <h3 style="margin-top: 26px">Academy</h3>
+        <ul>
+          <li><a href="/academy">Hair Cutting Foundations</a></li>
+          <li><a href="/academy">Colour Theory &amp; Application</a></li>
+        </ul>
+      </nav>
+      <nav class="f-col" aria-label="Explore">
+        <h3>Explore</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/services">Services</a></li>
+          <li><a href="/products">Products</a></li>
+          <li><a href="/academy">Academy</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="f-col" id="footerTitle">
+        <h3>Visit</h3>
+        <address>Byju Spark Saloon International<br>Thodupuzha, Kerala, India</address>
+        <p style="margin-top: 12px">+91 85430 97899<br>sparkinternationalbeautymall@gmail.com</p>
+        <h3 style="margin-top: 26px">Follow</h3>
+        <div class="f-social">
+          <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://facebook.com" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
+        </div>
+      </div>
+    </div>
+    <p class="f-mega" aria-hidden="true">Spark</p>
+    <div class="f-bottom">
+      <p style="margin: 0">© 2026 Spark International Salon. All rights reserved.</p>
+      <nav aria-label="Legal"><a href="#footer">Privacy</a><a href="#footer">Terms</a><a href="#footer">Cookies</a></nav>
+      <a class="to-top" href="#top">Back to top</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Artist dialog -->
+<dialog id="artistDlg" aria-labelledby="artistName">
+  <div class="dlg-head">
+    <div>
+      <p class="eyebrow" id="artistRole"></p>
+      <h2 id="artistName"></h2>
+    </div>
+    <button class="close" type="button" data-close>Close</button>
+  </div>
+  <div class="dlg-body" id="artistBody"></div>
+</dialog>
+
+<!-- Appointment dialog -->
+<dialog id="apptDlg" aria-labelledby="apptTitle">
+  <div class="dlg-head">
+    <div>
+      <p class="eyebrow">Appointment request</p>
+      <h2 id="apptTitle">Request an appointment</h2>
+    </div>
+    <button class="close" type="button" data-close>Close</button>
+  </div>
+  <div class="dlg-body">
+    <form id="apptForm" class="appt-form" novalidate>
+      <div class="field">
+        <label for="aName">Full name *</label>
+        <input id="aName" name="name" autocomplete="name">
+        <p class="err" id="aNameErr" hidden></p>
+      </div>
+      <div class="field">
+        <label for="aPhone">Phone or WhatsApp *</label>
+        <input id="aPhone" name="phone" type="tel" autocomplete="tel">
+        <p class="err" id="aPhoneErr" hidden></p>
+      </div>
+      <div class="field">
+        <label for="aService">Service *</label>
+        <select id="aService" name="service"></select>
+        <p class="err" id="aServiceErr" hidden></p>
+      </div>
+      <div class="field">
+        <label for="aArtist">Artist</label>
+        <select id="aArtist" name="artist"></select>
+      </div>
+      <div class="field">
+        <label for="aDate">Preferred date *</label>
+        <input id="aDate" name="date" type="date">
+        <p class="err" id="aDateErr" hidden></p>
+      </div>
+      <div class="field">
+        <label for="aTime">Preferred time</label>
+        <select id="aTime" name="time"></select>
+      </div>
+      <div class="field wide">
+        <label for="aNote">Notes</label>
+        <textarea id="aNote" name="note" maxlength="400" placeholder="Specific requirements or sensitivities our artists should know"></textarea>
+      </div>
+      <div class="field wide">
+        <p class="hint">Requests are sent through WhatsApp. The studio confirms each appointment by message. There is no online payment.</p>
+      </div>
+      <div class="field wide appt-foot">
+        <p class="err" id="apptErr" hidden>Fix the highlighted fields to continue.</p>
+        <button class="btn" type="submit">Prepare request</button>
+      </div>
+    </form>
+    <div class="ready" id="ready" hidden>
+      <strong>Your request is ready</strong>
+      <p>WhatsApp opens with the details filled in. Press Send there to deliver the request to the studio.</p>
+      <div><a class="btn" id="readyLink" href="#" target="_blank" rel="noopener">Open WhatsApp</a></div>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  const WHATSAPP_NUMBER = '918543097899';
+  const STUDIO = "Hair Couture & Balayage Atelier";
+  const SERVICES = [{"name":"Haute Precision Architectural Haircut","desc":"Bespoke bone-structure consultation, precision scissors detailing, diamond-shine blowout, and structural finishing.","time":"60 mins","price":"₹1,800","benefits":["Facial silhouette balancing","Weightless movement","Long-lasting structural shape"]},{"name":"French Balayage & Dimensional Melt","desc":"Freehand hand-painted dimensional contouring with luminous light reflection and custom dual-tone gloss toning.","time":"180 mins","price":"₹7,500","benefits":["Soft natural regrowth line","Custom metallic tones","Zero harsh foil striping"]},{"name":"Liquid Silk Keratin Restructuring","desc":"Advanced molecular smoothing therapy eliminating up to 95% frizz while sealing mirror-finish cuticle shine.","time":"150 mins","price":"₹6,800","benefits":["Humidity-proof finish for 4+ months","Halves morning blow-dry time","Infused with botanical amino acids"]},{"name":"Chronologiste Caviar Scalp & Fiber Ritual","desc":"Sublime scalp revitalization using mimetic caviar pearls, Abyssine extract, and therapeutic shiatsu acupressure head massage.","time":"75 mins","price":"₹3,200","benefits":["Scalp cellular regeneration","Deep fiber plumping","Therapeutic tension release"]},{"name":"Cysteine Organic Protein Treatment","desc":"Formaldehyde-free organic amino acid restructuring engineered specifically for sensitized and color-compromised hair fibers.","time":"120 mins","price":"₹5,500","benefits":["Gentle natural straightening","Restores elasticity","Safe for all hair densities"]},{"name":"Olaplex Molecular Bond Reconstruction","desc":"Deep bis-aminopropyl diglycol dimaleate patented therapy rebuilding broken disulfide bonds caused by heat and chemical stress.","time":"45 mins","price":"₹2,600","benefits":["Immediate tensile strength recovery","Prevents split-end breakage","Pre-color shield"]}];
+  const ARTISTS = [{"name":"Adrian Ross","role":"Creative Art Director","speciality":"Precision Geometric Cutting & Editorial Finishes","experience":"16+ Years International Experience (London & Milan)","bio":"Trained at the Vidal Sassoon Academy in London, Adrian specializes in architectural lines and effortless movement tailored to every face shape.","skills":["Geometric Shears","Editorial Blowouts","Dry Hair Carving","Texture Architect"],"studios":["Hair Couture & Balayage Atelier"]},{"name":"Elena Vance","role":"Master Balayage & Color Alchemist","speciality":"Seamless French Balayage, Lived-In Blondes & Gloss","experience":"12+ Years Color Architecture","bio":"Elena is renowned across South India for sun-kissed hand-painted balayage transitions that preserve structural cuticle integrity.","skills":["French Balayage","Corrective Color","Gloss Glazing","Shadow Rooting"],"studios":["Hair Couture & Balayage Atelier"]}];
+  const TIMES = ['10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', '19:00'];
+
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] || c));
+  const $ = (s) => document.getElementById(s);
+  const pad = (n) => String(n).padStart(2, '0');
+
+  /* Marble art filter */
+  function marble(i, filterId) {
+    const flip = i % 2 === 1;
+    return '<svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice"><g filter="url(#' + (filterId || 'marble-static') + ')" transform="rotate(' + (i * 45) + ' 500 400)">' +
+      '<rect x="-200" y="-200" width="1400" height="1200" fill="#ffffff"/>' +
+      '<ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e"/>' +
+      '<ellipse cx="700" cy="530" rx="260" ry="230" fill="' + (flip ? '#c8102e' : '#0c0c0c') + '"/>' +
+      '<ellipse cx="840" cy="170" rx="170" ry="140" fill="' + (flip ? '#0c0c0c' : '#c8102e') + '"/>' +
+      '<ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff"/>' +
+      '</g></svg>';
+  }
+
+  const WAVE = '<span class="lq-fill" aria-hidden="true"><span class="lq-wave">' +
+    '<svg viewBox="0 0 1440 28" preserveAspectRatio="none"><path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z"/></svg>' +
+    '<svg viewBox="0 0 1440 28" preserveAspectRatio="none"><path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z"/></svg>' +
+    '</span></span>';
+
+  function lines(name) {
+    const w = name.split(' ');
+    const c = Math.min(3, Math.max(1, Math.ceil(w.length / 2)));
+    const per = Math.ceil(w.length / c);
+    const out = [];
+    for (let i = 0; i < w.length; i += per) out.push(w.slice(i, i + per).join(' '));
+    return out;
+  }
+
+  /* Reel: build slides */
+  const N = SERVICES.length;
+  const track = $('reelTrack');
+  track.style.width = N * 100 + '%';
+  SERVICES.forEach((s, i) => {
+    const a = document.createElement('article');
+    a.className = 'slide';
+    a.style.width = 100 / N + '%';
+    a.innerHTML =
+      '<h3 class="slide-h">' + lines(s.name).map((l, k) =>
+        '<span class="line" style="padding-left:' + (k * 0.7) + 'em"><span class="mask"><span class="in">' + esc(l) + '</span></span></span>').join('') + '</h3>' +
+      '<div class="copy"><p>' + esc(s.desc) + '</p><dl><div><dt>Time</dt><dd>' + esc(s.time) + '</dd></div><div><dt>Price</dt><dd>' + esc(s.price) + '</dd></div></dl>' +
+      '<button class="btn book" type="button" data-open="appt" data-service="' + i + '">Book this service</button></div>' +
+      '<span class="num" aria-hidden="true">' + pad(i + 1) + '</span>';
+    track.appendChild(a);
+  });
+  $('frame').innerHTML = '<div class="marble-slot art" aria-hidden="true">' + marble(0) + '</div><span class="frame-tag">' + esc(STUDIO) + '</span>';
+
+  /* Mobile / tablet swipe rail with progress dots */
+  $('reelStatic').innerHTML =
+    '<div class="wrap"><p class="eyebrow">' + esc(STUDIO.split(' ')[0]) + ' · Services</p><h2 class="h-section" style="margin-top:18px">Choose your service</h2></div>' +
+    '<div class="rail-s" id="railS">' + SERVICES.map((s, i) =>
+      '<article class="svc-s"><div class="svc-s-art">' + marble(i) + '</div><div class="svc-s-body">' +
+        '<span class="svc-s-num">' + pad(i + 1) + '</span><h3>' + esc(s.name) + '</h3><p>' + esc(s.desc) + '</p>' +
+        '<dl><div><dt>Time</dt><dd>' + esc(s.time) + '</dd></div><div><dt>Price</dt><dd>' + esc(s.price) + '</dd></div></dl>' +
+        '<button class="btn" type="button" data-open="appt" data-service="' + i + '">Book this service</button>' +
+      '</div></article>'
+    ).join('') + '</div>' +
+    '<div class="rail-dots" id="railDots" aria-hidden="true">' + SERVICES.map((_, i) => '<i' + (i === 0 ? ' class="on"' : '') + '></i>').join('') + '</div>';
+  $('railS').addEventListener('scroll', () => {
+    const rail = $('railS');
+    const span = Math.max(1, rail.scrollWidth - rail.clientWidth);
+    const idx = Math.round((rail.scrollLeft / span) * (SERVICES.length - 1));
+    Array.from($('railDots').children).forEach((d, i) => d.classList.toggle('on', i === idx));
+  }, { passive: true });
+
+  /* Artists grid */
+  $('artistGrid').innerHTML = ARTISTS.map((a, i) =>
+    '<button class="card" type="button" data-tone="' + (i % 2 === 1 ? 'red' : 'black') + '" data-artist="' + i + '" aria-label="' + esc(a.name) + ', view profile">' + WAVE +
+      '<div class="card-art">' + marble(i + 2) + '</div>' +
+      '<div class="card-body"><span class="card-role">' + esc(a.role) + '</span><h3>' + esc(a.name) + '</h3>' +
+      '<p class="card-meta">' + esc(a.speciality || (a.skills ? a.skills.slice(0, 2).join(' · ') : '')) + '</p></div></button>'
+  ).join('');
+
+  let lastFocus = null;
+  function openArtist(i) {
+    const a = ARTISTS[i];
+    lastFocus = document.activeElement;
+    $('artistRole').textContent = a.role;
+    $('artistName').textContent = a.name;
+    const skillsList = a.skills || [];
+    const studiosList = a.studios || [STUDIO];
+    $('artistBody').innerHTML =
+      '<div class="dlg-cols">' +
+        '<div class="dlg-art">' + marble(i + 2) + '<span class="frame-tag">' + esc(a.name) + '</span></div>' +
+        '<div>' +
+          '<div class="block"><h4>Studios</h4><div class="tags">' + studiosList.map((s) => '<span>' + esc(s) + '</span>').join('') + '</div></div>' +
+          (skillsList.length > 0 ? '<div class="block"><h4>Specialities</h4><div class="tags">' + skillsList.map((s) => '<span>' + esc(s) + '</span>').join('') + '</div></div>' : '') +
+          '<div class="block"><h4>Biography</h4><p>' + esc(a.bio || a.speciality) + '</p></div>' +
+          '<dl class="dlg-meta"><div><dt>Experience</dt><dd>' + esc(a.experience || 'Master Level') + '</dd></div><div><dt>Role</dt><dd>' + esc(a.role) + '</dd></div></dl>' +
+          '<div class="block"><button class="btn" type="button" data-open="appt" data-artist="' + i + '">Request with ' + esc(a.name) + '</button></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="block"><h4>Portfolio</h4><div class="works">' +
+        [0, 1, 2].map((k) => '<div>' + marble(i + k + 3) + '</div>').join('') +
+      '</div></div>';
+    if (!$('artistDlg').open) $('artistDlg').showModal();
+    $('artistDlg').querySelector('[data-close]').focus();
+  }
+  $('artistGrid').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-artist]');
+    if (b) openArtist(Number(b.dataset.artist));
+  });
+
+  /* How it works progress scroll indicator */
+  const prSteps = $('prSteps');
+  if (prSteps) {
+    window.addEventListener('scroll', () => {
+      const vh = window.innerHeight;
+      const sr = prSteps.getBoundingClientRect();
+      const p = Math.min(1, Math.max(0, (vh * 0.7 - sr.top) / sr.height));
+      prSteps.style.setProperty('--p', p.toFixed(4));
+    }, { passive: true });
+  }
+
+  /* Appointment form */
+  const form = $('apptForm');
+  const apptDlg = $('apptDlg');
+  let apptTrigger = null;
+  $('aService').innerHTML = '<option value="">Select a service</option>' +
+    SERVICES.map((s, i) => '<option value="' + i + '">' + esc(s.name) + '</option>').join('') +
+    '<option value="unsure">Not sure yet</option>';
+  $('aArtist').innerHTML = '<option value="">No preference</option>' +
+    ARTISTS.map((a, i) => '<option value="' + i + '">' + esc(a.name) + '</option>').join('');
+  $('aTime').innerHTML = '<option value="">Any time</option>' + TIMES.map((t) => '<option>' + t + '</option>').join('');
+  const today = new Date();
+  $('aDate').min = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+
+  function openAppt(opts) {
+    opts = opts || {};
+    apptTrigger = document.activeElement;
+    form.reset();
+    $('ready').hidden = true;
+    $('apptErr').hidden = true;
+    ['aNameErr', 'aPhoneErr', 'aServiceErr', 'aDateErr'].forEach((id) => { $(id).hidden = true; $(id).textContent = ''; });
+    ['aName', 'aPhone', 'aService', 'aDate'].forEach((id) => $(id).removeAttribute('aria-invalid'));
+    if (opts.service != null) $('aService').value = String(opts.service);
+    if (opts.artist != null) $('aArtist').value = String(opts.artist);
+    if (!apptDlg.open) apptDlg.showModal();
+    $('aName').focus();
+  }
+
+  function setErr(id, msg) {
+    const el = $(id);
+    const err = $(id + 'Err');
+    if (msg) {
+      err.textContent = msg;
+      err.hidden = false;
+      el.setAttribute('aria-invalid', 'true');
+    } else {
+      err.hidden = true;
+      el.removeAttribute('aria-invalid');
+    }
+    return !!msg;
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = $('aName').value.trim();
+    const phone = $('aPhone').value.trim();
+    const service = $('aService').value;
+    const date = $('aDate').value;
+    const digits = phone.replace(/\D/g, '');
+    const bad = [
+      setErr('aName', name ? '' : 'Enter your name.'),
+      setErr('aPhone', digits.length >= 8 && /^[+\d\s()-]+$/.test(phone) ? '' : 'Enter a phone number with at least 8 digits.'),
+      setErr('aService', service ? '' : 'Choose a service.'),
+      setErr('aDate', date && date >= $('aDate').min ? '' : 'Choose today or a later date.')
+    ].some(Boolean);
+    $('apptErr').hidden = !bad;
+    if (bad) {
+      const first = form.querySelector('[aria-invalid="true"]');
+      if (first) first.focus();
+      return;
+    }
+    const svcName = service === 'unsure' ? 'Not sure yet' : SERVICES[Number(service)].name;
+    const artistName = $('aArtist').value ? ARTISTS[Number($('aArtist').value)].name : 'No preference';
+    const time = $('aTime').value || 'Any time';
+    const note = $('aNote').value.trim();
+    const msg = 'Appointment request, ' + STUDIO + '\n' +
+      'Name: ' + name + '\n' +
+      'Phone: ' + phone + '\n' +
+      'Service: ' + svcName + '\n' +
+      'Artist: ' + artistName + '\n' +
+      'Date: ' + date + '\n' +
+      'Time: ' + time +
+      (note ? '\nNotes: ' + note : '');
+    $('readyLink').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+    $('ready').hidden = false;
+    $('readyLink').focus();
+  });
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-open="appt"]');
+    if (!b) return;
+    const opts = {};
+    if (b.dataset.service != null) opts.service = Number(b.dataset.service);
+    if (b.dataset.artist != null) opts.artist = Number(b.dataset.artist);
+    if (apptDlg.open) apptDlg.close();
+    openAppt(opts);
+  });
+  $('artistDlg').addEventListener('click', (e) => { if (e.target.closest('[data-open="appt"]')) $('artistDlg').close(); });
+  document.querySelectorAll('[data-close]').forEach((c) => c.addEventListener('click', () => c.closest('dialog').close()));
+  document.querySelectorAll('dialog').forEach((d) => {
+    d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+    d.addEventListener('close', () => { if (lastFocus && document.body.contains(lastFocus)) lastFocus.focus(); lastFocus = null; });
+  });
+  apptDlg.addEventListener('close', () => { if (apptTrigger && document.body.contains(apptTrigger)) apptTrigger.focus(); });
+
+  /* Mobile menu */
+  $('menuBtn').addEventListener('click', () => {
+    const open = !$('sheet').classList.contains('open');
+    $('sheet').classList.toggle('open', open);
+    $('menuBtn').setAttribute('aria-expanded', String(open));
+  });
+
+  /* Reveals, parallax and the floating button */
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  const prep = (sel, cls, step) => document.querySelectorAll(sel).forEach((el, i) => {
+    el.classList.add(cls);
+    if (step) el.style.setProperty('--d', (i * step) + 'ms');
+  });
+  prep('main .eyebrow', 'reveal');
+  prep('main .h-section', 'wipe');
+  prep('.hero h1', 'wipe');
+  prep('.hero-lead, .hero-actions, .hero-meta', 'reveal', 120);
+  prep('.about > div', 'reveal');
+  prep('.facts > div', 'reveal', 120);
+  prep('.artist-grid > .card', 'reveal', 120);
+
+  const revealIO = new IntersectionObserver((entries, obs) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      const d = parseFloat(el.style.getPropertyValue('--d')) || 0;
+      obs.unobserve(el);
+      requestAnimationFrame(() => el.classList.add('is-in'));
+      setTimeout(() => {
+        el.classList.remove('reveal', 'wipe', 'is-in');
+        el.style.removeProperty('--d');
+      }, 1200 + d);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal, .wipe').forEach((el) => revealIO.observe(el));
+
+  if (!reduceMotion) {
+    const slots = Array.from(document.querySelectorAll('.hero .marble-slot, .section .marble-slot'));
+    const drift = () => {
+      const vh = window.innerHeight;
+      slots.forEach((el) => {
+        const r = el.parentElement.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        const p = (r.top + r.height / 2 - vh / 2) / vh;
+        el.style.transform = 'translate3d(0,' + (p * -70).toFixed(1) + 'px,0)';
+      });
+      requestAnimationFrame(drift);
+    };
+    drift();
+  }
+
+  new IntersectionObserver((entries) => {
+    entries.forEach((en) => document.body.classList.toggle('reel-on', en.isIntersecting && matchMedia('(min-width: 961px)').matches));
+  }, { threshold: 0.2 }).observe(document.getElementById('services'));
+
+  /* Reel (GSAP, pinned, horizontal) */
+  if (!window.gsap) return;
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.matchMedia().add('(min-width: 961px) and (prefers-reduced-motion: no-preference)', () => {
+    const slides = gsap.utils.toArray('.slide');
+    const bar = $('bar');
+    const cnt = $('cnt');
+    const count = document.querySelector('.count');
+    const frame = $('frame');
+    const words = (i) => slides[i].querySelectorAll('.in');
+    const copy = (i) => slides[i].querySelectorAll('.copy,.num');
+    gsap.set(frame, { clipPath: 'inset(100% 0% 0% 0% round 8px 40px 8px 40px)' });
+    gsap.set(slides.reduce((a, _, i) => a.concat([].slice.call(words(i))), []), { yPercent: 118 });
+    gsap.set(slides.reduce((a, _, i) => a.concat([].slice.call(copy(i))), []), { autoAlpha: 0, y: 26, filter: 'blur(8px)' });
+    gsap.set(count, { autoAlpha: 0 });
+
+    function setArt(i) {
+      const arts = frame.querySelectorAll('.art');
+      const old = arts[arts.length - 1];
+      const layer = document.createElement('div');
+      layer.className = 'marble-slot art';
+      layer.setAttribute('aria-hidden', 'true');
+      layer.innerHTML = marble(i);
+      frame.insertBefore(layer, frame.querySelector('.frame-tag'));
+      gsap.fromTo(layer, { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.9, ease: 'power2.out' });
+      if (old) gsap.to(old, { autoAlpha: 0, duration: 0.9, ease: 'power2.out', onComplete: () => old.remove() });
+    }
+
+    const HOLD = 0.8, STEP = 1.6, starts = [0];
+    const tl = gsap.timeline({
+      defaults: { ease: 'none' },
+      scrollTrigger: {
+        trigger: '#pin', start: 'top top', pin: true, scrub: 1.2, anticipatePin: 1, invalidateOnRefresh: true,
+        end: function () { return '+=' + Math.round(innerHeight * (0.7 + (N - 1) * 0.95 + 0.35)); },
+        onUpdate: function () {
+          const t = tl.time();
+          let idx = 0;
+          for (let i = 1; i < starts.length; i++) if (t >= starts[i] + STEP * 0.5) idx = i;
+          cnt.textContent = pad(idx + 1) + ' / ' + pad(N);
+          gsap.set(bar, { scaleX: Math.max(0.02, tl.progress()) });
+        }
+      }
+    });
+    tl.to(frame, { clipPath: 'inset(0% 0% 0% 0% round 8px 40px 8px 40px)', duration: 1.2, ease: 'power3.inOut' }, 0.5)
+      .to(words(0), { yPercent: 0, duration: 1.2, stagger: 0.14, ease: 'expo.out' }, 1.1)
+      .to(copy(0), { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power2.out' }, 1.6)
+      .to(count, { autoAlpha: 1, duration: 0.6 }, 1.8);
+    for (let i = 1; i < N; i++) {
+      tl.to({}, { duration: HOLD });
+      const at = tl.duration();
+      starts.push(at);
+      const pieces = i;
+      tl.to(track, { xPercent: -100 * i / N, duration: STEP, ease: 'power2.inOut' }, at)
+        .to(frame, { scale: 0.965, duration: STEP / 2, yoyo: true, repeat: 1, ease: 'sine.inOut' }, at)
+        .add(() => setArt(pieces), at + STEP * 0.5)
+        .to(words(i), { yPercent: 0, duration: 1.2, stagger: 0.12, ease: 'expo.out' }, at + 0.55)
+        .to(copy(i), { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 1, ease: 'power2.out' }, at + 0.85);
+    }
+    tl.to({}, { duration: 0.9 });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+/* ServicesShowcase Styles - Old Model Layout + Pinned Section with Embedded Stage */
+.services-showcase-section {
+  position: relative;
+  width: 100%;
+  background-color: #000000;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.services-showcase-root {
+  --acc: #c41230; /* luxury red accent */
+  --pan: #161618;
+  --line: #2C2C2E;
+  --mut: #8E8E93;
+  color-scheme: dark;
+  box-sizing: border-box;
+  position: relative;
+  height: 100svh;
+  max-height: 100svh;
+  overflow: hidden;
+  background-color: #000000 !important;
+  color: #fff;
+  font-family: var(--font-proto, 'SbB Nineteen 75 Proto', system-ui, -apple-system, sans-serif);
+  margin: 0;
+  padding: 0;
+  border: none;
+  z-index: 2;
+}
+
+.services-showcase-root *,
+.services-showcase-root *::before,
+.services-showcase-root *::after {
+  box-sizing: border-box;
+}
+
+.services-showcase-root button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* Background layers container - Strictly contained at z-index 0 below all UI layers */
+.services-showcase-root #bgs {
+  position: absolute;
+  inset: 0;
+  z-index: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.services-showcase-root .bg-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center 38%;
+  background-repeat: no-repeat;
+  will-change: transform, opacity, clip-path;
+  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+
+/* Clean Background Imagery — Dark overlay removed for maximum image clarity */
+.services-showcase-root .bg-overlay {
+  display: none !important;
+}
+
+/* Left Vertical Navigation Rail - Always above background */
+.services-showcase-root .rail {
+  position: absolute;
+  z-index: 35 !important;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.services-showcase-root .rail button {
+  width: 5px;
+  height: 24px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.28);
+  transition: background 0.3s, height 0.3s;
+  padding: 0;
+}
+
+.services-showcase-root .rail button.on {
+  background: var(--acc);
+  height: 38px;
+}
+
+/* Top Section Heading with Luxury Brand Format */
+.services-showcase-root .services-section-heading {
+  position: absolute;
+  top: 76px;
+  left: 3.5vw;
+  z-index: 40 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: auto;
+}
+
+.services-showcase-root .services-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.services-showcase-root .services-eyebrow .gold-dash {
+  width: 26px;
+  height: 1.5px;
+  background-color: var(--acc);
+  display: inline-block;
+}
+
+.services-showcase-root .services-eyebrow .eyebrow-text {
+  font-family: var(--font-proto, 'SbB Nineteen 75 Proto', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  color: var(--acc);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.services-showcase-root .services-main-title {
+  font-family: var(--font-proto, 'SbB Nineteen 75 Proto', sans-serif);
+  font-size: clamp(1.3rem, 1.9vw, 1.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.services-showcase-root .services-main-title .gold-highlight {
+  color: var(--acc);
+}
+
+/* Floating Prompt Panel - Sleek, Compact, Clean Typography */
+.services-showcase-root .pp {
+  position: absolute;
+  z-index: 35 !important;
+  left: 3.5vw;
+  top: 154px;
+  width: min(420px, 34vw);
+  background: rgba(18, 18, 20, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(214, 177, 108, 0.28);
+  border-radius: 20px;
+  padding: 12px 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(196, 18, 48, 0.1);
+}
+
+.services-showcase-root .tabs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.services-showcase-root .status-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 6px var(--acc), 0 0 12px rgba(196, 18, 48, 0.7);
+  margin-left: auto;
+  margin-right: 6px;
+}
+
+.services-showcase-root .tab {
+  flex: 1 1 calc(25% - 4px);
+  padding: 5px 6px;
+  border-radius: 99px;
+  font-family: var(--font-proto, 'SbB Nineteen 75 Proto', sans-serif) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  color: #A1A1AA;
+  transition: background 0.25s, color 0.25s;
+  text-align: center;
+}
+
+.services-showcase-root .tab:hover {
+  color: #fff;
+}
+
+.services-showcase-root .tab.on {
+  background: var(--acc);
+  color: #fff;
+}
+
+.services-showcase-root .row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 2px 2px;
+}
+
+.services-showcase-root .ico {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--acc);
+  border-radius: 6px;
+  position: relative;
+}
+
+.services-showcase-root .ico::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 2px;
+  background: var(--acc);
+}
+
+.services-showcase-root .txt {
+  flex: 1;
+  font-family: var(--font-proto, 'SbB Nineteen 75 Proto', sans-serif) !important;
+  font-size: 11.5px !important;
+  font-weight: 450 !important;
+  line-height: 1.45 !important;
+  letter-spacing: -0.01em !important;
+  color: #EDEDED !important;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+.services-showcase-root .caret {
+  display: inline-block;
+  width: 1.5px;
+  height: 13px;
+  background: var(--acc);
+  vertical-align: -1px;
+  margin-left: 2px;
+  animation: sc-bl 1s steps(1) infinite;
+}
+
+@keyframes sc-bl {
+  50% {
+    opacity: 0;
+  }
+}
+
+.services-showcase-root .send {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--acc);
+  display: grid;
+  place-items: center;
+  align-self: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.services-showcase-root .send:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 6px rgba(196, 18, 48, 0.25);
+}
+
+.services-showcase-root .send:active {
+  transform: scale(0.94);
+}
+
+.services-showcase-root .send svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* =========================================================
+   Right-Side Container (.cv) Housing the New Model
+   Strictly sized so it never increases the section size
+   ========================================================= */
+.services-showcase-root .cv {
+  position: absolute;
+  z-index: 25 !important;
+  right: 2.5vw;
+  top: 76px;
+  bottom: 5vh;
+  width: 58vw;
+  max-width: 860px;
+  height: calc(100svh - 76px - 5vh);
+  max-height: calc(100svh - 76px - 5vh);
+  background: rgba(14, 12, 10, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(214, 177, 108, 0.22);
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.85);
+  box-sizing: border-box;
+}
+
+/* Embedded .svc-stage fills .cv completely and scrolls strictly internally */
+.services-showcase-root .cv .svc-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 36px) 48px;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.services-showcase-root .cv .svc-stage::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 1100px) {
+  .services-showcase-root .pp {
+    width: min(340px, 34vw);
+  }
+
+  .services-showcase-root .cv {
+    width: 58vw;
+    right: 2vw;
+  }
+}
+
+@media (max-width: 860px) {
+  .services-showcase-root .services-section-heading {
+    top: 68px;
+    left: 4vw;
+  }
+
+  .services-showcase-root .services-main-title {
+    font-size: 1.15rem;
+  }
+
+  .services-showcase-root .shape {
+    left: 4vw;
+    top: 120px;
+    width: 92vw;
+    height: 14vh;
+  }
+
+  .services-showcase-root .shape b {
+    font-size: 42px;
+  }
+
+  .services-showcase-root .pp {
+    left: 4vw;
+    right: 4vw;
+    width: auto;
+    top: 128px;
+    padding: 8px 10px;
+  }
+
+  .services-showcase-root .tab {
+    font-size: 10px !important;
+    padding: 4px 6px;
+    min-width: calc(25% - 4px);
+  }
+
+  .services-showcase-root .cv {
+    left: 4vw;
+    right: 4vw;
+    width: auto;
+    max-width: none;
+    top: 250px;
+    bottom: 2vh;
+    height: calc(100svh - 250px - 2vh);
+    max-height: calc(100svh - 250px - 2vh);
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-showcase-root .caret {
+    animation: none !important;
+  }
+}

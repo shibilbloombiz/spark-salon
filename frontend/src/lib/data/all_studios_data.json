@@ -1,0 +1,849 @@
+{
+  "hair": {
+    "slug": "hair",
+    "name": "Hair Couture & Balayage Atelier",
+    "eyebrow": "STUDIO 01 — HAUTE COIFFURE",
+    "tagline": "Sculptural Precision & Color Alchemy Tailored to Your Facial Architecture",
+    "description": "Immerse yourself in precision architectural haircuts, bespoke French balayage, diamond-shine keratin silk infusions, and revitalizing caviar scalp rituals performed by master hair directors.",
+    "introPhilosophy": "Hair is sculptural art in living motion. We reject cookie-cutter formulas in favor of anatomical bone-structure analysis, custom hair-weight redistribution, and French multidimensional pigment weaving that grows out seamlessly.",
+    "stats": [
+      {
+        "label": "Master Stylists",
+        "value": "8+"
+      },
+      {
+        "label": "Bespoke Balayages",
+        "value": "3,200+"
+      },
+      {
+        "label": "Couture Protocols",
+        "value": "14"
+      }
+    ],
+    "services": [
+      {
+        "name": "Haute Precision Architectural Haircut",
+        "desc": "Bespoke bone-structure consultation, precision scissors detailing, diamond-shine blowout, and structural finishing.",
+        "time": "60 mins",
+        "price": "₹1,800",
+        "benefits": [
+          "Facial silhouette balancing",
+          "Weightless movement",
+          "Long-lasting structural shape"
+        ]
+      },
+      {
+        "name": "French Balayage & Dimensional Melt",
+        "desc": "Freehand hand-painted dimensional contouring with luminous light reflection and custom dual-tone gloss toning.",
+        "time": "180 mins",
+        "price": "₹7,500",
+        "benefits": [
+          "Soft natural regrowth line",
+          "Custom metallic tones",
+          "Zero harsh foil striping"
+        ]
+      },
+      {
+        "name": "Liquid Silk Keratin Restructuring",
+        "desc": "Advanced molecular smoothing therapy eliminating up to 95% frizz while sealing mirror-finish cuticle shine.",
+        "time": "150 mins",
+        "price": "₹6,800",
+        "benefits": [
+          "Humidity-proof finish for 4+ months",
+          "Halves morning blow-dry time",
+          "Infused with botanical amino acids"
+        ]
+      },
+      {
+        "name": "Chronologiste Caviar Scalp & Fiber Ritual",
+        "desc": "Sublime scalp revitalization using mimetic caviar pearls, Abyssine extract, and therapeutic shiatsu acupressure head massage.",
+        "time": "75 mins",
+        "price": "₹3,200",
+        "benefits": [
+          "Scalp cellular regeneration",
+          "Deep fiber plumping",
+          "Therapeutic tension release"
+        ]
+      },
+      {
+        "name": "Cysteine Organic Protein Treatment",
+        "desc": "Formaldehyde-free organic amino acid restructuring engineered specifically for sensitized and color-compromised hair fibers.",
+        "time": "120 mins",
+        "price": "₹5,500",
+        "benefits": [
+          "Gentle natural straightening",
+          "Restores elasticity",
+          "Safe for all hair densities"
+        ]
+      },
+      {
+        "name": "Olaplex Molecular Bond Reconstruction",
+        "desc": "Deep bis-aminopropyl diglycol dimaleate patented therapy rebuilding broken disulfide bonds caused by heat and chemical stress.",
+        "time": "45 mins",
+        "price": "₹2,600",
+        "benefits": [
+          "Immediate tensile strength recovery",
+          "Prevents split-end breakage",
+          "Pre-color shield"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Consultation",
+        "text": "We discuss your goals, lifestyle and hair history, and check condition before any product touches your hair."
+      },
+      {
+        "title": "Style selection",
+        "text": "Your artist proposes a cut and colour direction and explains the trade-offs of each choice."
+      },
+      {
+        "title": "Professional treatment",
+        "text": "Cut, colour or treatment is carried out in stages, with checks along the way."
+      },
+      {
+        "title": "Final result",
+        "text": "A finished style, a review of home care and a plan for your next visit."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Adrian Ross",
+        "role": "Creative Art Director",
+        "speciality": "Precision Geometric Cutting & Editorial Finishes",
+        "experience": "16+ Years International Experience (London & Milan)",
+        "bio": "Trained at the Vidal Sassoon Academy in London, Adrian specializes in architectural lines and effortless movement tailored to every face shape.",
+        "skills": [
+          "Geometric Shears",
+          "Editorial Blowouts",
+          "Dry Hair Carving",
+          "Texture Architect"
+        ],
+        "studios": [
+          "Hair Couture & Balayage Atelier"
+        ]
+      },
+      {
+        "name": "Elena Vance",
+        "role": "Master Balayage & Color Alchemist",
+        "speciality": "Seamless French Balayage, Lived-In Blondes & Gloss",
+        "experience": "12+ Years Color Architecture",
+        "bio": "Elena is renowned across South India for sun-kissed hand-painted balayage transitions that preserve structural cuticle integrity.",
+        "skills": [
+          "French Balayage",
+          "Corrective Color",
+          "Gloss Glazing",
+          "Shadow Rooting"
+        ],
+        "studios": [
+          "Hair Couture & Balayage Atelier"
+        ]
+      }
+    ]
+  },
+  "beard-grooming": {
+    "slug": "beard-grooming",
+    "name": "Bespoke Beard & Grooming Atelier",
+    "eyebrow": "STUDIO 02 — BARBER ARTISANS",
+    "tagline": "Old-World Hot-Towel Craft Meets Architectural Razor Geometry",
+    "description": "A private gentleman’s sanctuary dedicated to precision beard architecture, straight-razor hot lather shaves, luxury scalp tonics, and sculpted skin rituals.",
+    "introPhilosophy": "A sharp beard is not sculpted by chance; it is engineered by line, angle, and razor discipline. We combine traditional hot-towel steam therapy with micro-precision fades and organic botanical beard elixirs.",
+    "stats": [
+      {
+        "label": "Master Barbers",
+        "value": "5"
+      },
+      {
+        "label": "Razor Sculptures",
+        "value": "4,500+"
+      },
+      {
+        "label": "Botanical Oils",
+        "value": "100% Organic"
+      }
+    ],
+    "services": [
+      {
+        "name": "The Spark Royal Hot-Towel Shave",
+        "desc": "Pre-shave eucalyptus oil, warm badger-hair badger lather, straight-edge razor glide, cold towel astringent, and soothing balm.",
+        "time": "45 mins",
+        "price": "₹1,200",
+        "benefits": [
+          "Baby-smooth closeness",
+          "Prevents razor bumps",
+          "Deep pore steam cleansing"
+        ]
+      },
+      {
+        "name": "Architectural Beard Sculpt & Razor Lineup",
+        "desc": "Detailed beard scissor contouring, foil fade on neck, straight razor cheek definition, and warm argan oil press.",
+        "time": "45 mins",
+        "price": "₹1,400",
+        "benefits": [
+          "Accentuates jawline geometry",
+          "Tames unruly facial hair",
+          "Includes beard blow-dry & balm"
+        ]
+      },
+      {
+        "name": "Executive Fade & Head Massage Ritual",
+        "desc": "Skin-taper or low fade cut, hot towel scalp wash, cooling tea tree tonic, and 15-minute invigorating cranial massage.",
+        "time": "60 mins",
+        "price": "₹1,600",
+        "benefits": [
+          "Flawless gradient transition",
+          "Relieves mental fatigue",
+          "Day-long styling hold"
+        ]
+      },
+      {
+        "name": "Gentleman’s Volcanic Charcoal Detox Facial",
+        "desc": "Ultrasonic pore cleansing, activated bamboo charcoal peel, beard conditioning mask, and matte hydration serum.",
+        "time": "60 mins",
+        "price": "₹2,400",
+        "benefits": [
+          "Clears deep congestion",
+          "Controls excess oil",
+          "Brightens tired skin"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Symmetry consultation",
+        "text": "We evaluate jawline proportions, growth whorls, and skin condition to map the optimal beard line."
+      },
+      {
+        "title": "Steam & oil conditioning",
+        "text": "Warm cedarwood towels and organic botanical oils soften coarse stubble and open the pores."
+      },
+      {
+        "title": "Architectural razor work",
+        "text": "Freehand shears trim bulk followed by precision straight-edge razor lines with surgical accuracy."
+      },
+      {
+        "title": "Cooling compress & seal",
+        "text": "Cold towels and natural sandalwood astringents close the pores and lock in moisture."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Marcus Kane",
+        "role": "Head Master Barber",
+        "speciality": "Cut-Throat Straight Razor Shaves & Jawline Geometry",
+        "experience": "14+ Years Barbering Mastery",
+        "bio": "Marcus is a veteran traditional barber celebrated for his calm hand, razor precision, and bespoke aromatic steam rituals.",
+        "skills": [
+          "Straight-Edge Shaving",
+          "Skin Taper Fades",
+          "Beard Shaping",
+          "Scalp Tonics"
+        ],
+        "studios": [
+          "Bespoke Beard & Grooming Atelier"
+        ]
+      }
+    ]
+  },
+  "nail": {
+    "slug": "nail",
+    "name": "Nail Architecture & Detailing Lounge",
+    "eyebrow": "STUDIO 03 — HAUTE MANICURE",
+    "tagline": "Russian Dry Apex Detailing, Sculpted Gel Architecture & Liquid Chrome Fine-Line Art",
+    "description": "Experience zero-water e-file Russian manicures, Japanese structural soft-gel extensions, obsidian volcanic pedicure rituals, and bespoke metallic chrome designs.",
+    "introPhilosophy": "A manicure is not just a coat of polish—it is micro-architectural refinement. Our clean dry apparatus techniques ensure pristine eponychium detailing and flawless apex curves that resist lifting for over four weeks.",
+    "stats": [
+      {
+        "label": "Color Shades",
+        "value": "450+"
+      },
+      {
+        "label": "Retention Days",
+        "value": "28+"
+      },
+      {
+        "label": "Sterility Guarantee",
+        "value": "100%"
+      }
+    ],
+    "services": [
+      {
+        "name": "Signature Russian Diamond Apex Manicure",
+        "desc": "Micro-precision electric file cuticle detailing, deep hydration bath, structural strengthening overlay, and high-gloss gel enamel.",
+        "time": "75 mins",
+        "price": "₹2,200",
+        "benefits": [
+          "Pristine cuticle line",
+          "Zero lifting for 4 weeks",
+          "Natural nail strengthening"
+        ]
+      },
+      {
+        "name": "Haute Sculpted Soft-Gel Extensions",
+        "desc": "Seamless lightweight extension architecture with bespoke length, shape consultation, and reinforced c-curve apex contouring.",
+        "time": "120 mins",
+        "price": "₹3,800",
+        "benefits": [
+          "Feels as light as natural nails",
+          "No heavy acrylic odor",
+          "Flawless stiletto, almond or coffin shapes"
+        ]
+      },
+      {
+        "name": "Liquid Chrome & Fine-Line Metallic Nail Art",
+        "desc": "Hand-crafted liquid gold leaf, mirror-finish silver chrome burnishing, and minimal geometric fine lines.",
+        "time": "45 mins",
+        "price": "₹1,500",
+        "benefits": [
+          "Reflective runway finish",
+          "Custom artisan designs",
+          "Scratch-resistant seal"
+        ]
+      },
+      {
+        "name": "Obsidian Volcanic Stone Pedicure",
+        "desc": "Dead sea mineral foot soak, callus peel resurfacing, hot volcanic river stone foot and calf massage, and luminous glaze.",
+        "time": "75 mins",
+        "price": "₹2,600",
+        "benefits": [
+          "Silken baby-soft soles",
+          "Stimulates lower leg circulation",
+          "Long-lasting toe enamel"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Nail health evaluation",
+        "text": "We inspect curvature, plate thickness, and existing product to choose the ideal base system."
+      },
+      {
+        "title": "Dry Russian prep",
+        "text": "Micro-diamond burs gently polish the cuticle perimeter, creating a pristine canvas."
+      },
+      {
+        "title": "Apex engineering",
+        "text": "Self-leveling builder gel creates an anatomical stress point, reinforcing the natural nail."
+      },
+      {
+        "title": "Color & top seal",
+        "text": "Pigment is pushed under the proximal nail fold for a deep finish, sealed with high-gloss topcoat."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Chloe Lin",
+        "role": "Master Nail Artist & Educator",
+        "speciality": "Russian Dry Manicures & 3D Chrome Geometry",
+        "experience": "9+ Years Specialized Gel Artistry",
+        "bio": "Chloe trained in Seoul and Tokyo, bringing clean architectural apex sculpting and runway nail art to Spark Salon.",
+        "skills": [
+          "Russian Dry E-File",
+          "Japanese Gels",
+          "Chrome Finishes",
+          "Apex Alignment"
+        ],
+        "studios": [
+          "Nail Architecture & Detailing Lounge"
+        ]
+      }
+    ]
+  },
+  "face": {
+    "slug": "face",
+    "name": "Face & Clinical Derma Studio",
+    "eyebrow": "STUDIO 04 — CLINICAL AESTHETICS",
+    "tagline": "24K Liquid Gold Cellular Facials, Hydra-Oxygen Dermabrasion & Peptide Infusions",
+    "description": "Dermatological science meets couture relaxation. Transformative medical-grade facials, botanical peels, and deep lymphatic sculpting designed to restore radiant skin.",
+    "introPhilosophy": "We approach skincare with clinical precision and therapeutic touch. Our treatments combine multi-wavelength LED phototherapy, diamond-tip micro-resurfacing, and bio-fermented peptides that penetrate the dermal matrix.",
+    "stats": [
+      {
+        "label": "Clinical Protocols",
+        "value": "18"
+      },
+      {
+        "label": "Skin Therapies",
+        "value": "5,000+"
+      },
+      {
+        "label": "Glow Satisfaction",
+        "value": "99.4%"
+      }
+    ],
+    "services": [
+      {
+        "name": "24K Liquid Gold Rejuvenation Facial",
+        "desc": "Pure 24K gold foil infusion, ultrasonic peptide delivery, and lymphatic drainage for unmatched glow.",
+        "time": "90 mins",
+        "price": "₹4,800",
+        "benefits": [
+          "Instant red-carpet glow",
+          "Stimulates collagen synthesis",
+          "Reduces oxidative stress"
+        ]
+      },
+      {
+        "name": "Hydra-Oxygen Diamond Dermabrasion",
+        "desc": "Triple-action vortex suction, salicylic purification, and hyaluronic hyperbaric oxygen mist.",
+        "time": "75 mins",
+        "price": "₹3,900",
+        "benefits": [
+          "Painless blackhead extraction",
+          "Deep cellular hydration",
+          "Smooths uneven skin texture"
+        ]
+      },
+      {
+        "name": "Botanical Resurfacing & Luminescent Peel",
+        "desc": "Enzymatic fruit acid peeling infused with alpine botanical stem cells to accelerate cell renewal and balance skin tone.",
+        "time": "60 mins",
+        "price": "₹3,400",
+        "benefits": [
+          "Fades dark spots",
+          "Gentle with zero downtime",
+          "Refines enlarged pores"
+        ]
+      },
+      {
+        "name": "Architectural Brow Sculpt & Lamination",
+        "desc": "Golden ratio facial mapping, keratin brow lamination, custom hybrid tint, and precision tweezing.",
+        "time": "50 mins",
+        "price": "₹1,900",
+        "benefits": [
+          "Full feathered look",
+          "Shapes unruly brow hairs",
+          "Lasts up to 6 weeks"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Diagnostic mapping",
+        "text": "We analyze hydration depth, melanin distribution, and lipid barrier integrity under magnification."
+      },
+      {
+        "title": "Ultrasonic cleansing",
+        "text": "Gentle acoustic wave cavitation clears clogged pores without redness or trauma."
+      },
+      {
+        "title": "Active infusion",
+        "text": "Custom serums rich in ceramides, hyaluronic acid, and peptides are delivered into cellular layers."
+      },
+      {
+        "title": "Sculpt & illuminate",
+        "text": "Contouring lymphatic massage stimulates microcirculation, finalized under medical-grade LED light."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Dr. Ananya Nair",
+        "role": "Lead Aesthetician & Dermal Specialist",
+        "speciality": "Clinical Hydradermabrasion & Anti-Aging Peptides",
+        "experience": "11+ Years Aesthetic Dermatology",
+        "bio": "Dr. Ananya combines clinical skin science with holistic botanical formulas to create custom treatment plans for every client.",
+        "skills": [
+          "Cellular Peeling",
+          "Hydra-Oxygen Delivery",
+          "LED Phototherapy",
+          "Facial Lymphatic Drainage"
+        ],
+        "studios": [
+          "Face & Clinical Derma Studio"
+        ]
+      }
+    ]
+  },
+  "waxing": {
+    "slug": "waxing",
+    "name": "Waxing & Silkening Suite",
+    "eyebrow": "STUDIO 05 — SILK THERAPY",
+    "tagline": "Low-Temperature Italian Hard Wax & Soothing Botanical Restorations",
+    "description": "Pain-minimized waxing in ultra-hygienic private suites. Utilizing hypoallergenic chamomile and titanium hard waxes that adhere only to hair, never pulling sensitive skin.",
+    "introPhilosophy": "We elevated waxing into a comfortable ritual. With strictly no double-dipping, single-use spatulas, pre-wax barrier oils, and post-wax tea tree soothing compresses, your skin stays calm and smooth.",
+    "stats": [
+      {
+        "label": "Sterility Protocols",
+        "value": "100% Single-Use"
+      },
+      {
+        "label": "Sensitivity Rating",
+        "value": "Pain-Minimized"
+      },
+      {
+        "label": "Smoothness Days",
+        "value": "25+"
+      }
+    ],
+    "services": [
+      {
+        "name": "The Full Body Silken Symphony",
+        "desc": "Complete full body hair removal using temperature-controlled titanium wax followed by an argan recovery soothing mist.",
+        "time": "90 mins",
+        "price": "₹4,500",
+        "benefits": [
+          "Silky touch for weeks",
+          "Removes even stubborn short hairs",
+          "Minimizes ingrown growth"
+        ]
+      },
+      {
+        "name": "Bespoke Brazilian & Intimate Care",
+        "desc": "Private discreet suite treatment with hypoallergenic lavender hard wax and cooling aloe-vera compress.",
+        "time": "35 mins",
+        "price": "₹2,200",
+        "benefits": [
+          "Maximum comfort technique",
+          "Quick 30-min turnaround",
+          "Zero skin peeling"
+        ]
+      },
+      {
+        "name": "Full Arms & Legs Satin Treatment",
+        "desc": "Rapid honey-resin strip waxing, ingrown hair exfoliation buff, and calming chamomile oil finish.",
+        "time": "50 mins",
+        "price": "₹2,600",
+        "benefits": [
+          "Smooth flawless skin tone",
+          "Gentle on sun-exposed skin",
+          "Hydrating finish"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Skin sanitation",
+        "text": "The area is purified with an antibacterial tea tree cleanser to maintain optimal sterility."
+      },
+      {
+        "title": "Barrier protection",
+        "text": "A micro-thin layer of chamomile oil ensures the wax adheres solely to the hair shafts."
+      },
+      {
+        "title": "Low-temp hard wax",
+        "text": "Pliable polymer wax is applied in small sections and removed smoothly with minimal sensation."
+      },
+      {
+        "title": "Soothing hydration",
+        "text": "Calming argan and aloe extracts are massaged into the skin, cooling the follicles instantly."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Meera Krishna",
+        "role": "Senior Silkening Specialist",
+        "speciality": "Rapid Low-Pain Waxing & Post-Epilation Skin Therapy",
+        "experience": "8+ Years Luxury Waxing Practice",
+        "bio": "Meera is beloved by regular clients for her fast, gentle technique and meticulous hygienic standards.",
+        "skills": [
+          "Hard Wax Precision",
+          "Ingrown Prevention",
+          "Sensitive Skin Care"
+        ],
+        "studios": [
+          "Waxing & Silkening Suite"
+        ]
+      }
+    ]
+  },
+  "bridal": {
+    "slug": "bridal",
+    "name": "Regal Haute Bridal Atelier",
+    "eyebrow": "STUDIO 06 — ROYAL COUTURE",
+    "tagline": "HD Airbrush Radiance, Bespoke Royal Draping & Timeless Bridal Hair Sculpting",
+    "description": "The crown jewel of Kerala bridal transformations. From royal Kerala Muhurtham ceremonies to opulent North Indian receptions, we craft radiant, tear-proof looks that last all day.",
+    "introPhilosophy": "A bride is poetry in motion. Our atelier curates every element in harmony—skin undertone matching, high-definition airbrush coverage that never looks cakey under 4K lenses, couture dupatta draping, and heirloom jewelry placement.",
+    "stats": [
+      {
+        "label": "Royal Brides",
+        "value": "1,800+"
+      },
+      {
+        "label": "Airbrush Longevity",
+        "value": "24 Hours"
+      },
+      {
+        "label": "Bridal Artisans",
+        "value": "10"
+      }
+    ],
+    "services": [
+      {
+        "name": "The Spark Royal Bridal Symphony",
+        "desc": "HD Airbrush makeup, couture hair sculpting, dupatta & jewelry draping, and pre-ceremony touchup kit.",
+        "time": "240 mins",
+        "price": "₹22,000",
+        "benefits": [
+          "4K camera flawless coverage",
+          "100% tear and sweat proof",
+          "Includes premium lashes & hair extensions"
+        ]
+      },
+      {
+        "name": "Traditional Kerala Muhurtham Elegance",
+        "desc": "Gold-accented classic bridal makeup, jasmine floral hair ornamentation, and traditional kasavu saree pleat draping.",
+        "time": "180 mins",
+        "price": "₹16,500",
+        "benefits": [
+          "Authentic temple bridal aesthetics",
+          "Lightweight skin finish",
+          "Pristine traditional styling"
+        ]
+      },
+      {
+        "name": "7-Day Pre-Bridal Cellular Bootcamp",
+        "desc": "Complete head-to-toe skin polishing, full-body exfoliation, hair stem-cell therapy, and relaxation massages.",
+        "time": "7 sessions",
+        "price": "₹28,000",
+        "benefits": [
+          "Glow from within",
+          "Silky hydrated complexion",
+          "Pre-wedding stress relief"
+        ]
+      },
+      {
+        "name": "Haute Groom Styling & Skin Perfection",
+        "desc": "Pre-wedding facial, beard sculpting, scalp rejuvenation, and discreet complexion evening.",
+        "time": "120 mins",
+        "price": "₹7,500",
+        "benefits": [
+          "Natural matte groom finish",
+          "Camera-ready confidence",
+          "Coordinated couple aesthetics"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Couture trial",
+        "text": "We test skin prep, match exact skin tones, and build hairstyle prototypes with your jewelry."
+      },
+      {
+        "title": "Skin priming",
+        "text": "Cold jade rollers and botanical serum ampoules prep your skin for seamless makeup fusion."
+      },
+      {
+        "title": "Airbrush artistry",
+        "text": "Micro-fine pigment misting sculpts natural bone structure with zero cakey weight."
+      },
+      {
+        "title": "Drape & jewelry",
+        "text": "Master drapers pin pleats with millimetre precision and anchor tiaras or matha pattis."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Farzana Khan",
+        "role": "Celebrity Bridal Creative Director",
+        "speciality": "HD Airbrush Couture & South Indian Saree Draping",
+        "experience": "15+ Years Bridal Transformations",
+        "bio": "Farzana has transformed over 1,500 brides across the UAE and India, celebrated for her calm presence and timeless eye.",
+        "skills": [
+          "HD Airbrushing",
+          "Saree Pleat Architecture",
+          "Bridal Chignons",
+          "Jewelry Styling"
+        ],
+        "studios": [
+          "Regal Haute Bridal Atelier"
+        ]
+      }
+    ]
+  },
+  "spa": {
+    "slug": "spa",
+    "name": "Holistic Spa & Wellness Sanctuary",
+    "eyebrow": "STUDIO 07 — SENSORY WELLNESS",
+    "tagline": "Ancient Balinese Acupressure Fused with Heated Nordic Volcanic Stone Therapies",
+    "description": "Step out of the city and into quiet serenity. Fragrant cedarwood steam, authentic Balinese deep-tissue massage, and warm volcanic basalt stone therapies to renew body and spirit.",
+    "introPhilosophy": "True beauty flows from an unhurried, restored nervous system. Our sanctuary pairs ancient Eastern energy meridian pressure with cold-pressed botanical oils of sandalwood, bergamot, and warm amber.",
+    "stats": [
+      {
+        "label": "Private Suites",
+        "value": "6"
+      },
+      {
+        "label": "Herbal Infusions",
+        "value": "100% Pure"
+      },
+      {
+        "label": "Therapeutic Hours",
+        "value": "12,000+"
+      }
+    ],
+    "services": [
+      {
+        "name": "Balinese Deep Awakening Massage",
+        "desc": "Rhythmic acupressure, palm pressure, and essential oils of sandalwood & warm amber for total renewal.",
+        "time": "90 mins",
+        "price": "₹3,600",
+        "benefits": [
+          "Deep muscle knot release",
+          "Stimulates lymphatic drainage",
+          "Restores mental clarity"
+        ]
+      },
+      {
+        "name": "Nero Basalt Warm Stone Therapy",
+        "desc": "Heated obsidian river stones gliding along meridians with cedarwood & bergamot infusions.",
+        "time": "90 mins",
+        "price": "₹4,200",
+        "benefits": [
+          "Melts deep-seated chronic tension",
+          "Improves sleep quality",
+          "Deep warmth and soothing relaxation"
+        ]
+      },
+      {
+        "name": "Therapeutic Myofascial Deep Tissue",
+        "desc": "Targeted deep-layer muscle release engineered to alleviate chronic postural strain, neck stiffness, and fatigue.",
+        "time": "75 mins",
+        "price": "₹3,400",
+        "benefits": [
+          "Postural realignment",
+          "Breaks fascia adhesions",
+          "Athletic recovery"
+        ]
+      },
+      {
+        "name": "Moroccan Gold Argan & Coffee Scrub",
+        "desc": "Exfoliating crushed roasted beans, gold shimmer elixir, and rich argan butter body wrap.",
+        "time": "60 mins",
+        "price": "₹2,800",
+        "benefits": [
+          "Velvety soft skin texture",
+          "Cellulite smoothing circulation",
+          "Aromatic awakening"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Sensory orientation",
+        "text": "Choose your signature aromatherapy oil blend and set your preferred massage pressure."
+      },
+      {
+        "title": "Foot cleansing",
+        "text": "A warm foot soak with peppermint, eucalyptus, and Himalayan salts grounds your breathing."
+      },
+      {
+        "title": "Deep pressure flow",
+        "text": "Long rhythmic strokes, thumb-kneading, and gentle joint stretches unbind stubborn knots."
+      },
+      {
+        "title": "Stone restoration",
+        "text": "Heated volcanic stones glide over spinal lines, delivering deep heat to tight muscles."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Wayan Sutrisna",
+        "role": "Master Balayage & Wellness Therapist",
+        "speciality": "Balinese Traditional Acupressure & Volcanic Stone Therapy",
+        "experience": "13+ Years Holistic Wellness Practice",
+        "bio": "Born in Bali, Wayan studied traditional Indonesian massage healing before bringing his restorative touch to Spark Spa.",
+        "skills": [
+          "Balinese Deep Tissue",
+          "Hot Stone Alignment",
+          "Acupressure",
+          "Aroma Blending"
+        ],
+        "studios": [
+          "Holistic Spa & Wellness Sanctuary"
+        ]
+      }
+    ]
+  },
+  "tattoo": {
+    "slug": "tattoo",
+    "name": "Custom Tattoo & Fine Art Ink Atelier",
+    "eyebrow": "STUDIO 08 — INK ARCHITECTURE",
+    "tagline": "Single-Needle Fine-Line Delicacy, Sacred Geometry & Custom Talisman Art",
+    "description": "Permanent personal fine art created with medical-grade sterile protocols. From single-needle botanical lines and micro-portraits to architectural sleeve compositions.",
+    "introPhilosophy": "A tattoo is an intimate personal narrative. We reject generic flash sheets in favor of deep 1-on-1 collaborative consultations, anatomical flow alignment, and single-needle precision that stays sharp over time.",
+    "stats": [
+      {
+        "label": "Fine-Line Artworks",
+        "value": "2,400+"
+      },
+      {
+        "label": "Sterile Rating",
+        "value": "Hospital-Grade"
+      },
+      {
+        "label": "Custom Designs",
+        "value": "100% Unique"
+      }
+    ],
+    "services": [
+      {
+        "name": "Single-Needle Fine-Line Artistry",
+        "desc": "Micro-precision botanicals, micro-script, and delicate architectural linework with medical-grade pigments.",
+        "time": "90 mins",
+        "price": "₹4,000+",
+        "benefits": [
+          "Microscopic crisp detailing",
+          "Fast gentle healing curve",
+          "Zero blowout lines"
+        ]
+      },
+      {
+        "name": "Bespoke Concept & Tattoo Architecture",
+        "desc": "Collaborative custom design consultation, anatomical flow placement, and master execution.",
+        "time": "180 mins",
+        "price": "₹7,500+",
+        "benefits": [
+          "One-of-a-kind original art",
+          "Anatomically aligned with body contours",
+          "Includes sterile touch-up session"
+        ]
+      },
+      {
+        "name": "Tattoo Cover-Up & Re-Enhancement",
+        "desc": "Transformative reimagining and pigment revitalization for faded or outdated ink designs.",
+        "time": "150 mins",
+        "price": "₹6,000+",
+        "benefits": [
+          "Clever negative-space camouflage",
+          "Restores vibrant saturation",
+          "Artistic reimagining"
+        ]
+      }
+    ],
+    "process": [
+      {
+        "title": "Design consultation",
+        "text": "We review reference ideas, sketch concepts, and measure the exact anatomical canvas."
+      },
+      {
+        "title": "Stencil placement",
+        "text": "Precision transfer stencils are placed and checked from multiple body angles in natural posture."
+      },
+      {
+        "title": "Sterile ink craft",
+        "text": "Using rotary machines and micro-fine needles, ink is implanted with gentle, steady pressure."
+      },
+      {
+        "title": "Second-skin seal",
+        "text": "The finished piece is sanitized and sealed with a breathable waterproof medical membrane."
+      }
+    ],
+    "artists": [
+      {
+        "name": "Vikram Sen",
+        "role": "Senior Tattoo Artist & Illustrator",
+        "speciality": "Single-Needle Botanicals, Micro-Realism & Geometric Mandalas",
+        "experience": "10+ Years Professional Tattooing",
+        "bio": "A fine arts graduate turned tattoo master, Vikram is celebrated for his soft shading and needle control.",
+        "skills": [
+          "Single Needle",
+          "Fine Line Script",
+          "Sacred Geometry",
+          "Cover-Up Design"
+        ],
+        "studios": [
+          "Custom Tattoo & Fine Art Ink Atelier"
+        ]
+      }
+    ]
+  }
+}

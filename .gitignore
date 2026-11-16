@@ -1,19 +1,20 @@
 # dependencies
-/node_modules
-/.pnp
+node_modules
+*/node_modules
+.pnp
 .pnp.js
 .yarn/cache
 
-# testing
-/coverage
-
 # next.js build and cache
-/.next/
-/out/
+.next/
+*/.next/
+out/
+*/out/
 
 # production
-/build
-/dist
+build/
+dist/
+*/dist/
 
 # misc
 .DS_Store
@@ -27,15 +28,24 @@ yarn-error.log*
 pnpm-debug.log*
 
 # local env files (never commit secrets)
+.env
 .env*.local
+*.env
+backend/.env
 
 # vercel
 .vercel
+*/.vercel
 
 # typescript build info
 *.tsbuildinfo
 next-env.d.ts
 
-# local design reference folder
-/references/
+# scratch files
+scratch/
+*/scratch/
+MIGRATION_REPORT.json
+
+# root symlink / junction
+/images
 

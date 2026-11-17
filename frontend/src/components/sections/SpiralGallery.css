@@ -31,7 +31,6 @@
   height: 100dvh;
   overflow: hidden;
   background: #ececec;
-  will-change: transform, clip-path;
 }
 
 .sf-host,
@@ -43,6 +42,7 @@
 .sf-frame {
   display: grid;
   place-items: center;
+  will-change: transform, clip-path;
 }
 
 .sf-root {

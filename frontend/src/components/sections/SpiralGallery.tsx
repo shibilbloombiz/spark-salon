@@ -60,6 +60,8 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
   let sources: string[] = [];
   let position = 0;
   let target = 0;
+  let scrollTarget = 0;
+  let dragOffset = 0;
   let last = 0;
   let frame = 0;
   let wave = 0;
@@ -187,7 +189,9 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     focal = half * Math.sqrt(g.depth * g.depth - 1);
     stride = focal * g.slot / (g.depth - 1);
     position *= stride / oldStride;
-    target *= stride / oldStride;
+    dragOffset *= stride / oldStride;
+    scrollTarget *= stride / oldStride;
+    target = scrollTarget + dragOffset;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.ceil(width * dpr);
     canvas.height = Math.ceil(height * dpr);
@@ -214,6 +218,7 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       return image;
     });
     position = mod(position / stride, images.length) * stride;
+    dragOffset = position - scrollTarget;
     target = position;
     active = -1;
   }
@@ -236,13 +241,15 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
 
     // Kinetic momentum decay after release from a drag
     if (!dragging && Math.abs(dragMomentum) > 0.005) {
-      target -= dragMomentum * dt * 48;
+      dragOffset -= dragMomentum * dt * 48;
+      target = scrollTarget + dragOffset;
       dragMomentum *= Math.pow(0.91, dt * 60);
       if (Math.abs(dragMomentum) <= 0.005) dragMomentum = 0;
     }
 
-    if (!motion.matches && !dragging && Math.abs(dragMomentum) < 0.01 && now > holdUntil) {
-      target += config.autoplay * dt;
+    if (!motion.matches && !dragging && Math.abs(dragMomentum) < 0.01 && now > holdUntil && config.autoplay > 0) {
+      dragOffset += config.autoplay * dt;
+      target = scrollTarget + dragOffset;
     }
     const old = position;
     position += (target - position) * (motion.matches ? 1 : 1 - Math.exp(-config.smoothing * dt));
@@ -462,7 +469,8 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
   }
 
   function step(direction: number) {
-    target = (Math.round(target / stride) + direction) * stride;
+    dragOffset = (Math.round((scrollTarget + dragOffset) / stride) + direction) * stride - scrollTarget;
+    target = scrollTarget + dragOffset;
     wake();
   }
 
@@ -561,7 +569,8 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     }
 
     holdUntil = now + 1600;
-    target -= stepDist * config.sensitivity * speedFactor;
+    dragOffset -= stepDist * config.sensitivity * speedFactor;
+    target = scrollTarget + dragOffset;
     wake();
   });
 
@@ -648,10 +657,15 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
 
   return {
     update,
+    setScrollProgress(p: number, totalPhotos: number) {
+      if (dragging) return;
+      scrollTarget = p * totalPhotos * stride;
+      target = scrollTarget + dragOffset;
+      wake();
+    },
     nudge(photos: number) {
-      holdUntil = performance.now() + 1400;
-      target += photos * stride;
-      if (dragging) dragging.target += photos * stride;
+      dragOffset += photos * stride;
+      target = scrollTarget + dragOffset;
       wake();
     },
     destroy() {
@@ -703,7 +717,7 @@ export default function SpiralGallery() {
       frequency: 0.9,
       smoothing: 6,
       sensitivity: 0.6,
-      autoplay: 30,
+      autoplay: 0,
       flare: 0,
       edgeZone: 12,
       smear: 0.149999,
@@ -713,25 +727,32 @@ export default function SpiralGallery() {
       images: WORKS_IMAGES,
     });
 
-    const PHOTOS_PER_SCROLL = 6;
+    const SCROLL_PHOTOS = 8;
     const progress = () => {
       const total = track.offsetHeight - window.innerHeight;
       if (total <= 0) return 0;
-      return Math.min(1, Math.max(0, -track.getBoundingClientRect().top / total));
+      const rect = track.getBoundingClientRect();
+      return Math.min(1, Math.max(0, -rect.top / total));
     };
 
-    let lastProgress = progress();
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const INTRO_MS = 1400;
-    const introStart = performance.now();
 
     const reveal = () => {
-      const intro = reducedMotion.matches ? 1 : Math.min(1, (performance.now() - introStart) / INTRO_MS);
+      const rect = track.getBoundingClientRect();
+      const H = window.innerHeight;
       const scrub = reducedMotion.matches
         ? 1
-        : Math.min(1, Math.max(0, 1 - track.getBoundingClientRect().top / window.innerHeight));
-      const t = Math.min(intro, scrub);
-      const e = t * t * (3 - 2 * t);
+        : Math.min(1, Math.max(0, 1 - rect.top / H));
+
+      if (scrub >= 0.999) {
+        stage.style.clipPath = 'none';
+        stage.style.transform = 'none';
+        title.style.opacity = '1';
+        title.style.transform = 'none';
+        return;
+      }
+
+      const e = scrub * scrub * (3 - 2 * scrub);
       const i = 1 - e;
 
       stage.style.clipPath = `inset(${(i * 14).toFixed(2)}% ${(i * 5).toFixed(2)}% ${(i * 14).toFixed(2)}% ${(i * 5).toFixed(2)}% round ${(i * 32).toFixed(1)}px)`;
@@ -743,28 +764,20 @@ export default function SpiralGallery() {
     const onScroll = () => {
       reveal();
       const p = progress();
-      if (!reducedMotion.matches && p !== lastProgress) {
-        engine.nudge((p - lastProgress) * PHOTOS_PER_SCROLL);
-      }
-      lastProgress = p;
+      engine.setScrollProgress(p, SCROLL_PHOTOS);
     };
 
     const onResize = () => {
-      lastProgress = progress();
       reveal();
+      const p = progress();
+      engine.setScrollProgress(p, SCROLL_PHOTOS);
     };
 
-    let introFrame = 0;
-    const introLoop = () => {
-      reveal();
-      if (performance.now() - introStart < INTRO_MS) {
-        introFrame = requestAnimationFrame(introLoop);
-      }
-    };
-    introLoop();
+    reveal();
+    const initP = progress();
+    engine.setScrollProgress(initP, SCROLL_PHOTOS);
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('smooth-scroll', onScroll as EventListener, { passive: true });
     window.addEventListener('resize', onResize);
 
     const win = window as any;
@@ -775,9 +788,7 @@ export default function SpiralGallery() {
     }
 
     return () => {
-      if (introFrame) cancelAnimationFrame(introFrame);
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('smooth-scroll', onScroll as EventListener);
       window.removeEventListener('resize', onResize);
       if (lenisUnsub) lenisUnsub();
       engine.destroy();
@@ -788,13 +799,13 @@ export default function SpiralGallery() {
     <section className="sf-track" id="gallery" aria-label="Latest works" ref={trackRef}>
       <div
         className="sf-export"
-        ref={stageRef}
         role="region"
         aria-roledescription="carousel"
         aria-label="Latest works"
       >
         <div
           className="sf-frame"
+          ref={stageRef}
           style={
             {
               '--sf-w': '1920px',

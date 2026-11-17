@@ -203,7 +203,6 @@ export default function BrandStatement() {
     draw(currentRv, currentP);
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('smooth-scroll', onScroll as EventListener, { passive: true });
     const win = window as any;
     if (win.lenis && typeof win.lenis.on === 'function') {
       win.lenis.on('scroll', onScroll);
@@ -224,7 +223,6 @@ export default function BrandStatement() {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('smooth-scroll', onScroll as EventListener);
       if (win.lenis && typeof win.lenis.off === 'function') {
         win.lenis.off('scroll', onScroll);
       }

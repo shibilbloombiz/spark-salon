@@ -25,10 +25,9 @@ function LenisGsapSync() {
     // Expose instance globally for convenience (e.g. lenis.scrollTo)
     (window as any).lenis = lenis;
 
-    // Synchronize ScrollTrigger and custom scroll listeners on every scroll step
+    // Synchronize ScrollTrigger on every scroll step
     const onScroll = () => {
       ScrollTrigger.update();
-      window.dispatchEvent(new CustomEvent('smooth-scroll'));
     };
     const unbind = lenis.on('scroll', onScroll);
     window.addEventListener('scroll', onScroll, { passive: true });

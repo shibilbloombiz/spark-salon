@@ -175,7 +175,6 @@ export default function StudioList() {
     const onResize = () => queue();
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('smooth-scroll', onScroll as EventListener, { passive: true });
     window.addEventListener('resize', onResize);
 
     const step = () => {
@@ -286,7 +285,6 @@ export default function StudioList() {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('smooth-scroll', onScroll as EventListener);
       window.removeEventListener('resize', onResize);
       if (fine) {
         list.removeEventListener('pointerenter', onPointerEnter);

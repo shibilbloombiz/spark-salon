@@ -713,7 +713,7 @@ export default function SpiralGallery() {
       images: WORKS_IMAGES,
     });
 
-    const PHOTOS_PER_SCROLL = 3;
+    const PHOTOS_PER_SCROLL = 6;
     const progress = () => {
       const total = track.offsetHeight - window.innerHeight;
       if (total <= 0) return 0;
@@ -764,6 +764,7 @@ export default function SpiralGallery() {
     introLoop();
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('smooth-scroll', onScroll as EventListener, { passive: true });
     window.addEventListener('resize', onResize);
 
     const win = window as any;
@@ -776,6 +777,7 @@ export default function SpiralGallery() {
     return () => {
       if (introFrame) cancelAnimationFrame(introFrame);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('smooth-scroll', onScroll as EventListener);
       window.removeEventListener('resize', onResize);
       if (lenisUnsub) lenisUnsub();
       engine.destroy();

@@ -25,11 +25,13 @@ function LenisGsapSync() {
     // Expose instance globally for convenience (e.g. lenis.scrollTo)
     (window as any).lenis = lenis;
 
-    // Synchronize ScrollTrigger on every Lenis scroll step
+    // Synchronize ScrollTrigger and custom scroll listeners on every scroll step
     const onScroll = () => {
       ScrollTrigger.update();
+      window.dispatchEvent(new CustomEvent('smooth-scroll'));
     };
     const unbind = lenis.on('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     // Feed Lenis's RAF directly into GSAP's ticker to avoid two competing RAF loops
     const tickerUpdate = (time: number) => {
@@ -37,10 +39,14 @@ function LenisGsapSync() {
     };
 
     gsap.ticker.add(tickerUpdate);
-    // Smooth out any momentary frame-drops or touch scroll hitches
-    gsap.ticker.lagSmoothing(500, 33);
+    // Disable lagSmoothing so GSAP and Lenis remain strictly locked 1:1 without hitch or lag
+    gsap.ticker.lagSmoothing(0);
+
+    // Initial recalculation of trigger boundaries
+    ScrollTrigger.refresh();
 
     return () => {
+      window.removeEventListener('scroll', onScroll);
       gsap.ticker.remove(tickerUpdate);
       if (typeof unbind === 'function') {
         unbind();

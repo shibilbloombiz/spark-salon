@@ -27,8 +27,8 @@ export const ScrollCard: React.FC<ScrollCardProps> = ({
   scale = true,
   className = '',
   style = {},
-  once = false, // Always trigger on both forward & reverse scroll
-  amount = 0.12,
+  once = true, // Default to once: true so revealed cards stay beautifully visible and never flicker on scroll
+  amount = 0.08,
 }) => {
   const shouldReduceMotion = useReducedMotion();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -38,7 +38,7 @@ export const ScrollCard: React.FC<ScrollCardProps> = ({
   const isInView = useInView(wrapperRef, {
     once,
     amount,
-    margin: '0px 0px -40px 0px',
+    margin: '0px 0px 40px 0px',
   });
 
   if (shouldReduceMotion) {

@@ -388,6 +388,8 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
       tl.to({}, { duration: HOLD });
     }
 
+    ScrollTrigger.refresh();
+
     // Toggle body class 'reel-on' to hide floating button when reel is pinned
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {

@@ -40,9 +40,7 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow-x: clip;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -79,8 +77,7 @@ body {
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  overflow-x: hidden;
-  max-width: 100%;
+  overflow-x: clip;
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -145,7 +145,6 @@ export default function StudioList() {
 
     function refresh() {
       ticking = false;
-      if (!fine) return;
       if (performance.now() < focusScrollIgnoreUntil) return;
       if (pinned && !fine) return;
       // Mouse: the row under the pointer. Otherwise: the row crossing the middle of the screen
@@ -162,7 +161,6 @@ export default function StudioList() {
     }
 
     function queue() {
-      if (!fine) return;
       if (!ticking) {
         ticking = true;
         queueRaf = requestAnimationFrame(refresh);
@@ -170,7 +168,6 @@ export default function StudioList() {
     }
 
     const onScroll = () => {
-      if (!fine) return;
       if (performance.now() < focusScrollIgnoreUntil) return;
       pinned = false;
       queue();
@@ -178,6 +175,7 @@ export default function StudioList() {
     const onResize = () => queue();
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('smooth-scroll', onScroll as EventListener, { passive: true });
     window.addEventListener('resize', onResize);
 
     const step = () => {
@@ -280,10 +278,15 @@ export default function StudioList() {
     list.addEventListener('focusin', onFocusIn);
     list.addEventListener('focusout', onFocusOut);
 
+    // Default to the first studio revealed on mount
+    if (items[0]) {
+      show(items[0]);
+    }
     queue();
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('smooth-scroll', onScroll as EventListener);
       window.removeEventListener('resize', onResize);
       if (fine) {
         list.removeEventListener('pointerenter', onPointerEnter);

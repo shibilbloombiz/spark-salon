@@ -60,8 +60,8 @@ export const BlurText: React.FC<BlurTextProps> = ({
   className = '',
   animateBy = 'words',
   direction = 'top',
-  threshold = 0.04,
-  rootMargin = '0px 0px -30px 0px',
+  threshold = 0.02,
+  rootMargin = '0px 0px 40px 0px',
   animationFrom,
   animationTo,
   easing = [0.16, 1, 0.3, 1],
@@ -80,8 +80,8 @@ export const BlurText: React.FC<BlurTextProps> = ({
   // Intelligent delay defaults: 80ms for monumental titles, 20ms for rapid smooth paragraphs
   const isHeading = typeof Component === 'string' && ['h1', 'h2', 'h3'].includes(Component);
   const delay = delayProp ?? (isHeading ? 75 : 18);
-  // Always replay on both forward and reverse scroll
-  const once = onceProp !== undefined ? onceProp : false;
+  // Default to once: true so revealed typography stays visible and doesn't flicker on scroll
+  const once = onceProp !== undefined ? onceProp : true;
 
   const text = textProp ?? extractText(children);
 

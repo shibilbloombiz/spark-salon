@@ -100,7 +100,7 @@ export default function BrandStatement() {
           const t = easeOut(clamp((rv - i * 0.12) / 0.6, 0, 1));
           el.style.opacity = (t * (1 - ze)).toFixed(3);
           el.style.transform = `translate3d(0, ${((1 - t) * 32).toFixed(2)}px, 0)`;
-          el.style.filter = `blur(${((1 - t) * 6).toFixed(2)}px)`;
+          el.style.filter = t > 0.92 ? 'none' : `blur(${((1 - t) * 6).toFixed(2)}px)`;
         }
       });
 
@@ -164,7 +164,8 @@ export default function BrandStatement() {
     let targetP = 0;
     let currentP = 0;
     let running = false;
-    const SMOOTH = 0.12;
+    const fine = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const SMOOTH = fine ? 0.28 : 0.45;
 
     function tick() {
       currentRv += (targetRv - currentRv) * SMOOTH;
@@ -202,6 +203,7 @@ export default function BrandStatement() {
     draw(currentRv, currentP);
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('smooth-scroll', onScroll as EventListener, { passive: true });
     const win = window as any;
     if (win.lenis && typeof win.lenis.on === 'function') {
       win.lenis.on('scroll', onScroll);
@@ -222,6 +224,7 @@ export default function BrandStatement() {
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('smooth-scroll', onScroll as EventListener);
       if (win.lenis && typeof win.lenis.off === 'function') {
         win.lenis.off('scroll', onScroll);
       }

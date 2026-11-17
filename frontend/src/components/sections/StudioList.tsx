@@ -128,6 +128,7 @@ export default function StudioList() {
 
     // Opening or closing a row moves the rows below it for about a second, so re-check each frame while it settles
     function settle() {
+      if (!fine) return;
       settleEnd = Math.max(settleEnd, performance.now() + 1300);
       if (settling) return;
       settling = true;
@@ -144,6 +145,7 @@ export default function StudioList() {
 
     function refresh() {
       ticking = false;
+      if (!fine) return;
       if (performance.now() < focusScrollIgnoreUntil) return;
       if (pinned && !fine) return;
       // Mouse: the row under the pointer. Otherwise: the row crossing the middle of the screen
@@ -160,6 +162,7 @@ export default function StudioList() {
     }
 
     function queue() {
+      if (!fine) return;
       if (!ticking) {
         ticking = true;
         queueRaf = requestAnimationFrame(refresh);
@@ -167,6 +170,7 @@ export default function StudioList() {
     }
 
     const onScroll = () => {
+      if (!fine) return;
       if (performance.now() < focusScrollIgnoreUntil) return;
       pinned = false;
       queue();
@@ -226,19 +230,24 @@ export default function StudioList() {
       list.addEventListener('pointerleave', onPointerLeave);
     }
 
-    // Mouse click opens the service page. Touch: the first tap reveals the row, then Explore more opens the page.
+    // Mouse click opens the service page. Touch: first tap reveals row, second tap or CTA opens page.
     const onClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement | null;
       if (!target) return;
       const row = target.closest<HTMLElement>('.sl-link');
-      if (!row || target.closest('.sl-cta')) return;
-      if (fine) {
-        const href = row.dataset.href;
+      if (!row) return;
+      const href = row.dataset.href;
+      if (fine || target.closest('.sl-cta')) {
         if (href) router.push(href);
         return;
       }
-      pinned = true;
-      show(row.parentElement);
+      const parent = row.parentElement;
+      if (current === parent) {
+        if (href) router.push(href);
+      } else {
+        pinned = true;
+        show(parent);
+      }
     };
 
     // Keyboard: Enter opens the focused service

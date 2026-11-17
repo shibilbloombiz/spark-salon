@@ -37,8 +37,8 @@ function LenisGsapSync() {
     };
 
     gsap.ticker.add(tickerUpdate);
-    // Disable lag smoothing in GSAP to prevent any jumps or jitter during smooth scrolling
-    gsap.ticker.lagSmoothing(0);
+    // Smooth out any momentary frame-drops or touch scroll hitches
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       gsap.ticker.remove(tickerUpdate);
@@ -91,7 +91,8 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.8,
+      touchMultiplier: 1.0,
+      syncTouch: false,
       infinite: false,
       // Exclude internally-scrollable elements (modals, dialogs, dropdowns, panels)
       prevent: (node: Node) => {

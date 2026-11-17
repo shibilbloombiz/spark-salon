@@ -245,6 +245,10 @@
 
 /* Portrait screens (phones and tablets) */
 @media (max-width: 900px) and (orientation: portrait), (max-width: 820px) {
+  .ph {
+    height: 190vh;
+    height: 190svh;
+  }
   .ph-stage {
     display: flex;
     flex-direction: column;

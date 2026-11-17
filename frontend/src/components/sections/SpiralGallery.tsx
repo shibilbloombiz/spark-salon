@@ -686,13 +686,15 @@ export default function SpiralGallery() {
     const title = titleRef.current;
     if (!track || !stage || !root || !title) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
     const engine = createSpiralFlux(root, {
       viewportWidth: 1920,
       viewportHeight: 1080,
-      cardArc: 45,
+      cardArc: isMobile ? 40 : 45,
       aspect: 1.05001,
       gap: 0.500001,
-      size: 132,
+      size: isMobile ? 90 : 132,
       turnSpacing: 2,
       depth: 8,
       tilt: 0.200001,

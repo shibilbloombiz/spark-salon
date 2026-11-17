@@ -41,7 +41,14 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  overflow-x: clip;
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Eliminate 300ms mobile touch delay across all touch devices */
+button, a, input, select, textarea, [role="button"] {
+  touch-action: manipulation;
 }
 
 /* Lenis Recommended Foundation */
@@ -68,10 +75,13 @@ html.lenis, html.lenis body {
 body {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
-  overflow-x: clip;
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {

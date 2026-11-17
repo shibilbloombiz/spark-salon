@@ -30,20 +30,20 @@ interface SiteSettings {
   email: string;
 }
 
-/* Marble graphic generator matching the exact reference SVG with rotating seed */
+/* Marble graphic generator matching luxury atelier liquid aesthetic */
 function renderMarbleSvg(index: number) {
   const flip = index % 2 === 1;
-  const rotation = index * 45;
   return (
-    <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-      <g filter="url(#marble-static)" transform={`rotate(${rotation} 500 400)`}>
-        <rect x="-200" y="-200" width="1400" height="1200" fill="#ffffff" />
-        <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-        <ellipse cx="700" cy="530" rx="260" ry="230" fill={flip ? '#c8102e' : '#0c0c0c'} />
-        <ellipse cx="840" cy="170" rx="170" ry="140" fill={flip ? '#0c0c0c' : '#c8102e'} />
-        <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff" />
-      </g>
-    </svg>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        background: flip
+          ? 'radial-gradient(circle at 70% 30%, #c8102e 0%, #300408 55%, #0c0c0c 100%)'
+          : 'radial-gradient(circle at 30% 70%, #c8102e 0%, #161616 55%, #0c0c0c 100%)',
+        borderRadius: 'inherit',
+      }}
+    />
   );
 }
 
@@ -300,31 +300,16 @@ export default function AcademyPage() {
 
   return (
     <div className="spark-academy-root">
-      {/* 1. Global SVG Filter Definition for Dynamic Abstract Marble Artwork */}
-      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
-        <defs>
-          <filter id="marble-static" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.008" numOctaves={3} seed={7} result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale={340} xChannelSelector="R" yChannelSelector="G" result="disp" />
-            <feGaussianBlur in="disp" stdDeviation={8} />
-          </filter>
-        </defs>
-      </svg>
-
       {/* 3. Main Hero Header with Abstract Marble Slot */}
       <main id="academy">
         <section className="head">
-          <div className="marble-slot" aria-hidden="true">
-            <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-              <g filter="url(#marble-static)">
-                <rect width="1000" height="800" fill="#ffffff" />
-                <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-                <ellipse cx="700" cy="530" rx="260" ry="230" fill="#0c0c0c" />
-                <ellipse cx="840" cy="170" rx="170" ry="140" fill="#c8102e" />
-                <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff" />
-              </g>
-            </svg>
-          </div>
+          <div
+            className="marble-slot"
+            aria-hidden="true"
+            style={{
+              background: 'radial-gradient(circle at 75% 35%, rgba(200, 16, 46, 0.22) 0%, rgba(12, 12, 12, 0.08) 50%, transparent 80%)',
+            }}
+          />
 
           <div className="wrap">
             <p className="eyebrow">Academy</p>

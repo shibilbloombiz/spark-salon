@@ -184,17 +184,14 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
       return <img src={s.image} alt={s.name} loading={eager ? 'eager' : 'lazy'} />;
     }
     return (
-      <div className="marble-slot" style={{ opacity: 1 }}>
-        <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-          <g filter="url(#marble-static)" transform={`rotate(${idx * 45} 500 400)`}>
-            <rect x="-200" y="-200" width="1400" height="1200" fill="#ffffff" />
-            <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-            <ellipse cx="700" cy="530" rx="260" ry="230" fill={idx % 2 === 1 ? '#c8102e' : '#0c0c0c'} />
-            <ellipse cx="840" cy="170" rx="170" ry="140" fill={idx % 2 === 1 ? '#0c0c0c' : '#c8102e'} />
-            <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff" />
-          </g>
-        </svg>
-      </div>
+      <div
+        className="marble-slot"
+        style={{
+          opacity: 1,
+          background: `radial-gradient(circle at 35% 30%, #c8102e 0%, #3a040b 50%, #0c0c0c 100%)`,
+          borderRadius: '8px 40px 8px 40px',
+        }}
+      />
     );
   };
 
@@ -346,16 +343,20 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
     const HOLD = 0.6;
     const STEP = 1.4;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const pinPerSlide = isMobile ? 0.55 : 1.05;
+    const scrubVal = isMobile ? 0.2 : 0.8;
+
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
       scrollTrigger: {
         trigger: pinEl,
         start: 'top top',
         pin: true,
-        scrub: 0.9,
+        scrub: scrubVal,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        end: () => `+=${Math.round(window.innerHeight * (0.8 + (N - 1) * 1.05))}`,
+        end: () => `+=${Math.round(window.innerHeight * (isMobile ? (0.4 + (N - 1) * pinPerSlide) : (0.8 + (N - 1) * pinPerSlide)))}`,
       },
     });
 
@@ -399,18 +400,21 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
     let startX = 0;
     let startY = 0;
     const handleTouchStart = (e: TouchEvent) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
+      if (e.touches && e.touches.length > 0) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }
     };
     const handleTouchEnd = (e: TouchEvent) => {
+      if (!e.changedTouches || e.changedTouches.length === 0) return;
       const dx = e.changedTouches[0].clientX - startX;
       const dy = e.changedTouches[0].clientY - startY;
-      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-        const stepY = window.innerHeight * 1.05;
+      if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        const stepDist = window.innerHeight * pinPerSlide;
         if (dx < 0) {
-          window.scrollBy({ top: stepY, behavior: 'smooth' });
+          window.scrollBy({ top: stepDist, behavior: 'smooth' });
         } else {
-          window.scrollBy({ top: -stepY, behavior: 'smooth' });
+          window.scrollBy({ top: -stepDist, behavior: 'smooth' });
         }
       }
     };
@@ -430,16 +434,6 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
 
   return (
     <>
-      {/* SVG Turbulence & Displacement Filter Definition */}
-      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
-        <defs>
-          <filter id="marble-static" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
-            <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.008" numOctaves={3} seed={7} result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale={340} xChannelSelector="R" yChannelSelector="G" result="disp" />
-            <feGaussianBlur in="disp" stdDeviation={8} />
-          </filter>
-        </defs>
-      </svg>
 
       <main id="top">
         {/* SECTION 01 — Cinematic Studio Hero with Full-Screen Photographic Background */}
@@ -613,13 +607,15 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
                       {a.profileImage ? (
                         <img src={a.profileImage} alt={a.name} loading="lazy" />
                       ) : (
-                        <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-                          <g filter="url(#marble-static)" transform={`rotate(${i * 45} 500 400)`}>
-                            <rect x="-200" y="-200" width="1400" height="1200" fill="#ffffff" />
-                            <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-                            <ellipse cx="700" cy="530" rx="260" ry="230" fill={tone === 'red' ? '#c8102e' : '#0c0c0c'} />
-                          </g>
-                        </svg>
+                        <div
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            background: tone === 'red'
+                              ? 'radial-gradient(circle at 35% 30%, #c8102e 0%, #3a040b 55%, #0c0c0c 100%)'
+                              : 'radial-gradient(circle at 35% 30%, #2a2a2e 0%, #161618 55%, #0c0c0c 100%)',
+                          }}
+                        />
                       )}
                     </div>
 
@@ -693,14 +689,14 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
                     alt={artists[activeArtistIndex].name}
                   />
                 ) : (
-                  <div className="marble-slot" style={{ opacity: 1 }}>
-                    <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-                      <g filter="url(#marble-static)">
-                        <rect width="1000" height="800" fill="#ffffff" />
-                        <ellipse cx="500" cy="400" rx="300" ry="220" fill="#c8102e" />
-                      </g>
-                    </svg>
-                  </div>
+                  <div
+                    className="marble-slot"
+                    style={{
+                      opacity: 1,
+                      background: 'radial-gradient(circle at 35% 30%, #c8102e 0%, #3a040b 55%, #0c0c0c 100%)',
+                      borderRadius: '8px 40px 8px 40px',
+                    }}
+                  />
                 )}
                 <span className="frame-tag">{artists[activeArtistIndex].name}</span>
               </div>

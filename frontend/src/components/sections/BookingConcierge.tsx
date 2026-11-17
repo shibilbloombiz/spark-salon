@@ -16,7 +16,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
   const [selectedStudio, setSelectedStudio] = useState<string>(initialStudio);
   const [selectedService, setSelectedService] = useState<string>(initialService);
   const [selectedTier, setSelectedTier] = useState<string>('Master Stylist');
-  const [selectedDate, setSelectedDate] = useState<string>('2026-09-12');
+  const [selectedDate, setSelectedDate] = useState<string>(() => new Date().toISOString().split('T')[0]);
   const [selectedTime, setSelectedTime] = useState<string>('11:00 AM');
 
   const [formData, setFormData] = useState({
@@ -479,7 +479,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
                     type="date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    min="2026-09-09"
+                    min={new Date().toISOString().split('T')[0]}
                     className="squircle-sm"
                     style={{
                       width: '100%',
@@ -488,7 +488,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
                       border: '1px solid rgba(212, 175, 55, 0.4)',
                       color: '#ffffff',
                       fontFamily: 'var(--font-sans-display)',
-                      fontSize: '0.95rem',
+                      fontSize: '16px',
                       borderRadius: 'var(--squircle-sm, 12px)',
                       outline: 'none',
                     }}
@@ -599,7 +599,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
                       border: '1px solid rgba(212, 175, 55, 0.3)',
                       color: '#ffffff',
                       outline: 'none',
-                      fontSize: '0.92rem',
+                      fontSize: '16px',
                     }}
                   />
                 </div>
@@ -623,7 +623,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
                       border: '1px solid rgba(212, 175, 55, 0.3)',
                       color: '#ffffff',
                       outline: 'none',
-                      fontSize: '0.92rem',
+                      fontSize: '16px',
                     }}
                   />
                 </div>
@@ -648,7 +648,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
                     border: '1px solid rgba(212, 175, 55, 0.3)',
                     color: '#ffffff',
                     outline: 'none',
-                    fontSize: '0.92rem',
+                    fontSize: '16px',
                   }}
                 />
               </div>
@@ -671,7 +671,7 @@ export default function BookingConcierge({ initialStudio = 'hair', initialServic
                     border: '1px solid rgba(212, 175, 55, 0.3)',
                     color: '#ffffff',
                     outline: 'none',
-                    fontSize: '0.92rem',
+                    fontSize: '16px',
                     resize: 'none',
                   }}
                 />

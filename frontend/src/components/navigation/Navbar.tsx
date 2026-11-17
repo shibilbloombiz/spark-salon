@@ -60,6 +60,22 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
     setMobileOpen(false);
   }, [pathname]);
 
+  // Lock body scroll and pause Lenis while mobile menu is open
+  useEffect(() => {
+    const lenis = typeof window !== 'undefined' ? (window as any).lenis : null;
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+      lenis?.stop?.();
+    } else {
+      document.body.style.overflow = '';
+      lenis?.start?.();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      lenis?.start?.();
+    };
+  }, [mobileOpen]);
+
   // Scroll listener for .is-scrolled class
   useEffect(() => {
     const handleScroll = () => {
@@ -339,6 +355,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
         id="mScrim"
         onClick={() => setMobileOpen(false)}
         aria-hidden="true"
+        data-lenis-prevent
       />
 
       {/* Mobile Menu Sheet (< 960px) */}
@@ -346,6 +363,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
         className={`m-panel ${mobileOpen ? 'is-visible' : ''}`}
         id="mPanel"
         aria-label="Site menu"
+        data-lenis-prevent
       >
         <div className="m-head">
           <Link href="/" className="brand" onClick={() => setMobileOpen(false)}>

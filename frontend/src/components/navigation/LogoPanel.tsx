@@ -87,17 +87,24 @@ export default function LogoPanel({ scrolled = false, onLogoClick }: LogoPanelPr
             transition: 'all 0.3s ease',
           }}
         >
-          <img
-            src="/images/logo-emblem-crop.png"
-            alt="Spark Emblem"
-            style={{
-              height: '100%',
-              width: '100%',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 6px rgba(201, 164, 92, 0.2))',
-              display: 'block',
-            }}
-          />
+          <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+            <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+            <img
+              src="/images/logo-emblem-crop.png"
+              alt="Spark Emblem"
+              width={54}
+              height={40}
+              loading="eager"
+              decoding="async"
+              style={{
+                height: '100%',
+                width: '100%',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 6px rgba(201, 164, 92, 0.2))',
+                display: 'block',
+              }}
+            />
+          </picture>
         </div>
 
         {/* Brand Typography: SPARK / INTERNATIONAL / SALON & SPA */}

@@ -101,16 +101,23 @@ export default function FullscreenMenu({
       >
         {/* Brand Crest */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <img
-            src="/images/logo-emblem-crop.png"
-            alt="Spark Logo"
-            style={{
-              height: '38px',
-              width: 'auto',
-              objectFit: 'contain',
-              filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.8))',
-            }}
-          />
+          <picture>
+            <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+            <img
+              src="/images/logo-emblem-crop.png"
+              alt="Spark Logo"
+              width={38}
+              height={38}
+              loading="eager"
+              decoding="async"
+              style={{
+                height: '38px',
+                width: 'auto',
+                objectFit: 'contain',
+                filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.8))',
+              }}
+            />
+          </picture>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span
               style={{

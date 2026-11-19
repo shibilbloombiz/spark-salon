@@ -39,17 +39,24 @@ export default function SparkLogo({
       }}
     >
       {variant !== 'text-only' && (
-        <img
-          src="/images/loading/logo.png"
-          alt="BYJU SPARK INTERNATIONAL SALON"
-          style={{
-            height: `${h}px`,
-            width: 'auto',
-            objectFit: 'contain',
-            filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.7))',
-            display: 'block',
-          }}
-        />
+        <picture>
+          <source srcSet="/images/loading/logo.webp" type="image/webp" />
+          <img
+            src="/images/loading/logo.png"
+            alt="BYJU SPARK INTERNATIONAL SALON"
+            width={h * 2}
+            height={h}
+            loading="eager"
+            decoding="async"
+            style={{
+              height: `${h}px`,
+              width: 'auto',
+              objectFit: 'contain',
+              filter: 'drop-shadow(0 2px 10px rgba(0, 0, 0, 0.7))',
+              display: 'block',
+            }}
+          />
+        </picture>
       )}
 
       {(showText || variant === 'text-only') && (

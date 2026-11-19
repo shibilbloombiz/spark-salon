@@ -31,6 +31,10 @@
   padding: 0;
 }
 
+img, picture, video, canvas {
+  max-width: 100%;
+}
+
 html {
   background-color: var(--paper);
   color: var(--ink);
@@ -139,13 +143,13 @@ a {
 }
 
 .h-display {
-  font: 600 clamp(52px, 8.4vw, 132px)/0.92 var(--font-serif);
+  font: 600 clamp(36px, 8.4vw, 132px)/0.94 var(--font-serif);
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
 .h-section {
-  font: 600 clamp(38px, 5vw, 72px)/0.98 var(--font-serif);
+  font: 600 clamp(28px, 5vw, 72px)/1.02 var(--font-serif);
   letter-spacing: -0.005em;
   text-wrap: balance;
 }
@@ -153,7 +157,7 @@ a {
 .lead {
   max-width: 46ch;
   margin-top: 26px;
-  font: 400 17px/1.6 var(--font-sans);
+  font: 400 clamp(14px, 3.8vw, 17px)/1.6 var(--font-sans);
   color: var(--muted);
 }
 
@@ -642,6 +646,25 @@ a {
     padding: 0 8px;
     font-size: 8.5px;
     letter-spacing: 0.1em;
+  }
+}
+
+/* Product Page Banner Responsive Refinements */
+.p-hero-banner {
+  height: clamp(280px, 30vw, 400px);
+}
+
+@media (max-width: 640px) {
+  .p-hero-banner {
+    height: clamp(310px, 85vw, 370px) !important;
+    border-radius: 8px 28px 8px 28px !important;
+    margin-top: 24px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .p-hero-banner {
+    height: 330px !important;
   }
 }
 
@@ -1221,6 +1244,19 @@ html.has-cursor * {
   .side { padding: 28px; }
   .hero { padding: 130px 0 90px; }
   .hero .marble-slot { opacity: 0.35; }
+}
+
+@media (max-width: 480px) {
+  .section { padding: 56px 0; }
+  .page-head { padding: 130px 0 48px; }
+  .wrap, .luxury-container { padding: 0 16px; }
+  .section-head { margin-bottom: 28px; gap: 14px; }
+  .side { padding: 22px 18px; }
+}
+
+@media (max-width: 360px) {
+  .wrap, .luxury-container { padding: 0 12px; }
+  .section { padding: 48px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react';
 const PRODUCT_BANNERS = [
   {
     id: 'hair-couture-banner',
-    image: '/images/products/products banner.png',
+    image: '/images/products/products banner.webp',
     eyebrow: 'OFFICIAL KÉRASTASE & OLAPLEX ATELIER',
     title: 'Haute Salon Formulations & Bond Architecture',
     subtitle: 'Prescribed salon-exclusive hair elixirs, molecular bond repair therapies, and rejuvenating caviar scalp rituals used by master stylists.',
@@ -16,7 +16,7 @@ const PRODUCT_BANNERS = [
   },
   {
     id: 'clinical-derma-banner',
-    image: '/images/products/product banner 2.png',
+    image: '/images/products/product banner 2.webp',
     eyebrow: 'CLINICAL DERMA & PRECISION STYLING',
     title: 'Dermatological Science & Intelligent Heat Control',
     subtitle: 'Medical-grade vitamin C complexes, hydra-infusion resurfacing serums, and Dyson Supersonic professional atelier styling technology.',

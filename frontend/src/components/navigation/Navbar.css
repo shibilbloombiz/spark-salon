@@ -547,3 +547,27 @@
     display: none;
   }
 }
+
+@media (max-width: 420px) {
+  .site-nav {
+    top: max(10px, env(safe-area-inset-top, 0px));
+    left: max(10px, env(safe-area-inset-left, 0px));
+    right: max(10px, env(safe-area-inset-right, 0px));
+  }
+  .bar {
+    height: 56px;
+    padding: 0 8px 0 16px;
+  }
+  .brand-name {
+    font-size: 20px;
+    letter-spacing: 0.16em;
+  }
+  .actions {
+    gap: 8px;
+  }
+  .cta {
+    height: 36px;
+    padding: 0 12px;
+    font-size: 10.5px;
+  }
+}

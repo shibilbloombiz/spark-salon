@@ -171,11 +171,18 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
           {/* Left: Spark Logo Image */}
           <Link href="/" className="brand" aria-label="Spark International Salon, home">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <img
-                src="/images/logo-emblem-crop.png"
-                alt="Spark Logo"
-                style={{ height: '36px', width: 'auto', display: 'block', objectFit: 'contain' }}
-              />
+              <picture>
+                <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+                <img
+                  src="/images/logo-emblem-crop.png"
+                  alt="Spark Logo"
+                  width={36}
+                  height={36}
+                  loading="eager"
+                  decoding="async"
+                  style={{ height: '36px', width: 'auto', display: 'block', objectFit: 'contain' }}
+                />
+              </picture>
               <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
                 <span className="brand-name">Spark</span>
                 <span className="brand-sub">Salon &amp; Beauty Mall</span>
@@ -368,11 +375,18 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
         <div className="m-head">
           <Link href="/" className="brand" onClick={() => setMobileOpen(false)}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <img
-                src="/images/logo-emblem-crop.png"
-                alt="Spark Logo"
-                style={{ height: '30px', width: 'auto' }}
-              />
+              <picture>
+                <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+                <img
+                  src="/images/logo-emblem-crop.png"
+                  alt="Spark Logo"
+                  width={30}
+                  height={30}
+                  loading="eager"
+                  decoding="async"
+                  style={{ height: '30px', width: 'auto', display: 'block', objectFit: 'contain' }}
+                />
+              </picture>
               <span className="brand-name" style={{ color: 'var(--white)' }}>Spark</span>
             </div>
           </Link>

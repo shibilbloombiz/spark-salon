@@ -206,95 +206,19 @@ export default function ContactPage() {
   return (
     <div style={{ backgroundColor: 'var(--paper)', minHeight: '100vh', color: 'var(--ink)' }} data-cursor-theme="light">
       <main>
-        {/* Header with Marble Slot */}
-        <section className="page-head">
-          <div className="marble-slot" aria-hidden="true">
-            <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-              <g filter="url(#marble)">
-                <rect width="1000" height="800" fill="#ffffff" />
-                <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-                <ellipse cx="700" cy="530" rx="260" ry="230" fill="#0c0c0c" />
-                <ellipse cx="840" cy="170" rx="170" ry="140" fill="#c8102e" />
-                <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff" />
-              </g>
-            </svg>
-          </div>
+        {/* Contact Page Heading directly above the form */}
+        <header className="contact-page-head">
           <div className="wrap">
-            <p className="eyebrow reveal">Contact</p>
-            <h1 className="h-display reveal">Say hello</h1>
-            <p className="lead reveal">
+            <p className="eyebrow">Contact</p>
+            <h1 className="h-display">Say hello</h1>
+            <p className="lead">
               Questions about a treatment, a product, the academy, or partnering with Spark? Choose an enquiry form below, call the salon, or visit us in person.
             </p>
           </div>
-        </section>
-
-        {/* 3 Liquid Contact Cards */}
-        <section className="section" style={{ paddingBottom: '40px' }}>
-          <div className="wrap contact-cards">
-            {/* 01 Visit */}
-            <a className="lq-card" href="#visit" data-cursor-theme="light">
-              <span className="lq-fill" aria-hidden="true">
-                <span className="lq-wave">
-                  <svg viewBox="0 0 1440 28" preserveAspectRatio="none">
-                    <path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z" />
-                  </svg>
-                  <svg viewBox="0 0 1440 28" preserveAspectRatio="none">
-                    <path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z" />
-                  </svg>
-                </span>
-              </span>
-              <span className="num-blob">01</span>
-              <h3>Visit</h3>
-              <p>Walk in or book ahead. We are at the address below.</p>
-              <span className="detail">{displayAddress}</span>
-            </a>
-
-            {/* 02 Call */}
-            <a
-              className="lq-card"
-              href={`tel:${displayPhone.replace(/\s+/g, '')}`}
-              data-cursor-theme="light"
-            >
-              <span className="lq-fill" aria-hidden="true">
-                <span className="lq-wave">
-                  <svg viewBox="0 0 1440 28" preserveAspectRatio="none">
-                    <path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z" />
-                  </svg>
-                  <svg viewBox="0 0 1440 28" preserveAspectRatio="none">
-                    <path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z" />
-                  </svg>
-                </span>
-              </span>
-              <span className="num-blob">02</span>
-              <h3>Call</h3>
-              <p>Speak to the front desk about a treatment or an appointment.</p>
-              <span className="detail">
-                {displayPhone} / {SITE_CONFIG.contact.phoneSecondary}
-              </span>
-            </a>
-
-            {/* 03 Write */}
-            <a className="lq-card" href={`mailto:${displayEmail}`} data-cursor-theme="light">
-              <span className="lq-fill" aria-hidden="true">
-                <span className="lq-wave">
-                  <svg viewBox="0 0 1440 28" preserveAspectRatio="none">
-                    <path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z" />
-                  </svg>
-                  <svg viewBox="0 0 1440 28" preserveAspectRatio="none">
-                    <path d="M0 14 C180 0 360 28 540 14 S900 0 1080 14 S1350 28 1440 14 V28 H0Z" />
-                  </svg>
-                </span>
-              </span>
-              <span className="num-blob">03</span>
-              <h3>Write</h3>
-              <p>Send a message for product, academy or partnership enquiries.</p>
-              <span className="detail">{displayEmail}</span>
-            </a>
-          </div>
-        </section>
+        </header>
 
         {/* Form & Side Panel */}
-        <section className="section" id="message">
+        <section className="section contact-section" id="message">
           <div className="wrap contact-grid">
             {/* Left Column: Strictly Two Form Types (Contact Us / Become a Partner) */}
             <div className="contact-form-panel">

@@ -1,5 +1,31 @@
 /* Scoped enhancements for /contact: Form Mode Switcher, Social Connect Panel, and FAQ Accordion */
 
+/* Contact Page Top Heading (clean layout: heading directly followed by form) */
+.contact-page-head {
+  padding-top: clamp(110px, 9vw, 136px);
+  padding-bottom: clamp(24px, 3vw, 40px);
+}
+
+.contact-page-head .eyebrow {
+  margin-bottom: 14px;
+}
+
+.contact-page-head .h-display {
+  margin: 0;
+}
+
+.contact-page-head .lead {
+  max-width: 680px;
+  margin-top: 18px;
+  font-size: clamp(15px, 1.25vw, 17px);
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.contact-section {
+  padding-top: 0 !important;
+}
+
 .contact-form-panel {
   display: grid;
   gap: 28px;

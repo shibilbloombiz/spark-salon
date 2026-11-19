@@ -89,8 +89,7 @@ export default function StudioList() {
     if (!root) return;
     const list = root.querySelector<HTMLElement>('.sl-list');
     const items = Array.from(root.querySelectorAll<HTMLElement>('[data-sl-item]'));
-    const cursor = root.querySelector<HTMLElement>('[data-sl-cursor]');
-    if (!list || !cursor || items.length === 0) return;
+    if (!list || items.length === 0) return;
 
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
@@ -104,11 +103,6 @@ export default function StudioList() {
     let settling = false;
     let settleRaf = 0;
     let queueRaf = 0;
-    let tx = 0;
-    let ty = 0;
-    let cx = 0;
-    let cy = 0;
-    let raf = 0;
 
     function show(item: HTMLElement | null) {
       if (current === item) return;
@@ -177,23 +171,8 @@ export default function StudioList() {
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);
 
-    const step = () => {
-      cx += (tx - cx) * 0.34;
-      cy += (ty - cy) * 0.34;
-      cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
-      if (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3) {
-        raf = requestAnimationFrame(step);
-      } else {
-        raf = 0;
-      }
-    };
-
     const onPointerEnter = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
-      cx = tx = e.clientX;
-      cy = ty = e.clientY;
-      cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
-      root.classList.add('cursor-on');
       inside = true;
       lastY = e.clientY;
       refresh();
@@ -201,14 +180,6 @@ export default function StudioList() {
 
     const onPointerMove = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
-      tx = e.clientX;
-      ty = e.clientY;
-      if (!root.classList.contains('cursor-on')) {
-        cx = tx;
-        cy = ty;
-        root.classList.add('cursor-on');
-      }
-      if (!raf) raf = requestAnimationFrame(step);
       inside = true;
       lastY = e.clientY;
       refresh();
@@ -216,7 +187,6 @@ export default function StudioList() {
 
     const onPointerLeave = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return;
-      root.classList.remove('cursor-on');
       inside = false;
       refresh();
     };
@@ -295,10 +265,8 @@ export default function StudioList() {
       list.removeEventListener('keydown', onKeyDown);
       list.removeEventListener('focusin', onFocusIn);
       list.removeEventListener('focusout', onFocusOut);
-      if (raf) cancelAnimationFrame(raf);
       if (settleRaf) cancelAnimationFrame(settleRaf);
       if (queueRaf) cancelAnimationFrame(queueRaf);
-      root.classList.remove('cursor-on');
     };
   }, [router]);
 
@@ -360,10 +328,6 @@ export default function StudioList() {
           );
         })}
       </ul>
-
-      <div className="sl-cursor" data-sl-cursor aria-hidden="true">
-        View
-      </div>
     </section>
   );
 }

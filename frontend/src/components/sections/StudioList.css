@@ -267,48 +267,6 @@
   border-color: var(--light);
 }
 
-/* View cursor: a round label that follows the pointer over the list */
-.sl-cursor {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 60;
-  width: 96px;
-  height: 96px;
-  margin: -48px 0 0 -48px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-  opacity: 0;
-  scale: .4;
-  transition: opacity .35s, scale .5s;
-  background: var(--red, #c8102e);
-  color: #ffffff;
-  font: 500 11px/1 var(--font-sans, "Jost", sans-serif);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  box-shadow: 0 12px 32px rgba(200, 16, 46, 0.35);
-}
-
-.sl.cursor-on .sl-cursor {
-  opacity: 1;
-  scale: 1;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .sl-list,
-  .sl-list * {
-    cursor: none;
-  }
-}
-
-@media (hover: none) {
-  .sl-cursor {
-    display: none;
-  }
-}
-
 @media (max-width: 639px) {
   .sl-name {
     font-size: clamp(32px, 9.2vw, 48px);

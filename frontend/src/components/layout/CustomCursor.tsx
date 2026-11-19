@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
-type CursorMode = 'default' | 'link' | 'view' | 'explore' | 'text' | 'arrow-up' | 'arrow-down' | 'sl-native';
+type CursorMode = 'default' | 'link' | 'view' | 'explore' | 'text' | 'arrow-up' | 'arrow-down';
 type CursorTheme = 'dark' | 'light' | 'red';
 
 interface CursorState {
@@ -123,18 +123,10 @@ export default function CustomCursor(): React.JSX.Element | null {
         return { mode: 'arrow-up', label: '', theme: 'red' };
       }
 
-      // 3. Services hover-reveal list handles its own dedicated .sl-cursor "View" circle
-      if (target.closest<HTMLElement>('.sl-list')) {
-        return { mode: 'sl-native', label: '', theme };
-      }
-
-      // Landing page studio header fallback
-      const studioListSection = target.closest<HTMLElement>('.sl, #services');
-      if (studioListSection) {
-        const studioRow = target.closest<HTMLElement>('.sl-item, .sl-link, [data-cursor="view"]');
-        if (studioRow) {
-          return { mode: 'sl-native', label: '', theme: 'dark' };
-        }
+      // 3. Landing page services section: seamlessly transform current cursor into the "View" button model
+      const servicesRow = target.closest<HTMLElement>('.sl-item, .sl-link, .sl-list, [data-cursor="view"]');
+      if (servicesRow) {
+        return { mode: 'view', label: 'View', theme: 'red' };
       }
 
       // 4. In all other sections and cards across the website:

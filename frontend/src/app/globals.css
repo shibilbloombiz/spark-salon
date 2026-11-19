@@ -914,9 +914,6 @@ a {
 body.cur-on .spark-cursor-root {
   opacity: 1;
 }
-body[data-cursor="sl-native"] .spark-cursor-root {
-  opacity: 0 !important;
-}
 
 /* Layer wrappers: translated strictly via transform translate3d */
 .spark-cur-lead,
@@ -1052,16 +1049,30 @@ body[data-cursor="link"] .spark-cur-spark {
   transition: opacity 160ms ease, transform 180ms var(--ease-liquid);
 }
 
-/* Services section -> 88px round pill */
+/* Services section -> 96px View Button Model */
 body[data-cursor="view"] .spark-cur-pill {
-  width: 88px;
-  height: 88px;
+  width: 96px;
+  height: 96px;
   opacity: 1;
+  border-radius: 50%;
+  background: var(--red, #c8102e) !important;
+  color: #ffffff !important;
+  box-shadow: 0 14px 36px rgba(200, 16, 46, 0.45) !important;
   transform: translate(-50%, -50%) scale(1);
 }
 body[data-cursor="view"] .spark-cur-label {
   opacity: 1;
   transform: scale(1);
+  font: 600 11.5px/1 var(--font-sans, "Jost", sans-serif);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #ffffff !important;
+}
+
+body.is-press[data-cursor="view"] .spark-cur-pill {
+  transform: translate(-50%, -50%) scale(0.88) !important;
+  background: #a8131a !important;
+  box-shadow: 0 6px 20px rgba(200, 16, 46, 0.55) !important;
 }
 
 /* Cards -> 112px larger pill */
@@ -1076,11 +1087,13 @@ body[data-cursor="explore"] .spark-cur-label {
   transform: scale(1);
 }
 
-/* Hide spark and glow when pill is active */
+/* Hide spark, glow, and diamond when pill is active */
 body[data-cursor="view"] .spark-cur-spark,
 body[data-cursor="explore"] .spark-cur-spark,
 body[data-cursor="view"] .spark-cur-glow,
-body[data-cursor="explore"] .spark-cur-glow {
+body[data-cursor="explore"] .spark-cur-glow,
+body[data-cursor="view"] .spark-cur-diamond,
+body[data-cursor="explore"] .spark-cur-diamond {
   opacity: 0;
   transform: scale(0.3);
 }

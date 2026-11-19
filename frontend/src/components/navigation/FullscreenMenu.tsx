@@ -102,9 +102,9 @@ export default function FullscreenMenu({
         {/* Brand Crest */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <picture>
-            <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+            <source srcSet="/images/logo-emblem-crop-white.webp" type="image/webp" />
             <img
-              src="/images/logo-emblem-crop.png"
+              src="/images/logo-emblem-crop-white.png"
               alt="Spark Logo"
               width={38}
               height={38}

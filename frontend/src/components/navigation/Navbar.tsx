@@ -376,9 +376,9 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
           <Link href="/" className="brand" onClick={() => setMobileOpen(false)}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <picture>
-                <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+                <source srcSet="/images/logo-emblem-crop-white.webp" type="image/webp" />
                 <img
-                  src="/images/logo-emblem-crop.png"
+                  src="/images/logo-emblem-crop-white.png"
                   alt="Spark Logo"
                   width={30}
                   height={30}

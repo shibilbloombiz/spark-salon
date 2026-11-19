@@ -146,7 +146,13 @@
 
 @media (max-width: 768px) {
   .sf-track {
-    height: 190vh;
-    height: 190dvh;
+    /* Compact track height on mobile so user is not stuck scrolling through excessive vertical space */
+    height: 140vh;
+    height: 140dvh;
+  }
+  .sf-title {
+    font-size: clamp(18px, 4.8vw, 24px);
+    top: max(16px, calc(var(--navbar-height, 60px) + 8px));
+    left: max(16px, calc(3% + env(safe-area-inset-left, 0px)));
   }
 }

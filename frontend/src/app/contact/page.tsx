@@ -204,7 +204,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--paper)', minHeight: '100vh', color: 'var(--ink)' }} data-cursor-theme="light">
+    <div style={{ backgroundColor: 'var(--paper)', minHeight: '100vh', color: 'var(--ink)', overflowX: 'clip' }} data-cursor-theme="light">
       <main>
         {/* Contact Page Heading directly above the form */}
         <header className="contact-page-head">

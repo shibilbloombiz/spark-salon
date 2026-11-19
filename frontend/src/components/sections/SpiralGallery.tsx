@@ -185,7 +185,12 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     const g = geometry();
     const oldStride = stride;
 
-    const half = Math.min(width * (width < 600 ? 0.419999 : 0.300001), height * 0.500001) * config.size / 100;
+    const isMobileWidth = width < 768;
+    // On mobile, scale cards to be prominent and cinematic (matching Windows desktop presence)
+    // instead of shrinking to tiny cards.
+    const half = isMobileWidth
+      ? Math.min(width * 0.74, height * 0.44) * (config.size / 100)
+      : Math.min(width * 0.300001, height * 0.500001) * (config.size / 100);
     focal = half * Math.sqrt(g.depth * g.depth - 1);
     stride = focal * g.slot / (g.depth - 1);
     position *= stride / oldStride;
@@ -702,21 +707,23 @@ export default function SpiralGallery() {
 
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
-    const engine = createSpiralFlux(root, {
+    const getGalleryConfig = (mobile: boolean): SpiralConfig => ({
       viewportWidth: 1920,
       viewportHeight: 1080,
-      cardArc: isMobile ? 40 : 45,
+      cardArc: mobile ? 44 : 45,
       aspect: 1.05001,
       gap: 0.500001,
-      size: isMobile ? 90 : 132,
-      turnSpacing: 2,
+      size: mobile ? 122 : 132,
+      // Desktop uses 2. On mobile, keep turnSpacing compact (1.25) so the spiral does
+      // NOT climb vertically into a tall "long spiral model", but stays centered like on Windows screen!
+      turnSpacing: mobile ? 1.25 : 2,
       depth: 8,
-      tilt: 0.200001,
+      tilt: mobile ? 0.16 : 0.200001,
       backFade: 0.149999,
       wave: 0,
       frequency: 0.9,
       smoothing: 6,
-      sensitivity: 0.6,
+      sensitivity: mobile ? 0.75 : 0.6,
       autoplay: 0,
       flare: 0,
       edgeZone: 12,
@@ -726,6 +733,8 @@ export default function SpiralGallery() {
       draggable: true,
       images: WORKS_IMAGES,
     });
+
+    const engine = createSpiralFlux(root, getGalleryConfig(isMobile));
 
     const SCROLL_PHOTOS = 8;
     const progress = () => {
@@ -764,18 +773,24 @@ export default function SpiralGallery() {
     const onScroll = () => {
       reveal();
       const p = progress();
-      engine.setScrollProgress(p, SCROLL_PHOTOS);
+      const mob = window.innerWidth < 768;
+      const photos = mob ? 4 : SCROLL_PHOTOS;
+      engine.setScrollProgress(p, photos);
     };
 
     const onResize = () => {
+      const mob = window.innerWidth < 768;
+      engine.update(getGalleryConfig(mob));
       reveal();
       const p = progress();
-      engine.setScrollProgress(p, SCROLL_PHOTOS);
+      const photos = mob ? 4 : SCROLL_PHOTOS;
+      engine.setScrollProgress(p, photos);
     };
 
     reveal();
     const initP = progress();
-    engine.setScrollProgress(initP, SCROLL_PHOTOS);
+    const initPhotos = isMobile ? 4 : SCROLL_PHOTOS;
+    engine.setScrollProgress(initP, initPhotos);
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);

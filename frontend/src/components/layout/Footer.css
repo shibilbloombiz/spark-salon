@@ -22,13 +22,37 @@
   font-family: var(--font-sans);
 }
 
-/* Top Edge Border */
-.site-footer {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+/* Dual Animated Flowing Wave Transition at Top Edge */
+.site-footer .wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -89px;
+  height: 90px;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.site-footer .wave {
-  display: none !important;
+.site-footer .wave .wave-track {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  width: 200%;
+  height: 100%;
+  animation: wave-x 12s linear infinite;
+  will-change: transform;
+}
+
+.site-footer .wave .wave-track.wave-front {
+  animation-duration: 8s;
+  animation-direction: reverse;
+}
+
+.site-footer .wave svg {
+  display: block;
+  width: 50%;
+  height: 100%;
 }
 
 .site-footer .wave .wave-back path {

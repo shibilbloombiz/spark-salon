@@ -64,6 +64,26 @@ export default function Footer({ onOpenBooking }: FooterProps) {
 
   return (
     <footer className="site-footer" id="footer" aria-labelledby="footerTitle" data-cursor-theme="dark">
+      {/* Dual Animated Flowing Wave Transition at Top Edge */}
+      <div className="wave" aria-hidden="true">
+        <div className="wave-track wave-back">
+          <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+            <path d="M0 45 C160 10 320 80 480 45 C640 10 800 80 960 45 C1120 10 1280 80 1440 45 L1440 90 L0 90 Z" />
+          </svg>
+          <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+            <path d="M0 45 C160 10 320 80 480 45 C640 10 800 80 960 45 C1120 10 1280 80 1440 45 L1440 90 L0 90 Z" />
+          </svg>
+        </div>
+        <div className="wave-track wave-front">
+          <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+            <path d="M0 60 C200 20 360 85 540 55 C720 25 900 85 1080 55 C1200 35 1320 70 1440 60 L1440 90 L0 90 Z" />
+          </svg>
+          <svg viewBox="0 0 1440 90" preserveAspectRatio="none">
+            <path d="M0 60 C200 20 360 85 540 55 C720 25 900 85 1080 55 C1200 35 1320 70 1440 60 L1440 90 L0 90 Z" />
+          </svg>
+        </div>
+      </div>
+
       <div className="wrap">
         <div className="f-top">
           {/* Column 1 — Brand */}

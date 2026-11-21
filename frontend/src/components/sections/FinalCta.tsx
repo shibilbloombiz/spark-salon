@@ -23,6 +23,8 @@ export default function FinalCta({ onOpenBooking }: FinalCtaProps = {}) {
 
   return (
     <section id="final-cta" className="cta-band section" data-cursor-theme="dark">
+      {/* Morphing Black Liquid Cap on the right */}
+      <span className="liquid-cap" aria-hidden="true" />
       <div id="contact" style={{ position: 'absolute', top: 0, left: 0, width: 1, height: 1, pointerEvents: 'none' }} />
 
       <div className="wrap">

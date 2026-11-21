@@ -215,7 +215,15 @@ a {
   padding: 80px 0;
 }
 .cta-band .liquid-cap {
-  display: none !important;
+  position: absolute;
+  right: -6%;
+  top: -40%;
+  width: 46%;
+  height: 180%;
+  background: var(--black);
+  border-radius: 45% 55% 40% 60% / 50% 40% 60% 50%;
+  animation: morph 9s ease-in-out infinite;
+  opacity: 0.9;
 }
 .cta-band .wrap,
 .cta-band .luxury-container {

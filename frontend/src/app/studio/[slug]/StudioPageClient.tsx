@@ -10,6 +10,7 @@ import type { ServiceDetailData, SiteData } from '@/lib/data/serviceDetailData';
 import { STUDIOS_DATA, type StudioData } from '@/lib/data/studios';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import AwwwardsMasonryGallery from '@/components/gallery/AwwwardsMasonryGallery';
 import './service-detail.css';
 
 if (typeof window !== 'undefined') {
@@ -568,6 +569,9 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
             </figure>
           </div>
         </section>
+
+        {/* SECTION 06 — Awwwards Asymmetric Masonry Gallery */}
+        <AwwwardsMasonryGallery initialCategory={studio.slug} studioName={studio.name} />
 
         {/* SECTION 07 — Artists / Stylists (Liquid Rising Wave Hover Cards) */}
         <section className="section" id="artists">

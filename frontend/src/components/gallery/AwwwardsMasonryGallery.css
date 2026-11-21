@@ -1,0 +1,828 @@
+/* ==========================================================================
+   SPARK International Salon — Awwwards Asymmetric Masonry Gallery
+   High-fashion editorial layout with multi-column responsiveness
+   ========================================================================== */
+
+.aww-masonry-section {
+  position: relative;
+  background: var(--black, #080808);
+  color: var(--white, #F7F5F2);
+  padding: clamp(72px, 8vw, 130px) 0 clamp(64px, 8vw, 110px);
+  overflow-x: clip;
+}
+
+.aww-gallery-container {
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3.5vw, 48px);
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   1. Gallery Header & Category Tabs
+   -------------------------------------------------------------------------- */
+.aww-gallery-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: clamp(36px, 5vw, 68px);
+}
+
+.aww-gallery-header-text {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.aww-gallery-eyebrow {
+  display: inline-block;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--red, #D71920);
+  margin-bottom: 14px;
+}
+
+.aww-gallery-title {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(34px, 4.8vw, 68px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.aww-gallery-subtitle {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: clamp(14px, 1.25vw, 17px);
+  line-height: 1.58;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 14px auto 0;
+  max-width: 540px;
+}
+
+/* Category Filter Navigation */
+.aww-gallery-nav {
+  margin-top: clamp(28px, 4vw, 44px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  padding: 8px 4px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.aww-gallery-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.aww-gallery-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 5px;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+}
+
+.aww-tab-btn {
+  position: relative;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.68);
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 9px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  user-select: none;
+}
+
+.aww-tab-btn:hover {
+  color: #FFFFFF;
+}
+
+.aww-tab-btn.is-active {
+  color: #FFFFFF;
+  background: var(--red, #D71920);
+  box-shadow: 0 4px 18px rgba(215, 25, 32, 0.45);
+}
+
+.aww-tab-active-indicator {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   2. Asymmetric Masonry Grid & Columns
+   -------------------------------------------------------------------------- */
+.aww-masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--col-count, 4), 1fr);
+  gap: clamp(14px, 1.6vw, 22px);
+  width: 100%;
+  align-items: start;
+}
+
+.aww-masonry-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vw, 22px);
+  width: 100%;
+  will-change: transform;
+  transition: transform 0.15s cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   3. Image Card Design & Aspect Ratios
+   -------------------------------------------------------------------------- */
+.aww-gallery-card {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #121214;
+  cursor: pointer;
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.7);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  outline: none;
+}
+
+.aww-gallery-card:focus-visible {
+  outline: 2px solid var(--red, #D71920);
+  outline-offset: 3px;
+}
+
+/* Asymmetric Desktop Aspect Proportions */
+.aww-aspect-portrait-lg {
+  aspect-ratio: 3 / 4;
+  min-height: 440px;
+}
+
+.aww-aspect-portrait-md {
+  aspect-ratio: 3 / 4;
+  min-height: 380px;
+}
+
+.aww-aspect-portrait-sm {
+  aspect-ratio: 4 / 5;
+  min-height: 310px;
+}
+
+.aww-aspect-tall {
+  aspect-ratio: 9 / 16;
+  min-height: 520px;
+}
+
+.aww-aspect-landscape-md {
+  aspect-ratio: 16 / 10;
+  min-height: 250px;
+}
+
+.aww-aspect-landscape-sm {
+  aspect-ratio: 4 / 3;
+  min-height: 220px;
+}
+
+.aww-aspect-square {
+  aspect-ratio: 1 / 1;
+  min-height: 280px;
+}
+
+.aww-card-media-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.aww-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Desktop Hover Interaction */
+.aww-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 8, 8, 0.1) 0%,
+    rgba(8, 8, 8, 0.2) 40%,
+    rgba(8, 8, 8, 0.85) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(16px, 2.2vw, 24px);
+  opacity: 0;
+  transition: opacity 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+}
+
+.aww-card-expand-icon {
+  align-self: flex-end;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(247, 245, 242, 0.95);
+  color: #080808;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transform: translateY(-8px) scale(0.9);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.aww-card-expand-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.aww-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transform: translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.aww-card-cat-badge {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red, #D71920);
+}
+
+.aww-card-title {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(18px, 1.8vw, 24px);
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .aww-gallery-card:hover {
+    box-shadow: 0 24px 52px -12px rgba(0, 0, 0, 0.85);
+  }
+
+  .aww-gallery-card:hover .aww-card-img {
+    transform: scale(1.055);
+  }
+
+  .aww-gallery-card:hover .aww-card-overlay {
+    opacity: 1;
+  }
+
+  .aww-gallery-card:hover .aww-card-expand-icon {
+    transform: translateY(0) scale(1);
+  }
+
+  .aww-gallery-card:hover .aww-card-meta {
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. Load More Button
+   -------------------------------------------------------------------------- */
+.aww-gallery-footer {
+  margin-top: clamp(48px, 6vw, 84px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aww-load-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  color: #FFFFFF;
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  padding: 16px 36px;
+  border-radius: 999px;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+}
+
+.aww-btn-count {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.aww-btn-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.28s ease;
+}
+
+.aww-load-more-btn:hover {
+  background: var(--red, #D71920);
+  border-color: var(--red, #D71920);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(215, 25, 32, 0.4);
+}
+
+.aww-load-more-btn:hover .aww-btn-count {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.aww-load-more-btn:hover .aww-btn-arrow {
+  transform: translateY(3px);
+}
+
+.aww-load-more-btn:active {
+  transform: translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   5. Full-Screen Lightbox Modal
+   -------------------------------------------------------------------------- */
+.aww-lightbox-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.aww-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 6, 8, 0.94);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Top bar: counter and close button */
+.aww-lightbox-top-bar {
+  position: absolute;
+  top: max(20px, env(safe-area-inset-top, 20px));
+  left: max(24px, env(safe-area-inset-left, 24px));
+  right: max(24px, env(safe-area-inset-right, 24px));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.aww-lightbox-tag {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 18px;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+}
+
+.aww-lightbox-cat {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red, #D71920);
+}
+
+.aww-lightbox-counter {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #FFFFFF;
+}
+
+.aww-lightbox-close-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.aww-lightbox-close-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.aww-lightbox-close-btn:hover {
+  background: var(--red, #D71920);
+  border-color: var(--red, #D71920);
+  transform: scale(1.08);
+}
+
+/* Prev / Next Arrow Controls */
+.aww-lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 90;
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+}
+
+.aww-lightbox-nav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.aww-lightbox-prev {
+  left: max(24px, env(safe-area-inset-left, 24px));
+}
+
+.aww-lightbox-next {
+  right: max(24px, env(safe-area-inset-right, 24px));
+}
+
+.aww-lightbox-nav-btn:hover {
+  background: var(--red, #D71920);
+  border-color: var(--red, #D71920);
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* Lightbox Stage & Content */
+.aww-lightbox-stage {
+  position: relative;
+  z-index: 80;
+  max-width: 90vw;
+  max-height: 86vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.aww-lightbox-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.aww-lightbox-img {
+  max-width: min(84vw, 1100px);
+  max-height: calc(80vh - 70px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 24px 70px -15px rgba(0, 0, 0, 0.9);
+  animation: aww-zoom-in 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes aww-zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.aww-lightbox-caption {
+  margin-top: 16px;
+  text-align: center;
+  max-width: 600px;
+}
+
+.aww-lightbox-caption h3 {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.aww-lightbox-caption p {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 4px 0 0;
+}
+
+/* --------------------------------------------------------------------------
+   6. Responsive Layout Breakpoints
+   -------------------------------------------------------------------------- */
+
+/* Laptop (1024px – 1199px) — 3 Columns */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .aww-masonry-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .aww-masonry-col {
+    gap: 16px;
+  }
+  .aww-aspect-tall {
+    min-height: 440px;
+  }
+  .aww-aspect-portrait-lg {
+    min-height: 380px;
+  }
+}
+
+/* Tablet (768px – 1023px) — 2 Columns */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .aww-masonry-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .aww-masonry-col {
+    gap: 14px;
+  }
+  .aww-aspect-tall {
+    min-height: 400px;
+  }
+  .aww-aspect-portrait-lg {
+    min-height: 340px;
+  }
+  .aww-aspect-portrait-md {
+    min-height: 300px;
+  }
+  .aww-lightbox-nav-btn {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* Mobile (320px – 767px) — 2 Independent Columns, Compact Gaps */
+@media (max-width: 767px) {
+  .aww-masonry-section {
+    padding: 56px 0 48px;
+  }
+
+  .aww-gallery-container {
+    padding: 0 12px;
+  }
+
+  .aww-gallery-header {
+    margin-bottom: 28px;
+  }
+
+  .aww-gallery-title {
+    font-size: clamp(28px, 7.5vw, 36px);
+  }
+
+  .aww-gallery-subtitle {
+    font-size: 13.5px;
+    margin-top: 8px;
+  }
+
+  .aww-gallery-nav {
+    margin-top: 22px;
+    justify-content: flex-start;
+    padding: 4px 0;
+  }
+
+  .aww-tab-btn {
+    font-size: 12.5px;
+    padding: 7px 15px;
+  }
+
+  .aww-masonry-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .aww-masonry-col {
+    gap: 10px;
+    transform: none !important;
+  }
+
+  .aww-gallery-card {
+    border-radius: 10px;
+  }
+
+  /* Mobile Asymmetric Proportions (genuinely different heights without distortion) */
+  .aww-aspect-portrait-lg {
+    aspect-ratio: 3 / 4;
+    min-height: 230px;
+  }
+
+  .aww-aspect-portrait-md {
+    aspect-ratio: 4 / 5;
+    min-height: 200px;
+  }
+
+  .aww-aspect-portrait-sm {
+    aspect-ratio: 4 / 5;
+    min-height: 180px;
+  }
+
+  .aww-aspect-tall {
+    aspect-ratio: 9 / 14;
+    min-height: 260px;
+  }
+
+  .aww-aspect-landscape-md {
+    aspect-ratio: 16 / 10;
+    min-height: 150px;
+  }
+
+  .aww-aspect-landscape-sm {
+    aspect-ratio: 4 / 3;
+    min-height: 140px;
+  }
+
+  .aww-aspect-square {
+    aspect-ratio: 1 / 1;
+    min-height: 170px;
+  }
+
+  /* Mobile persistent subtle label bar */
+  .aww-card-overlay {
+    opacity: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(8, 8, 8, 0) 50%,
+      rgba(8, 8, 8, 0.85) 100%
+    );
+    padding: 10px;
+  }
+
+  .aww-card-expand-icon {
+    display: none;
+  }
+
+  .aww-card-meta {
+    transform: none;
+    gap: 2px;
+  }
+
+  .aww-card-cat-badge {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  .aww-card-title {
+    font-size: 13.5px;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .aww-load-more-btn {
+    padding: 14px 28px;
+    font-size: 12px;
+  }
+
+  /* Mobile Lightbox Controls */
+  .aww-lightbox-nav-btn {
+    width: 44px;
+    height: 44px;
+    background: rgba(12, 12, 14, 0.75);
+  }
+
+  .aww-lightbox-prev {
+    left: 10px;
+  }
+
+  .aww-lightbox-next {
+    right: 10px;
+  }
+
+  .aww-lightbox-img {
+    max-width: 94vw;
+    max-height: 70vh;
+  }
+
+  .aww-lightbox-top-bar {
+    top: max(14px, env(safe-area-inset-top, 14px));
+    left: 14px;
+    right: 14px;
+  }
+
+  .aww-lightbox-tag {
+    padding: 6px 12px;
+    gap: 8px;
+  }
+
+  .aww-lightbox-cat {
+    font-size: 9.5px;
+  }
+
+  .aww-lightbox-counter {
+    font-size: 11px;
+  }
+
+  .aww-lightbox-close-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Ultra-Narrow Mobile (320px – 374px) */
+@media (max-width: 374px) {
+  .aww-gallery-container {
+    padding: 0 8px;
+  }
+
+  .aww-masonry-grid {
+    gap: 7px;
+  }
+
+  .aww-masonry-col {
+    gap: 7px;
+  }
+
+  .aww-gallery-card {
+    border-radius: 8px;
+  }
+
+  .aww-aspect-tall {
+    min-height: 220px;
+  }
+
+  .aww-aspect-portrait-lg {
+    min-height: 190px;
+  }
+
+  .aww-aspect-portrait-md {
+    min-height: 170px;
+  }
+
+  .aww-aspect-landscape-md {
+    min-height: 130px;
+  }
+
+  .aww-card-title {
+    font-size: 12px;
+  }
+}
+
+/* Reduced motion override */
+@media (prefers-reduced-motion: reduce) {
+  .aww-masonry-col {
+    transform: none !important;
+    transition: none !important;
+  }
+  .aww-card-img,
+  .aww-card-overlay,
+  .aww-load-more-btn,
+  .aww-lightbox-img {
+    transition: none !important;
+    animation: none !important;
+  }
+}

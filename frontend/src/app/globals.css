@@ -107,17 +107,7 @@ a {
   color: var(--white);
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--paper);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--red);
-  border-radius: 3px;
-}
+
 
 /* Container */
 .luxury-container, .wrap {

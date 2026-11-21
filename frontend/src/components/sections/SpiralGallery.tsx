@@ -43,6 +43,23 @@ const WORKS_IMAGES: string[] = [
   '/works/10.webp',
 ];
 
+interface CachedGeometry {
+  depth: number;
+  horizon: number;
+  slot: number;
+  fill: number;
+  cardHeight: number;
+  rise: number;
+  zone: number;
+  smear: number;
+  growth: number;
+  reach: number;
+  from: number;
+  to: number;
+  edge: number;
+  size: number;
+}
+
 function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
   const canvas = root.querySelector<HTMLCanvasElement>('.sf-canvas');
   const ctx = canvas ? canvas.getContext('2d') : null;
@@ -60,21 +77,22 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
   let sources: string[] = [];
   let position = 0;
   let target = 0;
-  let scrollTarget = 0;
-  let dragOffset = 0;
   let last = 0;
   let frame = 0;
   let wave = 0;
+  let isReady = false;
+
   let dragging: { id: number; x: number; y: number; target: number; captured: boolean; both: boolean } | null = null;
   let dragMomentum = 0;
   let dragVelocity = 0;
   let lastMoveTime = 0;
   let lastMoveX = 0;
   let lastMoveY = 0;
+  let holdUntil = 0;
+
   let destroyed = false;
   let visible = true;
   let active = -1;
-  let holdUntil = 0;
 
   const listeners: (() => void)[] = [];
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -124,6 +142,7 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       update(next: SpiralConfig) {
         fallbackImages(next.images);
       },
+      onScrollDelta() {},
       nudge() {},
       destroy() {
         listeners.forEach((remove) => remove());
@@ -131,15 +150,36 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     };
   }
 
-  const geometry = () => {
-    const depth = config.depth;
-    const horizon = Math.acos(1 / depth);
-    const slot = (config.cardArc + config.gap) * RAD;
-    const arc = config.cardArc * RAD;
-    const cardHeight = arc / config.aspect;
-    const turn = cardHeight * config.turnSpacing;
-    return { depth, horizon, slot, fill: arc / slot, cardHeight, rise: turn / TAU };
+  // Precomputed geometry cached to eliminate layout/trig recalculations on every frame
+  let geom: CachedGeometry = {
+    depth: 8,
+    horizon: 1.445,
+    slot: 0.794,
+    fill: 0.989,
+    cardHeight: 0.748,
+    rise: 0.238,
+    zone: 0.209,
+    smear: 0.15,
+    growth: 0,
+    reach: 1.82,
+    from: -6.2,
+    to: 9.09,
+    edge: 300,
+    size: 512,
   };
+
+  const part = (t: number) =>
+    t <= 0
+      ? Math.pow(geom.zone + t, 3) / (3 * geom.zone * geom.zone)
+      : (2 * geom.zone) / 3 - Math.pow(geom.zone - t, 3) / (3 * geom.zone * geom.zone);
+
+  const family = (A: number, offset: number) => {
+    const n = Math.floor((A - offset + geom.zone) / TAU);
+    const t = A - offset - n * TAU;
+    return n * ((2 * geom.zone) / 3) + (t >= geom.zone ? (2 * geom.zone) / 3 : part(t));
+  };
+
+  const warp = (A: number) => A - geom.smear * (family(A, 0) + family(A, 2 * geom.horizon));
 
   const textures = new WeakMap<HTMLImageElement, HTMLCanvasElement>();
   const texture = (image: HTMLImageElement, th: number) => {
@@ -182,25 +222,63 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     const rect = root.getBoundingClientRect();
     width = Math.max(1, rect.width);
     height = Math.max(1, rect.height);
-    const g = geometry();
-    const oldStride = stride;
 
+    const depth = config.depth;
+    const horizon = Math.acos(1 / depth);
+    const slot = (config.cardArc + config.gap) * RAD;
+    const arc = config.cardArc * RAD;
+    const cardHeight = arc / config.aspect;
+    const turn = cardHeight * config.turnSpacing;
+    const rise = turn / TAU;
+    const fill = arc / slot;
+
+    const oldStride = stride;
     const isMobileWidth = width < 768;
-    // On mobile, scale cards to be prominent and cinematic (matching Windows desktop presence)
-    // instead of shrinking to tiny cards.
     const half = isMobileWidth
       ? Math.min(width * 0.74, height * 0.44) * (config.size / 100)
       : Math.min(width * 0.300001, height * 0.500001) * (config.size / 100);
-    focal = half * Math.sqrt(g.depth * g.depth - 1);
-    stride = focal * g.slot / (g.depth - 1);
-    position *= stride / oldStride;
-    dragOffset *= stride / oldStride;
-    scrollTarget *= stride / oldStride;
-    target = scrollTarget + dragOffset;
+    focal = half * Math.sqrt(depth * depth - 1);
+    stride = (focal * slot) / (depth - 1);
+
+    const growth = config.flare * 0.6;
+    const reach = ((height / 2 + (focal * cardHeight * (1 + growth)) / (depth - 1)) * (depth + 1)) / focal;
+    const from = horizon - reach / rise;
+    const to = horizon + reach / rise;
+
+    const zone = Math.min(config.edgeZone * RAD, horizon * 0.899999, (Math.PI - horizon) * 0.900001);
+    const smear = Math.min(0.899999, config.smear);
+    const edge = (focal * Math.sin(horizon)) / (depth - Math.cos(horizon));
+
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.ceil(width * dpr);
     canvas.height = Math.ceil(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const size = Math.min(2048, Math.ceil(((focal * cardHeight) / (depth - 1)) * (1 + growth) * dpr));
+
+    geom = {
+      depth,
+      horizon,
+      slot,
+      fill,
+      cardHeight,
+      rise,
+      zone,
+      smear,
+      growth,
+      reach,
+      from,
+      to,
+      edge,
+      size,
+    };
+
+    if (oldStride > 0 && Math.abs(oldStride - stride) > 0.001) {
+      const ratio = stride / oldStride;
+      position *= ratio;
+      target *= ratio;
+    }
+
     wake();
   }
 
@@ -211,6 +289,7 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       image.onerror = null;
     }
     sources = [...config.images];
+    isReady = false;
     root.removeAttribute('data-ready');
     fallbackImages(sources);
     images = sources.map((src) => {
@@ -222,9 +301,6 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       image.src = src;
       return image;
     });
-    position = mod(position / stride, images.length) * stride;
-    dragOffset = position - scrollTarget;
-    target = position;
     active = -1;
   }
 
@@ -244,73 +320,61 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     const dt = Math.min((now - last) / 1000, 0.05);
     last = now;
 
-    // Kinetic momentum decay after release from a drag
-    if (!dragging && Math.abs(dragMomentum) > 0.005) {
-      dragOffset -= dragMomentum * dt * 48;
-      target = scrollTarget + dragOffset;
-      dragMomentum *= Math.pow(0.91, dt * 60);
-      if (Math.abs(dragMomentum) <= 0.005) dragMomentum = 0;
+    // 1. Kinetic drag momentum decay
+    if (!dragging && Math.abs(dragMomentum) > 0.002) {
+      target -= dragMomentum * dt * 50;
+      dragMomentum *= Math.pow(0.92, dt * 60);
+      if (Math.abs(dragMomentum) <= 0.002) dragMomentum = 0;
     }
 
-    if (!motion.matches && !dragging && Math.abs(dragMomentum) < 0.01 && now > holdUntil && config.autoplay > 0) {
-      dragOffset += config.autoplay * dt;
-      target = scrollTarget + dragOffset;
+    // 2. Idle auto-rotation: smooth constant rotation when idle and in viewport
+    const isInteracting = dragging || Math.abs(dragMomentum) > 0.002 || now < holdUntil;
+    if (!motion.matches && !isInteracting && config.autoplay > 0) {
+      target += config.autoplay * dt;
     }
+
+    // 3. Smooth exponential interpolation to target
     const old = position;
-    position += (target - position) * (motion.matches ? 1 : 1 - Math.exp(-config.smoothing * dt));
-    const velocity = (position - old) / Math.max(dt, 0.001);
-    const amplitude = motion.matches
-      ? 0
-      : Math.max(-1, Math.min(1, velocity / 1800)) * height * 0.0499999 * config.wave;
-    wave += (amplitude - wave) * (1 - Math.exp(-10 * dt));
-    if (motion.matches) wave = 0;
+    const lerpFactor = motion.matches ? 1 : 1 - Math.exp(-config.smoothing * dt);
+    position += (target - position) * lerpFactor;
 
+    // 4. Wave amplitude (only calculated if config.wave is active)
+    if (config.wave > 0 && !motion.matches) {
+      const velocity = (position - old) / Math.max(dt, 0.001);
+      const amplitude = Math.max(-1, Math.min(1, velocity / 1800)) * height * 0.0499999 * config.wave;
+      wave += (amplitude - wave) * (1 - Math.exp(-10 * dt));
+    } else {
+      wave = 0;
+    }
+
+    // 5. Seamless loop wrap: when position travels far, subtract whole cycles without any visual jump
     const loop = images.length * stride;
-    if (Math.abs(position) > loop * 50) {
+    if (loop > 0 && Math.abs(position) > loop * 20) {
       const cycles = Math.trunc(position / loop) * loop;
       position -= cycles;
       target -= cycles;
     }
+
+    // 6. Canvas 2D render pass
     ctx.clearRect(0, 0, width, height);
 
-    const { depth, horizon, slot, fill, cardHeight, rise } = geometry();
+    const { depth, horizon, slot, fill, cardHeight, rise, zone, growth, from, to, edge, size } = geom;
     const cx = width / 2;
     const cy = height / 2;
 
-    const zone = Math.min(config.edgeZone * RAD, horizon * 0.899999, (Math.PI - horizon) * 0.900001);
-    const smear = Math.min(0.899999, config.smear);
-    const growth = config.flare * 0.6;
-
-    const part = (t: number) =>
-      t <= 0
-        ? Math.pow(zone + t, 3) / (3 * zone * zone)
-        : 2 * zone / 3 - Math.pow(zone - t, 3) / (3 * zone * zone);
-
-    const family = (A: number, offset: number) => {
-      const n = Math.floor((A - offset + zone) / TAU);
-      const t = A - offset - n * TAU;
-      return n * 2 * zone / 3 + (t >= zone ? 2 * zone / 3 : part(t));
-    };
-
-    const warp = (A: number) => A - smear * (family(A, 0) + family(A, 2 * horizon));
     const shift = position / stride + fill / 2 - warp(horizon) / slot;
     const project = (theta: number) => (focal * Math.sin(theta)) / (depth - Math.cos(theta));
     const near = (theta: number) =>
       Math.pow(Math.max(0, (zone - Math.abs(Math.abs(theta) - horizon)) / zone), 2);
 
-    const reach = ((height / 2 + (focal * cardHeight * (1 + growth)) / (depth - 1)) * (depth + 1)) / focal;
-    const from = horizon - reach / rise;
-    const to = horizon + reach / rise;
     const ready = (image?: HTMLImageElement) => Boolean(image && image.complete && image.naturalWidth > 0);
 
     const rims: { index: number; right: boolean; front: boolean; points: number[] }[] = [];
     let rim: { index: number; right: boolean; front: boolean; points: number[] } | null = null;
     let painted = false;
     const maxStep = 0.799999 * RAD;
-    const edge = project(horizon);
     const cutoff = 0.750001;
     const fadeOut = 6;
-    const size = Math.min(2048, Math.ceil(((focal * cardHeight) / (depth - 1)) * (1 + growth) * dpr));
 
     const pass = (front: boolean) => {
       let A = from;
@@ -334,11 +398,16 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
           const t = theta + f * step;
           const d = depth - Math.cos(t);
           const x = cx + project(t);
-          const phase = (x / width) * TAU * config.frequency + (position / width) * 1.50001;
-          const h = ((focal * cardHeight) / d) * (1 + k * growth) * (1 + (Math.cos(phase) * Math.abs(wave)) / height * 0.150001);
           const centre = (index + fill / 2 - shift) * slot + angle - warp(angle);
           const level = centre + config.tilt * (angle - centre);
-          return { x, y: cy - (focal * rise * (horizon - level)) / d + Math.sin(phase) * wave, h };
+          let h = ((focal * cardHeight) / d) * (1 + k * growth);
+          let y = cy - (focal * rise * (horizon - level)) / d;
+          if (wave !== 0) {
+            const phase = (x / width) * TAU * config.frequency + (position / width) * 1.50001;
+            h *= 1 + (Math.cos(phase) * Math.abs(wave)) / height * 0.150001;
+            y += Math.sin(phase) * wave;
+          }
+          return { x, y, h };
         };
 
         for (let index = Math.floor(u0); index <= Math.floor(u1); index++) {
@@ -460,11 +529,16 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       ctx.restore();
     }
 
-    root.toggleAttribute('data-ready', painted);
+    if (!isReady && painted) {
+      isReady = true;
+      root.setAttribute('data-ready', '');
+    }
+
     if (Math.abs(target - position) < 0.499999 && !dragging) announce();
+
     if (
       dragging ||
-      Math.abs(dragMomentum) > 0.005 ||
+      Math.abs(dragMomentum) > 0.002 ||
       Math.abs(target - position) > 0.05 ||
       Math.abs(wave) > 0.0499999 ||
       (!motion.matches && config.autoplay > 0)
@@ -474,8 +548,8 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
   }
 
   function step(direction: number) {
-    dragOffset = (Math.round((scrollTarget + dragOffset) / stride) + direction) * stride - scrollTarget;
-    target = scrollTarget + dragOffset;
+    target = (Math.round(target / stride) + direction) * stride;
+    holdUntil = performance.now() + 1500;
     wake();
   }
 
@@ -495,6 +569,7 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       event.preventDefault();
       const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? height : 1;
       target += Math.max(-width * 2, Math.min(width * 2, delta * unit * config.sensitivity));
+      holdUntil = performance.now() + 1500;
       wake();
     },
     { passive: false }
@@ -550,32 +625,16 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     }
 
     const stepDx = event.clientX - lastMoveX;
-    const stepDy = event.clientY - lastMoveY;
     lastMoveX = event.clientX;
     lastMoveY = event.clientY;
     lastMoveTime = now;
 
-    // Displacement for this move step
-    const stepDist = stepDx + (dragging.both ? stepDy : 0);
+    const instVelocity = stepDx / dt;
+    dragVelocity = dragVelocity * 0.4 + instVelocity * 0.6;
 
-    // Instantaneous velocity (pixels per ms)
-    const instVelocity = stepDist / dt;
-    dragVelocity = dragVelocity * 0.45 + instVelocity * 0.55;
-
-    // Dynamic speed scaling:
-    // Slower drag -> slower movement (0.35x - 0.7x)
-    // Faster drag -> faster movement (up to 3.6x)
-    const absV = Math.abs(dragVelocity);
-    let speedFactor = 1.0;
-    if (absV < 0.35) {
-      speedFactor = Math.max(0.35, 0.35 + (absV / 0.35) * 0.45);
-    } else if (absV > 0.7) {
-      speedFactor = Math.min(3.6, 1.0 + Math.pow((absV - 0.7) / 0.8, 1.3) * 1.5);
-    }
-
-    holdUntil = now + 1600;
-    dragOffset -= stepDist * config.sensitivity * speedFactor;
-    target = scrollTarget + dragOffset;
+    holdUntil = now + 1500;
+    // Responsive, linear 1:1 drag
+    target -= stepDx * config.sensitivity;
     wake();
   });
 
@@ -585,15 +644,15 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
       const now = performance.now();
       const timeSinceMove = now - lastMoveTime;
 
-      // Transfer velocity into momentum for kinetic release: faster drag -> longer glide
-      if (timeSinceMove < 90 && Math.abs(dragVelocity) > 0.15) {
-        const absV = Math.abs(dragVelocity);
-        const momentumMultiplier = Math.min(3.2, 0.8 + absV * 0.75);
-        dragMomentum = dragVelocity * 38 * config.sensitivity * momentumMultiplier;
+      // Transfer velocity into silky momentum
+      if (timeSinceMove < 120 && Math.abs(dragVelocity) > 0.08) {
+        const v = Math.max(-3.5, Math.min(3.5, dragVelocity));
+        dragMomentum = v * 24 * config.sensitivity;
       } else {
         dragMomentum = 0;
       }
 
+      holdUntil = now + 1500;
       dragging = null;
       root.removeAttribute('data-dragging');
       if (root.hasPointerCapture(event.pointerId)) {
@@ -612,10 +671,17 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
     if (event.target !== root || config.preview) return;
     if (['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
       event.preventDefault();
-      if (event.key === 'Home') target = 0;
-      else if (event.key === 'End') target = (images.length - 1) * stride;
-      else step(event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : -1);
-      wake();
+      if (event.key === 'Home') {
+        target = 0;
+        holdUntil = performance.now() + 1500;
+        wake();
+      } else if (event.key === 'End') {
+        target = (images.length - 1) * stride;
+        holdUntil = performance.now() + 1500;
+        wake();
+      } else {
+        step(event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : -1);
+      }
     }
   });
 
@@ -662,15 +728,15 @@ function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {
 
   return {
     update,
-    setScrollProgress(p: number, totalPhotos: number) {
+    onScrollDelta(deltaPhotos: number) {
       if (dragging) return;
-      scrollTarget = p * totalPhotos * stride;
-      target = scrollTarget + dragOffset;
+      target += deltaPhotos * stride;
+      holdUntil = performance.now() + 1000;
       wake();
     },
     nudge(photos: number) {
-      dragOffset += photos * stride;
-      target = scrollTarget + dragOffset;
+      target += photos * stride;
+      holdUntil = performance.now() + 1500;
       wake();
     },
     destroy() {
@@ -724,7 +790,7 @@ export default function SpiralGallery() {
       frequency: 0.9,
       smoothing: 6,
       sensitivity: mobile ? 0.75 : 0.6,
-      autoplay: 0,
+      autoplay: mobile ? 24 : 32,
       flare: 0,
       edgeZone: 12,
       smear: 0.149999,
@@ -737,60 +803,77 @@ export default function SpiralGallery() {
     const engine = createSpiralFlux(root, getGalleryConfig(isMobile));
 
     const SCROLL_PHOTOS = 8;
-    const progress = () => {
-      const total = track.offsetHeight - window.innerHeight;
-      if (total <= 0) return 0;
-      const rect = track.getBoundingClientRect();
-      return Math.min(1, Math.max(0, -rect.top / total));
-    };
-
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    const reveal = () => {
+    let trackHeight = track.offsetHeight;
+    let windowH = window.innerHeight;
+
+    const updateMeasurements = () => {
+      trackHeight = track.offsetHeight;
+      windowH = window.innerHeight;
+    };
+
+    let lastP: number | null = null;
+    let scrollScheduled = false;
+
+    const updateScrollAndReveal = () => {
+      scrollScheduled = false;
       const rect = track.getBoundingClientRect();
-      const H = window.innerHeight;
+      const H = windowH || window.innerHeight;
+      const total = (trackHeight || track.offsetHeight) - H;
+
+      // Reveal / hero-entry scale & clip animation
       const scrub = reducedMotion.matches
         ? 1
         : Math.min(1, Math.max(0, 1 - rect.top / H));
 
       if (scrub >= 0.999) {
-        stage.style.clipPath = 'none';
-        stage.style.transform = 'none';
-        title.style.opacity = '1';
-        title.style.transform = 'none';
+        if (stage.style.clipPath !== 'none') stage.style.clipPath = 'none';
+        if (stage.style.transform !== 'none') stage.style.transform = 'none';
+        if (title.style.opacity !== '1') title.style.opacity = '1';
+        if (title.style.transform !== 'none') title.style.transform = 'none';
+      } else {
+        const e = scrub * scrub * (3 - 2 * scrub);
+        const i = 1 - e;
+        stage.style.clipPath = `inset(${(i * 14).toFixed(2)}% ${(i * 5).toFixed(2)}% ${(i * 14).toFixed(2)}% ${(i * 5).toFixed(2)}% round ${(i * 32).toFixed(1)}px)`;
+        stage.style.transform = `scale(${(0.9 + 0.1 * e).toFixed(4)})`;
+        title.style.opacity = e.toFixed(3);
+        title.style.transform = `translate3d(0, ${(i * 30).toFixed(2)}px, 0)`;
+      }
+
+      // Scroll progress through pinned track: 0 to 1
+      const p = total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
+
+      if (lastP === null) {
+        lastP = p;
         return;
       }
 
-      const e = scrub * scrub * (3 - 2 * scrub);
-      const i = 1 - e;
+      const dp = p - lastP;
+      lastP = p;
 
-      stage.style.clipPath = `inset(${(i * 14).toFixed(2)}% ${(i * 5).toFixed(2)}% ${(i * 14).toFixed(2)}% ${(i * 5).toFixed(2)}% round ${(i * 32).toFixed(1)}px)`;
-      stage.style.transform = `scale(${(0.9 + 0.1 * e).toFixed(4)})`;
-      title.style.opacity = e.toFixed(3);
-      title.style.transform = `translate3d(0, ${(i * 30).toFixed(2)}px, 0)`;
+      if (Math.abs(dp) > 0.0001 && !reducedMotion.matches) {
+        const mob = window.innerWidth < 768;
+        const photos = mob ? 4 : SCROLL_PHOTOS;
+        engine.onScrollDelta(dp * photos);
+      }
     };
 
     const onScroll = () => {
-      reveal();
-      const p = progress();
-      const mob = window.innerWidth < 768;
-      const photos = mob ? 4 : SCROLL_PHOTOS;
-      engine.setScrollProgress(p, photos);
+      if (!scrollScheduled) {
+        scrollScheduled = true;
+        requestAnimationFrame(updateScrollAndReveal);
+      }
     };
 
     const onResize = () => {
+      updateMeasurements();
       const mob = window.innerWidth < 768;
       engine.update(getGalleryConfig(mob));
-      reveal();
-      const p = progress();
-      const photos = mob ? 4 : SCROLL_PHOTOS;
-      engine.setScrollProgress(p, photos);
+      updateScrollAndReveal();
     };
 
-    reveal();
-    const initP = progress();
-    const initPhotos = isMobile ? 4 : SCROLL_PHOTOS;
-    engine.setScrollProgress(initP, initPhotos);
+    updateScrollAndReveal();
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize);

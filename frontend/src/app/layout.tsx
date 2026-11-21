@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import 'lenis/dist/lenis.css';
-import CustomCursor from '@/components/layout/CustomCursor';
 import SiteShell from '@/components/layout/SiteShell';
 import SmoothScrollProvider from '@/components/providers/SmoothScrollProvider';
 import { SITE_CONFIG } from '@/config/site.config';
@@ -120,7 +119,6 @@ export default function RootLayout({
           </defs>
         </svg>
 
-        <CustomCursor />
         <SmoothScrollProvider>
           <SiteShell>{children}</SiteShell>
         </SmoothScrollProvider>

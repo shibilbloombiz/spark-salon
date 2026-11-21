@@ -263,13 +263,6 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
     zoneTop.addEventListener('click', handleUpClick);
     zoneBottom.addEventListener('click', handleDownClick);
 
-    // Global stage pointer move to ensure cursor reflects top/bottom arrow model
-    const handleStagePointerMove = (e: MouseEvent) => {
-      const rect = stage.getBoundingClientRect();
-      const isTop = e.clientY < rect.top + rect.height / 2;
-      document.body.dataset.cursor = isTop ? 'arrow-up' : 'arrow-down';
-    };
-
     // Stage click: clicking anywhere in top half moves up, bottom half moves down
     const handleStageClick = (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest('.t-dot')) return;
@@ -279,7 +272,6 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
       else moveDown();
     };
 
-    stage.addEventListener('mousemove', handleStagePointerMove);
     stage.addEventListener('click', handleStageClick);
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -328,9 +320,6 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
     };
     const handleMouseLeave = () => {
       hovered = false;
-      if (document.body.dataset.cursor === 'arrow-up' || document.body.dataset.cursor === 'arrow-down') {
-        delete document.body.dataset.cursor;
-      }
     };
     stage.addEventListener('mouseenter', handleMouseEnter);
     stage.addEventListener('mouseleave', handleMouseLeave);
@@ -348,7 +337,6 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
       if (autoTimer) clearInterval(autoTimer);
       zoneTop.removeEventListener('click', handleUpClick);
       zoneBottom.removeEventListener('click', handleDownClick);
-      stage.removeEventListener('mousemove', handleStagePointerMove);
       stage.removeEventListener('click', handleStageClick);
       window.removeEventListener('keydown', handleKeyDown);
       stage.removeEventListener('touchstart', handleTouchStart);

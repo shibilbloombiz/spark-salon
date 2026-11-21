@@ -73,7 +73,7 @@ function LenisGsapSync() {
         'nav-open',
         'is-press'
       );
-      if (document.body.dataset.cursor === 'arrow-up' || document.body.dataset.cursor === 'arrow-down') {
+      if (document.body.dataset.cursor) {
         delete document.body.dataset.cursor;
       }
 

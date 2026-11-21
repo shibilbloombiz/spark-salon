@@ -63,6 +63,8 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
   const deckRef = useRef<HTMLDivElement>(null);
   const dotsWrapRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLDivElement>(null);
+  const prevBtnRef = useRef<HTMLButtonElement>(null);
+  const nextBtnRef = useRef<HTMLButtonElement>(null);
   const zoneTopRef = useRef<HTMLButtonElement>(null);
   const zoneBottomRef = useRef<HTMLButtonElement>(null);
 
@@ -71,6 +73,8 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
     const deck = deckRef.current;
     const dotsWrap = dotsWrapRef.current;
     const counter = counterRef.current;
+    const prevBtn = prevBtnRef.current;
+    const nextBtn = nextBtnRef.current;
     const zoneTop = zoneTopRef.current;
     const zoneBottom = zoneBottomRef.current;
 
@@ -154,7 +158,7 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
       }
     }
 
-    // UP: the front card pops up, the others move forward, the popped card drops to the back.
+    // NEXT (Forward): the front card pops up, the others move forward, the popped card drops to the back.
     async function moveUp() {
       if (busy) return;
       busy = true;
@@ -184,7 +188,7 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
       busy = false;
     }
 
-    // DOWN: the last card comes in from the bottom to the front, the others step back.
+    // PREV (Backward): the last card comes in from the bottom to the front, the others step back.
     async function moveDown() {
       if (busy) return;
       busy = true;
@@ -251,6 +255,19 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
       dots.push(dot);
     });
 
+    // Arrow button click listeners
+    const handlePrevClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      moveDown();
+    };
+    const handleNextClick = (e: MouseEvent) => {
+      e.stopPropagation();
+      moveUp();
+    };
+
+    if (prevBtn) prevBtn.addEventListener('click', handlePrevClick);
+    if (nextBtn) nextBtn.addEventListener('click', handleNextClick);
+
     const handleUpClick = (e: MouseEvent) => {
       e.stopPropagation();
       moveUp();
@@ -265,7 +282,7 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
 
     // Stage click: clicking anywhere in top half moves up, bottom half moves down
     const handleStageClick = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('.t-dot')) return;
+      if ((e.target as HTMLElement).closest('.t-dot, .t-nav-btn')) return;
       const rect = stage.getBoundingClientRect();
       const isTop = e.clientY < rect.top + rect.height / 2;
       if (isTop) moveUp();
@@ -275,11 +292,11 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
     stage.addEventListener('click', handleStageClick);
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowUp') {
+      if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
         e.preventDefault();
         moveUp();
       }
-      if (e.key === 'ArrowDown') {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
         e.preventDefault();
         moveDown();
       }
@@ -287,17 +304,25 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
     window.addEventListener('keydown', handleKeyDown);
 
     let startY: number | null = null;
+    let startX: number | null = null;
     const handleTouchStart = (e: TouchEvent) => {
       startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
     };
     const handleTouchEnd = (e: TouchEvent) => {
-      if (startY === null) return;
+      if (startY === null || startX === null) return;
       const dy = e.changedTouches[0].clientY - startY;
-      if (Math.abs(dy) > 40) {
+      const dx = e.changedTouches[0].clientX - startX;
+      // Support vertical swipe or horizontal swipe
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 35) {
+        if (dx < 0) moveUp();
+        else moveDown();
+      } else if (Math.abs(dy) > 40) {
         if (dy < 0) moveUp();
         else moveDown();
       }
       startY = null;
+      startX = null;
     };
     stage.addEventListener('touchstart', handleTouchStart, { passive: true });
     stage.addEventListener('touchend', handleTouchEnd, { passive: true });
@@ -323,6 +348,14 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
     };
     stage.addEventListener('mouseenter', handleMouseEnter);
     stage.addEventListener('mouseleave', handleMouseLeave);
+    if (prevBtn) {
+      prevBtn.addEventListener('mouseenter', handleMouseEnter);
+      prevBtn.addEventListener('mouseleave', handleMouseLeave);
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('mouseenter', handleMouseEnter);
+      nextBtn.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     let autoTimer: NodeJS.Timeout | null = null;
     if (!reduce) {
@@ -335,6 +368,16 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
 
     return () => {
       if (autoTimer) clearInterval(autoTimer);
+      if (prevBtn) {
+        prevBtn.removeEventListener('click', handlePrevClick);
+        prevBtn.removeEventListener('mouseenter', handleMouseEnter);
+        prevBtn.removeEventListener('mouseleave', handleMouseLeave);
+      }
+      if (nextBtn) {
+        nextBtn.removeEventListener('click', handleNextClick);
+        nextBtn.removeEventListener('mouseenter', handleMouseEnter);
+        nextBtn.removeEventListener('mouseleave', handleMouseLeave);
+      }
       zoneTop.removeEventListener('click', handleUpClick);
       zoneBottom.removeEventListener('click', handleDownClick);
       stage.removeEventListener('click', handleStageClick);
@@ -359,22 +402,58 @@ export default function Testimonials({ onOpenBooking }: TestimonialsProps): Reac
       >
         <div className="t-deck" ref={deckRef} />
 
-        {/* Top half zone: Up Arrow Button Model cursor */}
+        {/* Previous Testimonial Arrow Button */}
+        <button
+          className="t-nav-btn t-nav-prev"
+          ref={prevBtnRef}
+          type="button"
+          aria-label="Previous testimonial"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        {/* Next Testimonial Arrow Button */}
+        <button
+          className="t-nav-btn t-nav-next"
+          ref={nextBtnRef}
+          type="button"
+          aria-label="Next testimonial"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+
+        {/* Stage background touch/click zones */}
         <button
           className="t-zone t-zone-top"
           ref={zoneTopRef}
           type="button"
-          aria-label="Pop front card to the back"
-          data-cursor="arrow-up"
+          aria-label="Advance to next testimonial"
         />
-
-        {/* Bottom half zone: Down Arrow Button Model cursor */}
         <button
           className="t-zone t-zone-bottom"
           ref={zoneBottomRef}
           type="button"
-          aria-label="Bring last card to the front"
-          data-cursor="arrow-down"
+          aria-label="Return to previous testimonial"
         />
 
         <div className="t-dots" ref={dotsWrapRef} aria-label="Choose testimonial" />

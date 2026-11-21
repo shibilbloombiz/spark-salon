@@ -122,12 +122,79 @@
   margin: 0;
 }
 
+/* Luxury Arrow Navigation Buttons */
+.t-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--white, #F7F5F2);
+  color: var(--red, #D71920);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1),
+              background-color 0.25s ease,
+              color 0.25s ease,
+              border-color 0.25s ease,
+              box-shadow 0.25s ease;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.t-nav-btn svg {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.25s ease;
+}
+
+.t-nav-prev {
+  left: clamp(18px, 3.5vw, 52px);
+}
+
+.t-nav-next {
+  right: clamp(18px, 3.5vw, 52px);
+}
+
+.t-nav-btn:hover {
+  background: var(--black, #080808);
+  color: var(--white, #F7F5F2);
+  border-color: var(--black, #080808);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.55);
+}
+
+.t-nav-prev:hover svg {
+  transform: translateX(-3px);
+}
+
+.t-nav-next:hover svg {
+  transform: translateX(3px);
+}
+
+.t-nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.t-nav-btn:focus-visible {
+  outline: 2px solid var(--white, #F7F5F2);
+  outline-offset: 3px;
+}
+
+/* Background Click Zones */
 .t-zone {
   position: absolute;
   left: 0;
   right: 0;
   height: 50%;
-  z-index: 8;
+  z-index: 5;
   background: transparent;
   border: none;
   padding: 0;
@@ -141,20 +208,23 @@
   bottom: 0;
 }
 
+/* Dots: Horizontal luxury pill pagination at bottom center */
 .t-dots {
   position: absolute;
-  right: 30px;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  bottom: 36px;
+  transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  z-index: 10;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  z-index: 20;
 }
 
 .t-dot {
   width: 26px;
-  height: 2.5px;
+  height: 3px;
+  border-radius: 2px;
   background: rgba(247, 245, 242, 0.45);
   border: none;
   padding: 0;
@@ -163,37 +233,38 @@
 }
 
 .t-dot.is-on {
-  width: 40px;
+  width: 44px;
   background: var(--white);
 }
 
 .t-counter {
   position: absolute;
-  left: 30px;
+  left: 36px;
   bottom: 36px;
   color: var(--white);
   font-size: 14px;
   letter-spacing: 0.12em;
   font-variant-numeric: tabular-nums;
   font-weight: 500;
-  z-index: 10;
+  z-index: 20;
 }
 
+/* Responsive Styles */
 @media (max-width: 760px) {
   .testimonials-stage {
     height: 100vh;
-    min-height: 560px;
+    min-height: 580px;
     margin: 0 8px;
-    border-radius: 8px;
+    border-radius: 12px;
   }
   .t-card {
     width: 90vw;
     height: auto;
-    min-height: 440px;
+    min-height: 430px;
     padding: 24px 18px;
   }
   .t-card h2 {
-    font-size: 23px;
+    font-size: 22px;
   }
   .t-card .body {
     grid-template-columns: 1fr;
@@ -206,7 +277,7 @@
     font-size: 15px;
   }
   .t-avatar {
-    width: 88px;
+    width: 84px;
   }
   .t-person .name {
     margin-top: 8px;
@@ -215,9 +286,52 @@
   .t-person .role {
     font-size: 13px;
   }
-  .t-dots {
-    right: 12px;
+
+  /* On mobile: position arrow buttons at bottom flanking the dots */
+  .t-nav-btn {
+    top: auto;
+    bottom: 22px;
+    transform: none;
+    width: 46px;
+    height: 46px;
+    box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
   }
+
+  .t-nav-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .t-nav-prev {
+    left: 18px;
+  }
+
+  .t-nav-next {
+    right: 18px;
+  }
+
+  .t-nav-btn:hover {
+    transform: scale(1.06);
+  }
+
+  .t-nav-btn:active {
+    transform: scale(0.94);
+  }
+
+  .t-dots {
+    bottom: 34px;
+    gap: 8px;
+  }
+
+  .t-dot {
+    width: 18px;
+    height: 3px;
+  }
+
+  .t-dot.is-on {
+    width: 30px;
+  }
+
   .t-counter {
     display: none;
   }

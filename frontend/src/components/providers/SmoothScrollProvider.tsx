@@ -18,19 +18,20 @@ if (typeof window !== 'undefined') {
  */
 function LenisGsapSync() {
   const lenis = useLenis();
+  const pathname = usePathname();
+  const prevPathnameRef = useRef(pathname);
 
+  // Synchronize ScrollTrigger on every Lenis scroll step and drive via GSAP ticker
   useEffect(() => {
     if (!lenis) return;
 
     // Expose instance globally for convenience (e.g. lenis.scrollTo)
     (window as any).lenis = lenis;
 
-    // Synchronize ScrollTrigger on every scroll step
     const onScroll = () => {
       ScrollTrigger.update();
     };
     const unbind = lenis.on('scroll', onScroll);
-    window.addEventListener('scroll', onScroll, { passive: true });
 
     // Feed Lenis's RAF directly into GSAP's ticker to avoid two competing RAF loops
     const tickerUpdate = (time: number) => {
@@ -38,17 +39,10 @@ function LenisGsapSync() {
     };
 
     gsap.ticker.add(tickerUpdate);
-    // Disable lagSmoothing so GSAP and Lenis remain strictly locked 1:1 without hitch or lag
+    // Disable lag smoothing in GSAP to prevent any jumps or jitter during smooth scrolling
     gsap.ticker.lagSmoothing(0);
 
-    // Recalculate trigger boundaries once DOM finishes initial paint
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 120);
-
     return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', onScroll);
       gsap.ticker.remove(tickerUpdate);
       if (typeof unbind === 'function') {
         unbind();
@@ -60,6 +54,65 @@ function LenisGsapSync() {
       }
     };
   }, [lenis]);
+
+  // Synchronize ScrollTrigger and Lenis across route transitions
+  useEffect(() => {
+    if (!lenis) return;
+
+    if (prevPathnameRef.current !== pathname) {
+      prevPathnameRef.current = pathname;
+
+      // 1. Release any residual body scroll locks, drawer classes, or stuck cursor states
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      document.body.classList.remove(
+        'reel-on',
+        'svc-detail-active',
+        'curtain-on',
+        'drawer-open',
+        'nav-open',
+        'is-press'
+      );
+      if (document.body.dataset.cursor === 'arrow-up' || document.body.dataset.cursor === 'arrow-down') {
+        delete document.body.dataset.cursor;
+      }
+
+      // 2. Ensure Lenis is resumed in case a modal or menu paused it
+      lenis.start?.();
+
+      // 3. Reset scroll position immediately or handle anchor target
+      const hash = typeof window !== 'undefined' ? window.location.hash : '';
+      if (hash) {
+        const target = document.querySelector(hash);
+        if (target) {
+          setTimeout(() => {
+            lenis.scrollTo(target as HTMLElement, { offset: 0, duration: 1.0 });
+          }, 80);
+        }
+      } else {
+        lenis.scrollTo(0, { immediate: true });
+        window.scrollTo(0, 0);
+      }
+
+      // 4. Reset ScrollTrigger scroll memory and recalculate all triggers
+      if (typeof ScrollTrigger.clearScrollMemory === 'function') {
+        ScrollTrigger.clearScrollMemory('manual');
+      }
+
+      // Two-phase refresh: immediate frame + post-hydration/layout settle
+      const rafId = requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+      const timerId = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 180);
+
+      return () => {
+        cancelAnimationFrame(rafId);
+        clearTimeout(timerId);
+      };
+    }
+  }, [lenis, pathname]);
 
   return null;
 }
@@ -99,8 +152,7 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.0,
-      syncTouch: false,
+      touchMultiplier: 1.8,
       infinite: false,
       // Exclude internally-scrollable elements (modals, dialogs, dropdowns, panels)
       prevent: (node: Node) => {

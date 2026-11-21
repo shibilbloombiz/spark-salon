@@ -1,573 +1,795 @@
-/* Spark Liquid Floating Navbar */
+/* ==========================================================================
+   SPARK SALON & BEAUTY MALL — EXACT PREMIUM FLOATING NAVBAR & MEGA MENU
+   Matches Reference Design Pixel-For-Pixel
+   ========================================================================== */
 
-.site-nav {
+/* Outer Floating Wrapper */
+.spark-nav-wrapper {
   position: fixed;
-  z-index: 50;
-  top: max(16px, env(safe-area-inset-top, 0px));
-  left: max(16px, env(safe-area-inset-left, 0px));
-  right: max(16px, env(safe-area-inset-right, 0px));
-  max-width: 1240px;
-  margin: 0 auto;
-  pointer-events: auto;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 48px);
+  max-width: 1400px;
+  z-index: 1000;
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
 
-.bar {
+/* Floating Pill Bar — Dark Luxury Glass Blur Model */
+.spark-nav-bar {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: stretch;
-  height: 68px;
-  padding: 0 12px 0 28px;
-  background: rgba(255, 255, 255, 0.94);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
-  backdrop-filter: blur(12px) saturate(120%);
-  border-radius: 34px;
-  box-shadow: 0 1px 2px rgba(12, 12, 12, 0.06), 0 14px 32px -18px rgba(12, 12, 12, 0.4);
-  transition: box-shadow 300ms var(--ease-liquid);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(14, 14, 18, 0.78);
+  border-radius: 9999px;
+  padding: 8px 12px 8px 24px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
 }
 
-.site-nav.is-scrolled .bar {
-  box-shadow: 0 1px 2px rgba(12, 12, 12, 0.08), 0 18px 40px -20px rgba(12, 12, 12, 0.55);
+.spark-nav-bar.is-scrolled {
+  background: rgba(10, 10, 14, 0.90);
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.brand {
-  justify-self: start;
-  align-self: center;
+/* --------------------------------------------------------------------------
+   BRAND / LOGO SECTION (LEFT)
+   -------------------------------------------------------------------------- */
+.spark-nav-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.spark-brand-logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.spark-brand-logo {
+  height: 38px;
+  width: auto;
+  max-width: 44px;
+  object-fit: contain;
+  display: block;
+}
+
+.spark-brand-text {
   display: flex;
   flex-direction: column;
-  color: var(--ink);
-  text-decoration: none;
-  line-height: 1;
+  margin-left: 10px;
+  line-height: 1.12;
 }
 
-.brand-name {
-  font: 600 24px/1 var(--font-serif);
-  letter-spacing: 0.2em;
+.spark-brand-name {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #FFFFFF;
+  letter-spacing: 0.01em;
 }
 
-.brand-sub {
-  margin-top: 5px;
+.spark-brand-sub {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
   font-size: 8.5px;
-  letter-spacing: 0.34em;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.85);
   text-transform: uppercase;
-  color: var(--red);
 }
 
-.main-nav {
-  position: relative;
-  justify-self: center;
+.spark-brand-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.16);
+  margin: 0 18px 0 20px;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   CENTER NAVIGATION ITEMS (DESKTOP)
+   -------------------------------------------------------------------------- */
+.spark-nav-center {
   display: flex;
-  align-items: stretch;
-  gap: clamp(6px, 1.1vw, 16px);
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-blob {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  z-index: 0;
-  height: 38px;
-  margin-top: -19px;
-  background: var(--red);
-  border-radius: 58% 42% 52% 48% / 46% 56% 44% 54%;
-  opacity: 0;
-  pointer-events: none;
-  animation: morph 7s ease-in-out infinite;
-  transition: transform 560ms var(--ease-liquid), width 560ms var(--ease-liquid), opacity 240ms ease;
-}
-
-.nav-blob.is-visible {
-  opacity: 1;
-}
-
-.nav-item {
+.spark-nav-item {
   position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
 }
 
-.has-menu::after {
-  content: "";
-  position: absolute;
-  left: -12px;
-  right: -12px;
-  top: 100%;
-  height: 16px;
-}
-
-.nav-link {
+.spark-nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 38px;
-  padding: 0 16px;
-  background: none;
-  border: 0;
-  font: 500 12.5px/1 var(--font-sans);
-  letter-spacing: 0.16em;
+  gap: 5px;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
+  padding: 8px 6px;
   cursor: pointer;
-  transition: color 320ms ease;
+  background: none;
+  border: none;
+  position: relative;
+  transition: color 0.2s ease;
   white-space: nowrap;
 }
 
-.nav-link.is-covered {
-  color: var(--white);
+.spark-nav-link:hover {
+  color: #FFFFFF;
 }
 
-.nav-link:focus-visible {
-  outline: 1px solid var(--red);
-  outline-offset: 3px;
-  border-radius: 19px;
+/* HOME — Active Red Pill */
+.spark-nav-link.is-home-active {
+  background: #CE092C;
+  color: #FFFFFF !important;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-weight: 700;
+  box-shadow: 0 4px 18px rgba(206, 9, 44, 0.45);
+  transition: all 0.25s ease;
 }
 
-.caret {
-  width: 6px;
-  height: 6px;
-  margin-top: -3px;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg);
-  transition: transform 320ms var(--ease-liquid);
+.spark-nav-link.is-home-active:hover {
+  background: #b50726;
+  color: #FFFFFF !important;
 }
 
-.is-open > .nav-link .caret {
-  margin-top: 2px;
-  transform: rotate(225deg);
+/* Red Active Underline Indicator for other nav items */
+.spark-nav-link.is-active,
+.spark-nav-link.is-dropdown-open {
+  color: #FFFFFF;
 }
 
-/* Dropdowns with liquid clip-path pour */
-.dropdown {
+.spark-nav-link.is-active::after,
+.spark-nav-link.is-dropdown-open::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 6px;
+  right: 6px;
+  height: 2.5px;
+  background: #CE092C;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(206, 9, 44, 0.7);
+  animation: sparkUnderlineIn 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sparkUnderlineIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.spark-nav-chevron {
+  transition: transform 0.25s ease, color 0.2s ease;
+  color: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.spark-nav-link:hover .spark-nav-chevron,
+.spark-nav-link.is-dropdown-open .spark-nav-chevron {
+  color: #CE092C;
+}
+
+.spark-nav-link.is-dropdown-open .spark-nav-chevron {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   RIGHT SECTION (DESKTOP BOOK BUTTON + MOBILE TOGGLE)
+   -------------------------------------------------------------------------- */
+.spark-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.spark-book-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #CE092C;
+  color: #FFFFFF;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+  padding: 11px 26px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(206, 9, 44, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.spark-book-btn:hover {
+  background: #b50726;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(206, 9, 44, 0.55);
+  color: #FFFFFF;
+}
+
+.spark-mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.spark-mobile-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP MEGA MENUS (ATTACHED TO NAVBAR)
+   -------------------------------------------------------------------------- */
+.spark-mega-menu {
   position: absolute;
   top: calc(100% + 12px);
-  left: 50%;
-  transform: translate3d(-50%, 0, 0);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  clip-path: inset(0 0 100% 0 round 0 0 48px 48px);
-  transition: clip-path var(--pour) var(--ease-liquid), opacity 240ms ease, visibility 0s linear var(--pour);
+  background: rgba(14, 14, 18, 0.94);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border-radius: 28px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.75), 0 4px 24px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  z-index: 999;
+  animation: sparkMegaIn 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.is-open > .dropdown {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  clip-path: inset(0 0 0 0 round 22px 6px 22px 6px);
-  transition-delay: 0s;
+/* Hover buffer bridge preventing accidental close */
+.spark-mega-menu::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  height: 16px;
 }
 
-.dropdown-services {
-  width: 520px;
-  max-width: calc(100vw - 32px);
-  padding: 28px 36px 30px;
-  background: var(--black);
-  color: var(--white);
-  border-top: 3px solid var(--red);
+@keyframes sparkMegaIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.dd-label {
-  margin: 0 0 14px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--rule-dark);
-  font: 500 10.5px/1 var(--font-sans);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--red-on-dark);
-}
-
-.svc-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* Mega Menu 1: SALON SERVICES (Full Width 3-Column Layout) */
+.spark-mega-services {
+  left: 0;
+  right: 0;
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 40px;
-  row-gap: 2px;
+  grid-template-columns: 1.15fr 1.15fr 1.45fr;
+  padding: 22px 24px;
+  gap: 22px;
 }
 
-.svc-grid a {
-  position: relative;
+/* Mega Menus 2, 3, 4: Standard Two-Column Layout */
+.spark-mega-standard {
+  width: 580px;
+  max-width: calc(100vw - 48px);
+  padding: 22px;
+}
+
+.spark-mega-standard.align-store {
+  left: 20%;
+}
+
+.spark-mega-standard.align-academy {
+  left: 35%;
+}
+
+.spark-mega-standard.align-partner {
+  left: 45%;
+}
+
+/* Inner Column Structure */
+.spark-mega-col {
   display: flex;
-  align-items: baseline;
-  gap: 16px;
-  padding: 12px 0;
-  color: var(--white);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.spark-mega-img-wrap {
+  width: 175px;
+  min-width: 175px;
+  height: 260px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #F4F2F1;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.spark-mega-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.spark-mega-col:hover .spark-mega-img {
+  transform: scale(1.04);
+}
+
+.spark-mega-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+.spark-mega-title {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #CE092C;
+  margin: 0;
   text-decoration: none;
+  display: block;
 }
 
-.svc-no {
-  width: 22px;
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.4);
-  transition: color 250ms ease;
+.spark-mega-sub {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 2px 0 0;
+  line-height: 1.35;
 }
 
-.svc-name {
-  position: relative;
-  font: 500 24px/1.1 var(--font-serif);
-  transition: color 250ms ease;
+.spark-mega-divider {
+  width: 32px;
+  height: 2px;
+  background: #CE092C;
+  margin: 8px 0 12px;
+  border-radius: 2px;
 }
 
-.svc-name::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -5px;
-  height: 1px;
-  background: var(--red-on-dark);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 300ms var(--ease-liquid);
-}
-
-.svc-grid a:hover .svc-name,
-.svc-grid a:focus-visible .svc-name {
-  color: var(--red-on-dark);
-}
-
-.svc-grid a:hover .svc-name::after,
-.svc-grid a:focus-visible .svc-name::after {
-  transform: scaleX(1);
-}
-
-.svc-grid a:hover .svc-no,
-.svc-grid a:focus-visible .svc-no {
-  color: var(--red-on-dark);
-}
-
-.dropdown-academy {
-  width: 280px;
-  padding: 8px 0;
-  background: var(--white);
-  color: var(--ink);
-  border: 1px solid var(--rule);
-  border-top: 3px solid var(--red);
-  clip-path: inset(0 0 100% 0 round 0 0 48px 48px);
-}
-
-.is-open > .dropdown-academy {
-  clip-path: inset(0 0 0 0 round 6px 22px 6px 22px);
-}
-
-.dropdown-academy ul {
+.spark-mega-list {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.dropdown-academy li + li {
-  border-top: 1px solid var(--rule);
-}
-
-.dropdown-academy a {
-  position: relative;
-  display: block;
-  padding: 15px 26px;
-  font: 500 19px/1.2 var(--font-serif);
-  color: var(--ink);
-  text-decoration: none;
-  transition: padding-left 260ms var(--ease-liquid), color 260ms ease;
-}
-
-.dropdown-academy a::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 50%;
-  width: 3px;
-  height: 0;
-  background: var(--red);
-  transform: translateY(-50%);
-  transition: height 260ms var(--ease-liquid);
-}
-
-.dropdown-academy a:hover,
-.dropdown-academy a:focus-visible {
-  padding-left: 34px;
-  color: var(--red);
-  outline: none;
-}
-
-.dropdown-academy a:hover::before,
-.dropdown-academy a:focus-visible::before {
-  height: 60%;
-}
-
-/* Actions */
-.actions {
-  justify-self: end;
   display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.spark-mega-item a {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  line-height: 1.35;
+  transition: color 0.18s ease, transform 0.18s ease;
 }
 
-.cta-short {
-  display: none;
+.spark-mega-item a:hover {
+  color: #FFFFFF;
+  transform: translateX(3px);
 }
 
-.menu-btn {
-  display: none;
+.spark-mega-bullet {
+  font-size: 11px;
+  color: #CE092C;
+  font-weight: 700;
+}
+
+.spark-mega-col-action {
+  margin-top: 14px;
+}
+
+.spark-mega-action-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  height: 44px;
-  padding: 0 6px;
-  background: none;
-  border: 0;
-  color: var(--ink);
-  font: 500 11.5px/1 var(--font-sans);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: pointer;
+  gap: 6px;
+  border: 1.5px solid #CE092C;
+  color: #FFFFFF;
+  background: rgba(206, 9, 44, 0.2);
+  border-radius: 9999px;
+  padding: 7px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.menu-btn:focus-visible {
-  outline: 1px solid var(--red);
-  outline-offset: 3px;
+.spark-mega-action-btn:hover {
+  background: #CE092C;
+  color: #FFFFFF;
 }
 
-.menu-lines {
+/* Promotional Banner on Right of Salon Services Mega Menu */
+.spark-mega-promo {
   position: relative;
-  display: block;
-  width: 18px;
-  height: 8px;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 36px;
+  background: linear-gradient(135deg, rgba(28, 28, 36, 0.9) 0%, rgba(18, 18, 24, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.menu-lines i {
+.spark-mega-promo-bg {
   position: absolute;
-  left: 0;
   right: 0;
-  height: 2px;
-  background: var(--red);
-  transition: transform 300ms var(--ease-liquid);
-}
-
-.menu-lines i:first-child {
   top: 0;
+  bottom: 0;
+  width: 50%;
+  object-fit: contain;
+  object-position: right center;
+  pointer-events: none;
+  opacity: 0.95;
 }
 
-.menu-lines i:last-child {
-  top: 6px;
+.spark-mega-promo-title {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
-.menu-btn[aria-expanded="true"] .menu-lines i:first-child {
-  transform: translateY(3px) rotate(45deg);
+.spark-mega-promo-sub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 8px 0 22px;
+  position: relative;
+  z-index: 1;
 }
 
-.menu-btn[aria-expanded="true"] .menu-lines i:last-child {
-  transform: translateY(-3px) rotate(-45deg);
+.spark-mega-promo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px solid #CE092C;
+  color: #FFFFFF;
+  background: #CE092C;
+  border-radius: 9999px;
+  padding: 8px 22px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  width: fit-content;
+  position: relative;
+  z-index: 1;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(206, 9, 44, 0.35);
 }
 
-/* Mobile menu sheet (< 960px) */
-.m-scrim {
+.spark-mega-promo-btn:hover {
+  background: #b50726;
+  color: #FFFFFF;
+  transform: translateX(2px);
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE & TABLET NAVIGATION MENU (EXACT REFERENCE DESIGN)
+   -------------------------------------------------------------------------- */
+.spark-mobile-scrim {
   position: fixed;
   inset: 0;
-  z-index: 60;
-  background: rgba(12, 12, 12, 0.5);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 320ms ease, visibility 0s linear 320ms;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  animation: sparkScrimFade 200ms ease;
 }
 
-.m-scrim.is-visible {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: 0s;
+@keyframes sparkScrimFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.m-panel {
+.spark-mobile-panel {
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 70;
-  width: min(88vw, 400px);
-  padding: calc(env(safe-area-inset-top, 0px) + 20px) 28px calc(env(safe-area-inset-bottom, 0px) + 28px);
+  top: 20px;
+  right: 20px;
+  width: min(390px, calc(100vw - 32px));
+  max-height: calc(100vh - 40px);
+  background: rgba(14, 14, 18, 0.96);
+  backdrop-filter: blur(32px) saturate(190%);
+  -webkit-backdrop-filter: blur(32px) saturate(190%);
+  border-radius: 24px;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  z-index: 2001;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  background: var(--black);
-  color: var(--white);
-  border-radius: 40px 0 0 40px;
-  transform: translate3d(100%, 0, 0);
-  visibility: hidden;
-  transition: transform 420ms var(--ease-liquid), visibility 0s linear 420ms;
-}
-
-.m-panel.is-visible {
-  transform: none;
-  visibility: visible;
-  transition-delay: 0s;
-}
-
-.m-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 48px;
-  margin-bottom: 12px;
-}
-
-.m-close {
-  min-height: 48px;
-  padding: 0 4px;
-  background: none;
-  border: 0;
-  color: var(--white);
-  font: 500 11.5px/1 var(--font-sans);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.m-nav {
-  display: flex;
-  flex-direction: column;
-}
-
-.m-nav > a,
-.m-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  min-height: 60px;
-  padding: 0;
-  background: none;
-  border: 0;
-  border-bottom: 1px solid var(--rule-dark);
-  color: var(--white);
-  font: 500 28px/1 var(--font-serif);
-  text-align: left;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.m-nav > a:hover,
-.m-toggle:hover {
-  color: var(--red-on-dark);
-}
-
-.m-toggle .caret {
-  margin-right: 6px;
-}
-
-.m-toggle[aria-expanded="true"] .caret {
-  margin-top: 2px;
-  transform: rotate(225deg);
-}
-
-.m-sub {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 360ms var(--ease-liquid);
-}
-
-.m-sub.is-open {
-  grid-template-rows: 1fr;
-}
-
-.m-sub > div {
   overflow: hidden;
+  animation: sparkMobileIn 260ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.m-sub ul {
-  list-style: none;
-  margin: 0;
-  padding: 6px 0 14px 14px;
-  border-bottom: 1px solid var(--rule-dark);
+@keyframes sparkMobileIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.m-sub a {
+.spark-mobile-head {
   display: flex;
   align-items: center;
-  min-height: 48px;
-  color: rgba(255, 255, 255, 0.82);
-  font: 400 21px/1.2 var(--font-serif);
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+}
+
+.spark-mobile-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.spark-mobile-close:hover {
+  background: #CE092C;
+  border-color: #CE092C;
+  color: #FFFFFF;
+}
+
+.spark-mobile-nav {
+  padding: 14px 16px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.spark-mobile-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.88);
   text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  transition: all 0.18s ease;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
 }
 
-.m-sub a:hover,
-.m-sub a:focus-visible {
-  color: var(--red-on-dark);
-  outline: none;
+.spark-mobile-link-row:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #FFFFFF;
 }
 
-.m-book {
-  margin-top: 32px;
+/* Red rounded highlight for active / expanded mobile menu item */
+.spark-mobile-link-row.is-active,
+.spark-mobile-link-row.is-expanded {
+  background: rgba(206, 9, 44, 0.18);
+  color: #ff3b4e;
+  font-weight: 600;
 }
 
-/* Media Queries for Navbar */
+.spark-mobile-link-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spark-mobile-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.spark-mobile-chevron {
+  transition: transform 0.25s ease;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.spark-mobile-link-row.is-expanded .spark-mobile-chevron {
+  transform: rotate(180deg);
+  color: #ff3b4e;
+}
+
+/* Accordion Submenu */
+.spark-mobile-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 12px 10px 42px;
+  animation: sparkAccordionIn 200ms ease;
+}
+
+@keyframes sparkAccordionIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.spark-mobile-sub-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+  transition: color 0.18s ease;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+}
+
+.spark-mobile-sub-link:hover {
+  color: #FFFFFF;
+}
+
+.spark-mobile-sub-bullet {
+  color: #CE092C;
+  font-size: 12px;
+}
+
+.spark-mobile-foot {
+  padding: 12px 16px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: transparent;
+}
+
+.spark-mobile-book-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: 9999px;
+  background: #CE092C;
+  color: #FFFFFF;
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(206, 9, 44, 0.35);
+  transition: all 0.2s ease;
+}
+
+.spark-mobile-book-btn:hover {
+  background: #b50726;
+  box-shadow: 0 6px 24px rgba(206, 9, 44, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVE MEDIA QUERIES
+   -------------------------------------------------------------------------- */
 @media (max-width: 1180px) {
-  .nav-link {
+  .spark-nav-center {
+    gap: 16px;
+  }
+  .spark-nav-link {
     font-size: 11.5px;
-    letter-spacing: 0.12em;
-    padding: 0 12px;
+    padding: 8px 4px;
   }
-}
-
-@media (max-width: 960px) {
-  .bar {
-    grid-template-columns: 1fr auto;
-    padding-left: 20px;
+  .spark-brand-divider {
+    margin: 0 12px;
   }
-  .main-nav {
+  .spark-mega-services {
+    grid-template-columns: 1fr 1fr;
+  }
+  .spark-mega-promo {
     display: none;
   }
-  .menu-btn {
+}
+
+@media (max-width: 1060px) {
+  .spark-nav-center {
+    display: none;
+  }
+  .spark-brand-divider {
+    display: none;
+  }
+  .spark-mobile-toggle {
     display: inline-flex;
+  }
+  .spark-nav-wrapper {
+    top: 14px;
+    width: calc(100% - 32px);
+  }
+  .spark-nav-bar {
+    padding: 8px 12px 8px 18px;
   }
 }
 
 @media (max-width: 640px) {
-  .bar {
-    height: 60px;
+  .spark-nav-wrapper {
+    top: 10px;
+    width: calc(100% - 20px);
   }
-  .brand-sub {
-    display: none;
+  .spark-nav-bar {
+    padding: 6px 8px 6px 14px;
   }
-  .cta {
-    height: 38px;
-    padding: 0 16px;
+  .spark-brand-logo {
+    height: 32px;
   }
-  .cta-full {
-    display: none;
-  }
-  .cta-short {
-    display: inline;
-  }
-  .menu-btn .menu-label {
-    display: none;
-  }
-}
-
-@media (max-width: 420px) {
-  .site-nav {
-    top: max(10px, env(safe-area-inset-top, 0px));
-    left: max(10px, env(safe-area-inset-left, 0px));
-    right: max(10px, env(safe-area-inset-right, 0px));
-  }
-  .bar {
-    height: 56px;
-    padding: 0 8px 0 16px;
-  }
-  .brand-name {
+  .spark-brand-name {
     font-size: 20px;
-    letter-spacing: 0.16em;
   }
-  .actions {
-    gap: 8px;
+  .spark-brand-sub {
+    font-size: 7.5px;
+    letter-spacing: 0.14em;
   }
-  .cta {
-    height: 36px;
-    padding: 0 12px;
-    font-size: 10.5px;
+  .spark-book-btn {
+    padding: 9px 18px;
+    font-size: 11.5px;
+  }
+  .spark-mobile-panel {
+    top: 10px;
+    right: 10px;
+    width: calc(100vw - 20px);
+    max-height: calc(100vh - 20px);
   }
 }

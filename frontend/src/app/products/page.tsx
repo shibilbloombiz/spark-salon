@@ -22,21 +22,23 @@ const PRODUCT_BANNERS = [
   {
     id: 'hair-couture-banner',
     image: '/images/products/products banner.webp',
-    eyebrow: 'OFFICIAL KÉRASTASE & OLAPLEX ATELIER',
-    title: 'Haute Salon Formulations & Bond Architecture',
+    eyebrow: 'OFFICIAL SALON RETAIL STORE · 100% GENUINE',
+    title: 'Curated Salon Haircare, Bond Repair & Styling Icons',
     subtitle:
-      'Prescribed salon-exclusive hair elixirs, molecular bond repair therapies, and rejuvenating caviar scalp rituals used by master stylists.',
-    tag: 'Couture Haircare',
+      'Shop authentic Kérastase, Olaplex, Moroccanoil & Dyson professional tools with guaranteed batch authenticity, stylist advice, and fast doorstep delivery.',
+    tag: 'Haircare & Styling',
+    ctaText: 'Shop Haircare & Tools',
     category: 'hair',
   },
   {
     id: 'clinical-derma-banner',
     image: '/images/products/product banner 2.webp',
-    eyebrow: 'CLINICAL DERMA & PRECISION STYLING',
-    title: 'Dermatological Science & Intelligent Heat Control',
+    eyebrow: 'CLINICAL DERMA BOUTIQUE & PRO APOTHECARY',
+    title: 'Clinical Skincare, Serums & Radiance Formulations',
     subtitle:
-      'Medical-grade vitamin C complexes, hydra-infusion resurfacing serums, and Dyson Supersonic professional atelier styling technology.',
-    tag: 'Skin Therapeutics & Tools',
+      'Dermatologist-prescribed vitamin C complexes, hydra-infusion resurfacing cleansers, and bespoke radiant cosmetics from globally trusted beauty brands.',
+    tag: 'Skincare & Cosmetics',
+    ctaText: 'Shop Skincare & Glow',
     category: 'skin',
   },
 ];
@@ -362,22 +364,23 @@ export default function ProductsPage() {
                       style={{
                         alignSelf: 'flex-start',
                         height: '38px',
-                        padding: '0 20px',
+                        padding: '0 22px',
                         borderRadius: '999px',
-                        background: 'var(--white)',
-                        color: 'var(--black)',
+                        background: '#CE092C',
+                        color: '#ffffff',
                         border: 'none',
-                        font: '500 11px/1 var(--font-sans)',
-                        letterSpacing: '0.16em',
+                        font: '600 11px/1 var(--font-sans)',
+                        letterSpacing: '0.14em',
                         textTransform: 'uppercase',
                         cursor: 'pointer',
                         display: 'inline-flex',
                         alignItems: 'center',
                         gap: '8px',
-                        transition: 'background-color 0.3s ease, color 0.3s ease',
+                        boxShadow: '0 4px 16px rgba(206, 9, 44, 0.4)',
+                        transition: 'background-color 0.3s ease, transform 0.2s ease',
                       }}
                     >
-                      Filter {banner.tag.split(' ')[0]} →
+                      {banner.ctaText} →
                     </button>
                   </div>
                 </div>
@@ -413,6 +416,66 @@ export default function ProductsPage() {
                   }}
                 />
               ))}
+            </div>
+          </div>
+
+          {/* Shop Model Trust & Delivery Bar */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+              gap: '12px',
+              marginTop: '28px',
+              padding: '16px 20px',
+              borderRadius: '16px',
+              backgroundColor: 'rgba(255, 255, 255, 0.8)',
+              border: '1px solid rgba(12, 12, 12, 0.08)',
+              boxShadow: '0 4px 20px -8px rgba(12, 12, 12, 0.05)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#CE092C', flexShrink: 0 }} />
+              <div>
+                <p style={{ margin: 0, font: '600 11px/1.2 var(--font-sans)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#171717' }}>
+                  100% Genuine Brands
+                </p>
+                <p style={{ margin: 0, font: '400 11px/1.3 var(--font-sans)', color: '#666666' }}>
+                  Authorized batch verification
+                </p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#CE092C', flexShrink: 0 }} />
+              <div>
+                <p style={{ margin: 0, font: '600 11px/1.2 var(--font-sans)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#171717' }}>
+                  Stylist Prescribed
+                </p>
+                <p style={{ margin: 0, font: '400 11px/1.3 var(--font-sans)', color: '#666666' }}>
+                  Professional salon formulations
+                </p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#CE092C', flexShrink: 0 }} />
+              <div>
+                <p style={{ margin: 0, font: '600 11px/1.2 var(--font-sans)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#171717' }}>
+                  Direct Salon Pickup
+                </p>
+                <p style={{ margin: 0, font: '400 11px/1.3 var(--font-sans)', color: '#666666' }}>
+                  Or prompt doorstep delivery
+                </p>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#CE092C', flexShrink: 0 }} />
+              <div>
+                <p style={{ margin: 0, font: '600 11px/1.2 var(--font-sans)', letterSpacing: '0.08em', textTransform: 'uppercase', color: '#171717' }}>
+                  WhatsApp Ordering
+                </p>
+                <p style={{ margin: 0, font: '400 11px/1.3 var(--font-sans)', color: '#666666' }}>
+                  Instant advisory &amp; quick checkout
+                </p>
+              </div>
             </div>
           </div>
         </div>

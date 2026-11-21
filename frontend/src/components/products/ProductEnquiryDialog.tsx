@@ -202,6 +202,13 @@ export default function ProductEnquiryDialog({
       const lenis = typeof window !== 'undefined' ? (window as any).lenis : null;
       lenis?.start?.();
     }
+
+    return () => {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      const lenis = typeof window !== 'undefined' ? (window as any).lenis : null;
+      lenis?.start?.();
+    };
   }, [isOpen, selectedProduct]);
 
   const handleClose = useCallback(() => {

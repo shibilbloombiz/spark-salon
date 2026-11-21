@@ -31,16 +31,16 @@ interface SpiralConfig {
 }
 
 const WORKS_IMAGES: string[] = [
-  '/works/1.jpg',
-  '/works/2.jpg',
-  '/works/3.jpg',
-  '/works/4.jpg',
-  '/works/5.jpg',
-  '/works/6.jpg',
-  '/works/7.jpg',
-  '/works/8.jpg',
-  '/works/9.jpg',
-  '/works/10.jpg',
+  '/works/1.webp',
+  '/works/2.webp',
+  '/works/3.webp',
+  '/works/4.webp',
+  '/works/5.webp',
+  '/works/6.webp',
+  '/works/7.webp',
+  '/works/8.webp',
+  '/works/9.webp',
+  '/works/10.webp',
 ];
 
 function createSpiralFlux(root: HTMLElement, initial: SpiralConfig) {

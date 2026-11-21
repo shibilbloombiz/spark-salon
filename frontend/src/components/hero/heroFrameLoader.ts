@@ -32,8 +32,10 @@ export class HeroFrameLoader {
   private totalFailed = 0;
 
   constructor(private config = HERO_FRAME_SET) {
-    // Populate queue with all background frames (after critical window)
-    for (let i = CRITICAL_WINDOW_FRAME_COUNT; i < this.config.frameCount; i++) {
+    // Only queue immediate next lookahead buffer (6..14) instead of all 220 frames upfront!
+    // Remaining frames are queued dynamically on-demand as the user scrolls.
+    const initialLookahead = Math.min(this.config.frameCount, CRITICAL_WINDOW_FRAME_COUNT + 8);
+    for (let i = CRITICAL_WINDOW_FRAME_COUNT; i < initialLookahead; i++) {
       this.queue.push(i);
     }
   }
@@ -105,8 +107,19 @@ export class HeroFrameLoader {
     this.criticalProgress = 1.0;
     this.notifyProgress();
 
-    // Begin Phase 3 background loading
-    this.pumpBackgroundQueue();
+    // Defer Phase 3 lookahead queue pump to browser idle time so main thread & initial paint remain free!
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      window.requestIdleCallback(
+        () => {
+          if (!this.destroyed) this.pumpBackgroundQueue();
+        },
+        { timeout: 2000 }
+      );
+    } else {
+      setTimeout(() => {
+        if (!this.destroyed) this.pumpBackgroundQueue();
+      }, 1000);
+    }
   }
 
   /**
@@ -116,24 +129,31 @@ export class HeroFrameLoader {
     if (this.destroyed || index === this.currentTargetIndex) return;
     this.currentTargetIndex = Math.max(0, Math.min(this.config.frameCount - 1, Math.round(index)));
 
-    // Abort in-flight background requests that are far from the new target (> 20 frames away)
+    // Abort in-flight background requests that are far from the new target (> 14 frames away)
     this.inFlight.forEach(({ abortController }, frameIdx) => {
-      if (Math.abs(frameIdx - this.currentTargetIndex) > 20) {
+      if (Math.abs(frameIdx - this.currentTargetIndex) > 14) {
         abortController.abort();
         this.inFlight.delete(frameIdx);
         this.activeConcurrency = Math.max(0, this.activeConcurrency - 1);
-        if (!this.cache.has(frameIdx) && !this.queue.includes(frameIdx)) {
-          this.queue.push(frameIdx);
-        }
       }
     });
 
-    // Re-sort the queue so closest frames to target are processed first
-    this.queue.sort((a, b) => {
-      const distA = Math.abs(a - this.currentTargetIndex);
-      const distB = Math.abs(b - this.currentTargetIndex);
-      return distA - distB;
-    });
+    // Populate a moving lookahead buffer: priority to frames in direction of scroll and immediate vicinity
+    const LOOKAHEAD_WINDOW = 14;
+    const neededFrames: number[] = [];
+    for (
+      let i = Math.max(0, this.currentTargetIndex - 2);
+      i <= Math.min(this.config.frameCount - 1, this.currentTargetIndex + LOOKAHEAD_WINDOW);
+      i++
+    ) {
+      if (!this.cache.has(i) && !this.inFlight.has(i)) {
+        neededFrames.push(i);
+      }
+    }
+
+    // Sort by proximity to currentTargetIndex
+    neededFrames.sort((a, b) => Math.abs(a - this.currentTargetIndex) - Math.abs(b - this.currentTargetIndex));
+    this.queue = neededFrames;
 
     this.pumpBackgroundQueue();
   }

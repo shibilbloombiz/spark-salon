@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
-
 /* Studio list: a clean white list of studio names. Hovering a row (or entering it) reveals its photo and its
    details. The cursor becomes a "View" button and a click opens that studio's page.
    Photos: /img/<studio>/hero.jpg (placeholder until supplied).

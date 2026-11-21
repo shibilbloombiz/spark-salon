@@ -1,16 +1,30 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Preloader from '@/components/layout/Preloader';
 import { SparkSalonHero } from '@/components/hero';
 import BrandStatement from '@/components/sections/BrandStatement';
-import StudioList from '@/components/sections/StudioList';
-import SpiralGallery from '@/components/sections/SpiralGallery';
-import ProductsSection from '@/components/sections/ProductsSection';
-import AcademySection from '@/components/sections/AcademySection';
-import Testimonials from '@/components/sections/Testimonials';
-import FinalCta from '@/components/sections/FinalCta';
 import { useSiteShell } from '@/components/layout/SiteShell';
+
+const StudioList = dynamic(() => import('@/components/sections/StudioList'), {
+  loading: () => <div style={{ minHeight: '600px', backgroundColor: 'var(--paper, #f4f2f1)' }} />,
+});
+const SpiralGallery = dynamic(() => import('@/components/sections/SpiralGallery'), {
+  loading: () => <div style={{ minHeight: '600px', backgroundColor: '#ececec' }} />,
+});
+const ProductsSection = dynamic(() => import('@/components/sections/ProductsSection'), {
+  loading: () => <div style={{ minHeight: '400px', backgroundColor: 'var(--paper)' }} />,
+});
+const AcademySection = dynamic(() => import('@/components/sections/AcademySection'), {
+  loading: () => <div style={{ minHeight: '500px', backgroundColor: '#0c0c0c' }} />,
+});
+const Testimonials = dynamic(() => import('@/components/sections/Testimonials'), {
+  loading: () => <div style={{ minHeight: '450px', backgroundColor: '#0c0c0c' }} />,
+});
+const FinalCta = dynamic(() => import('@/components/sections/FinalCta'), {
+  loading: () => <div style={{ minHeight: '300px', backgroundColor: 'var(--paper)' }} />,
+});
 
 let hasShownPreloader = false;
 

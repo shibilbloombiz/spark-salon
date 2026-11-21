@@ -160,7 +160,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
                     text={currentSlide.eyebrow}
                     threshold={0.01}
                     delay={25}
-                    ready={isRevealed}
+                    ready={true}
                   />
                 </motion.div>
 
@@ -174,7 +174,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
                   delay={75}
                   direction="top"
                   threshold={0.01}
-                  ready={isRevealed}
+                  ready={true}
                 />
 
                 {/* Body Description in Jost */}
@@ -184,7 +184,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
                   threshold={0.01}
                   delay={18}
                   text={currentSlide.subtitle}
-                  ready={isRevealed}
+                  ready={true}
                 />
               </motion.div>
             </AnimatePresence>
@@ -192,15 +192,10 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
 
           {/* Action CTAs (Signature Red Pill & Luxury Dark Glass Pill) */}
           <motion.div
-            initial={{ opacity: 0, y: 24, filter: 'blur(4px)' }}
-            animate={
-              isRevealed
-                ? { opacity: 1, y: 0, filter: 'blur(0px)' }
-                : { opacity: 0, y: 24, filter: 'blur(4px)' }
-            }
+            initial={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{
-              duration: 0.85,
-              delay: 0.55,
+              duration: 0.5,
               ease: [0.16, 1, 0.3, 1],
             }}
             className="hero-action-ctas"

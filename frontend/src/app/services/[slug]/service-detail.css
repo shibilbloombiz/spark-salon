@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Space+Grotesk:wght@400;500;600&display=swap');
-
 /* Service detail page. Dark, cinematic, scroll-led. Data is injected into window.SERVICE and window.SITE. */
 :root {
   --bg: #0c0c0c;

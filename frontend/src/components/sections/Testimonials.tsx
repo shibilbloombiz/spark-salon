@@ -18,7 +18,7 @@ const TESTIMONIALS: TestimonialItem[] = [
       'From the first consultation to the final finish, every detail felt considered. The stylists listened closely and delivered exactly what I hoped for.',
     name: 'Anjali Menon',
     role: 'Hair Client',
-    avatar: '/images/testimonials/client-anjali.jpg',
+    avatar: '/images/testimonials/client-anjali.webp',
   },
   {
     title: 'Bridal beauty that felt effortless',
@@ -26,7 +26,7 @@ const TESTIMONIALS: TestimonialItem[] = [
       'The bridal team handled trials, timing and touch-ups with real calm. On the day, I felt like the best version of myself.',
     name: 'Aiswarya Varma',
     role: 'Bridal Client',
-    avatar: '/images/testimonials/client-aiswarya.jpg',
+    avatar: '/images/testimonials/client-aiswarya.webp',
   },
   {
     title: 'Precision and comfort in one place',
@@ -34,7 +34,7 @@ const TESTIMONIALS: TestimonialItem[] = [
       'The barber studio is sharp, the atmosphere is relaxed, and the results speak for themselves every time I return.',
     name: 'Zameel Hameed',
     role: 'Barber Studio Client',
-    avatar: '/images/testimonials/client-zameel.jpg',
+    avatar: '/images/testimonials/client-zameel.webp',
   },
   {
     title: 'Skin care that actually changes things',
@@ -42,7 +42,7 @@ const TESTIMONIALS: TestimonialItem[] = [
       'My treatments were tailored from the start, and the room was a genuine place to slow down. My skin has never looked better.',
     name: 'Dr. Rehana Cheriyan',
     role: 'Skin & Spa Client',
-    avatar: '/images/testimonials/client-rehana.jpg',
+    avatar: '/images/testimonials/client-rehana.webp',
   },
   {
     title: 'Every detail, handled with care',
@@ -50,7 +50,7 @@ const TESTIMONIALS: TestimonialItem[] = [
       'From the welcome to the final styling, the team made every visit feel personal and unhurried. I always leave feeling my best.',
     name: 'Sunaina Kapoor',
     role: 'VIP Member',
-    avatar: '/images/testimonials/client-anjali.jpg',
+    avatar: '/images/testimonials/client-anjali.webp',
   },
 ];
 

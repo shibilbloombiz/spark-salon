@@ -311,12 +311,12 @@ export default function BrandStatement() {
         <div className="ph-img" data-ph-img>
           <div className="ph-photo" data-ph-photo>
             <img
-              src="/philosophy.jpg"
+              src="/philosophy.webp"
               alt="Spark Atelier Creed & Philosophy"
               onError={(e) => {
                 const target = e.currentTarget;
-                if (!target.src.includes('atelier-creed.jpg')) {
-                  target.src = '/images/sections/atelier-creed.jpg';
+                if (!target.src.includes('atelier-creed.webp')) {
+                  target.src = '/images/sections/atelier-creed.webp';
                 }
               }}
             />

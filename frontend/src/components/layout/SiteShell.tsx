@@ -4,6 +4,7 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 import { usePathname } from 'next/navigation';
 import Navbar from '@/components/navigation/Navbar';
 import Footer from '@/components/layout/Footer';
+import CinematicPageTransition from '@/components/transition/CinematicPageTransition';
 import AppointmentRequestDialog, {
   AppointmentConfig,
   OpenAppointmentOptions,
@@ -102,7 +103,7 @@ export default function SiteShell({ children }: { children: React.ReactNode }) {
         isRevealed={navbarRevealed}
       />
 
-      {children}
+      <CinematicPageTransition>{children}</CinematicPageTransition>
 
       <Footer onOpenBooking={() => openBooking('hair')} />
 

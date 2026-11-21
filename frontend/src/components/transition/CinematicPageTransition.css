@@ -1,0 +1,390 @@
+/* ==========================================================================
+   CINEMATIC PAGE TRANSITIONS — SPARK ATELIER
+   Inspired by The Sugar Coated Cult & Luxury Editorial Ateliers
+   Hardware-accelerated CSS Transforms with custom cubic-bezier easing
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Main Page Content Wrapper (Exit & Entrance Physics)
+   -------------------------------------------------------------------------- */
+.spark-page-content-wrapper {
+  position: relative;
+  width: 100%;
+  transform-origin: 50% 30%;
+  will-change: transform, opacity;
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.35s ease;
+}
+
+/* Phase 2: Current page exit subtle backward scale & drift */
+.spark-page-content-wrapper.is-exiting {
+  transform: scale(0.985) translateY(-8px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Phase 4: Destination page cinematic upward reveal */
+.spark-page-content-wrapper.is-entering {
+  animation: sparkPageContentEnter 0.52s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes sparkPageContentEnter {
+  0% {
+    transform: translateY(24px) scale(0.99);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Staggered page entrance hierarchy (Headings, visuals, copy) */
+.spark-page-content-wrapper.is-entering h1,
+.spark-page-content-wrapper.is-entering h2:first-of-type,
+.spark-page-content-wrapper.is-entering .h-hero,
+.spark-page-content-wrapper.is-entering .h-section:first-of-type {
+  animation: sparkHeadingEnter 0.58s cubic-bezier(0.16, 1, 0.3, 1) 0.06s backwards;
+}
+
+@keyframes sparkHeadingEnter {
+  0% {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.spark-page-content-wrapper.is-entering .hero-visual,
+.spark-page-content-wrapper.is-entering .hero-media,
+.spark-page-content-wrapper.is-entering .hero-art,
+.spark-page-content-wrapper.is-entering .service-hero {
+  animation: sparkVisualEnter 0.64s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+}
+
+@keyframes sparkVisualEnter {
+  0% {
+    transform: scale(1.03);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.spark-page-content-wrapper.is-entering .hero-sub,
+.spark-page-content-wrapper.is-entering .hero-desc,
+.spark-page-content-wrapper.is-entering .hero-actions {
+  animation: sparkSubEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.16s backwards;
+}
+
+@keyframes sparkSubEnter {
+  0% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Full-Screen Multi-Layer Curtain Overlay Root
+   -------------------------------------------------------------------------- */
+.spark-transition-curtain-root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99990;
+  pointer-events: none;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   3. Curtain Layers
+   -------------------------------------------------------------------------- */
+
+/* Layer 1: Leading Velocity Blade (Crimson Accent Wave) */
+.spark-curtain-blade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    #ff3b4e 0%,
+    #c8102e 45%,
+    #880918 100%
+  );
+  box-shadow: 0 0 50px rgba(215, 25, 32, 0.4);
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+  z-index: 1;
+}
+
+/* Layer 2: Main Velvet Noir Atelier Shield */
+.spark-curtain-main {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #070709;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Radial luxury glow on dark curtain */
+.spark-curtain-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(32, 32, 42, 0.85) 0%,
+    rgba(14, 14, 18, 0.95) 50%,
+    #070709 100%
+  );
+  pointer-events: none;
+}
+
+/* Center Brand Atelier Monogram & Typography */
+.spark-curtain-centerpiece {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.28s ease, transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  pointer-events: none;
+}
+
+.spark-curtain-logo-wrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spark-curtain-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 20px rgba(255, 255, 255, 0.18));
+}
+
+.spark-curtain-brand-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spark-curtain-brand-title {
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  margin-right: -0.3em; /* cancel trailing letter spacing for exact optical center */
+}
+
+.spark-curtain-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.spark-curtain-line {
+  width: 24px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.spark-curtain-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--red, #D71920);
+  box-shadow: 0 0 8px rgba(215, 25, 32, 0.7);
+}
+
+.spark-curtain-brand-sub {
+  font-family: var(--font-jost), system-ui, -apple-system, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-right: -0.26em;
+}
+
+/* --------------------------------------------------------------------------
+   4. Animation Stages (Covering, Covered, Revealing, Idle)
+   -------------------------------------------------------------------------- */
+
+/* STAGE: IDLE */
+.spark-transition-curtain-root.stage-idle {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.spark-transition-curtain-root.stage-idle .spark-curtain-blade,
+.spark-transition-curtain-root.stage-idle .spark-curtain-main {
+  transform: translate3d(0, 100%, 0);
+  transition: none;
+}
+
+.spark-transition-curtain-root.stage-idle .spark-curtain-centerpiece {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+/* STAGE: COVERING (Sweeping Up to cover screen) */
+.spark-transition-curtain-root.stage-covering {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.spark-transition-curtain-root.stage-covering .spark-curtain-blade {
+  transform: translate3d(0, 0%, 0);
+  transition: transform 0.36s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.spark-transition-curtain-root.stage-covering .spark-curtain-main {
+  transform: translate3d(0, 0%, 0);
+  transition: transform 0.40s cubic-bezier(0.76, 0, 0.24, 1) 0.02s;
+}
+
+.spark-transition-curtain-root.stage-covering .spark-curtain-centerpiece {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.32s ease 0.12s, transform 0.36s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+/* STAGE: COVERED (Apex moment - route changes underneath) */
+.spark-transition-curtain-root.stage-covered {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.spark-transition-curtain-root.stage-covered .spark-curtain-blade,
+.spark-transition-curtain-root.stage-covered .spark-curtain-main {
+  transform: translate3d(0, 0%, 0);
+}
+
+.spark-transition-curtain-root.stage-covered .spark-curtain-centerpiece {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* STAGE: REVEALING (Curtains sweep upward off screen to reveal new page) */
+.spark-transition-curtain-root.stage-revealing {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.spark-transition-curtain-root.stage-revealing .spark-curtain-blade {
+  transform: translate3d(0, -100%, 0);
+  transition: transform 0.44s cubic-bezier(0.22, 1, 0.36, 1) 0.03s;
+}
+
+.spark-transition-curtain-root.stage-revealing .spark-curtain-main {
+  transform: translate3d(0, -100%, 0);
+  transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.spark-transition-curtain-root.stage-revealing .spark-curtain-centerpiece {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.96);
+  transition: opacity 0.22s ease, transform 0.28s ease;
+}
+
+/* --------------------------------------------------------------------------
+   5. Mobile & Tablet Adaptations
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  .spark-curtain-logo-wrap {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 14px;
+  }
+
+  .spark-curtain-brand-title {
+    font-size: 21px;
+    letter-spacing: 0.26em;
+  }
+
+  .spark-curtain-brand-sub {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+  }
+
+  /* Faster, snappier touch motion on mobile devices */
+  .spark-transition-curtain-root.stage-covering .spark-curtain-blade {
+    transition-duration: 0.32s;
+  }
+
+  .spark-transition-curtain-root.stage-covering .spark-curtain-main {
+    transition-duration: 0.35s;
+  }
+
+  .spark-transition-curtain-root.stage-revealing .spark-curtain-blade {
+    transition-duration: 0.38s;
+  }
+
+  .spark-transition-curtain-root.stage-revealing .spark-curtain-main {
+    transition-duration: 0.42s;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. Accessibility & Reduced Motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .spark-page-content-wrapper,
+  .spark-page-content-wrapper.is-exiting,
+  .spark-page-content-wrapper.is-entering {
+    transform: none !important;
+    animation: none !important;
+    transition: opacity 0.15s ease !important;
+  }
+
+  .spark-curtain-blade,
+  .spark-curtain-main {
+    transform: none !important;
+    transition: opacity 0.15s ease !important;
+  }
+
+  .spark-transition-curtain-root.stage-idle {
+    display: none !important;
+  }
+
+  .spark-transition-curtain-root.stage-covering,
+  .spark-transition-curtain-root.stage-covered {
+    opacity: 1 !important;
+  }
+
+  .spark-transition-curtain-root.stage-revealing {
+    opacity: 0 !important;
+  }
+}

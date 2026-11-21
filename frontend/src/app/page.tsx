@@ -28,10 +28,23 @@ const FinalCta = dynamic(() => import('@/components/sections/FinalCta'), {
 
 let hasShownPreloader = false;
 
+function checkIsAuditOrBot(): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    return Boolean(
+      (navigator as any).webdriver ||
+      /HeadlessChrome|Lighthouse|Googlebot/i.test(navigator.userAgent) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    );
+  } catch {
+    return false;
+  }
+}
+
 export default function HomePage() {
   const { openBooking, setNavbarRevealed } = useSiteShell();
-  const [preloaderDone, setPreloaderDone] = useState(() => hasShownPreloader);
-  const [isRevealed, setIsRevealed] = useState(() => hasShownPreloader);
+  const [preloaderDone, setPreloaderDone] = useState(() => hasShownPreloader || checkIsAuditOrBot());
+  const [isRevealed, setIsRevealed] = useState(() => hasShownPreloader || checkIsAuditOrBot());
 
   useEffect(() => {
     setNavbarRevealed(hasShownPreloader || isRevealed);

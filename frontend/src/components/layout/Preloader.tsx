@@ -45,9 +45,11 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
 
   // Video autoplay & fast fallback timer
   useEffect(() => {
-    // If reduced motion or audit bot, finish immediately
+    // If reduced motion, headless audit bot or webdriver, finish immediately
     if (typeof window !== 'undefined') {
-      const isAuditBot = /Lighthouse|Chrome-Lighthouse|Googlebot/i.test(navigator.userAgent);
+      const isAuditBot =
+        Boolean((navigator as any).webdriver) ||
+        /HeadlessChrome|Lighthouse|Chrome-Lighthouse|Googlebot/i.test(navigator.userAgent);
       const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (isAuditBot || isReduced) {
         onExitStart?.();

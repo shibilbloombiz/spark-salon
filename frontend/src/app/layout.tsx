@@ -20,11 +20,6 @@ const cormorant = localFont({
       style: 'italic',
     },
     {
-      path: '../../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2',
-      weight: '500',
-      style: 'normal',
-    },
-    {
       path: '../../node_modules/@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2',
       weight: '600',
       style: 'normal',
@@ -49,16 +44,6 @@ const jost = localFont({
     {
       path: '../../node_modules/@fontsource/jost/files/jost-latin-500-normal.woff2',
       weight: '500',
-      style: 'normal',
-    },
-    {
-      path: '../../node_modules/@fontsource/jost/files/jost-latin-600-normal.woff2',
-      weight: '600',
-      style: 'normal',
-    },
-    {
-      path: '../../node_modules/@fontsource/jost/files/jost-latin-700-normal.woff2',
-      weight: '700',
       style: 'normal',
     },
   ],

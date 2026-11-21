@@ -169,7 +169,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
       >
         <div className="bar">
           {/* Left: Spark Logo Image */}
-          <Link href="/" className="brand" aria-label="Spark International Salon, home">
+          <Link href="/" prefetch={false} className="brand" aria-label="Spark International Salon, home">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <picture>
                 <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
@@ -204,6 +204,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             <div className="nav-item">
               <Link
                 href="/"
+                prefetch={false}
                 className={`nav-link ${activeRoute === 'home' ? 'is-active' : ''}`}
                 data-route="home"
                 onPointerEnter={(e) => updateBlob(e.currentTarget)}
@@ -241,6 +242,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
                     <li key={s.slug}>
                       <Link
                         href={`/services/${s.slug}`}
+                        prefetch={false}
                         onClick={() => setOpenDropdown(null)}
                       >
                         <span className="svc-no">{s.num}</span>
@@ -256,6 +258,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             <div className="nav-item">
               <Link
                 href="/products"
+                prefetch={false}
                 className={`nav-link ${activeRoute === 'products' ? 'is-active' : ''}`}
                 data-route="products"
                 onPointerEnter={(e) => updateBlob(e.currentTarget)}
@@ -289,7 +292,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
               <div className="dropdown dropdown-academy" id="menu-academy">
                 <ul>
                   <li>
-                    <Link href="/academy" onClick={() => setOpenDropdown(null)}>
+                    <Link href="/academy" prefetch={false} onClick={() => setOpenDropdown(null)}>
                       All Programmes
                     </Link>
                   </li>
@@ -297,6 +300,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
                     <li key={c.slug}>
                       <Link
                         href={`/academy#course-${c.slug}`}
+                        prefetch={false}
                         onClick={() => {
                           setOpenDropdown(null);
                           if (typeof window !== 'undefined' && window.location.pathname.startsWith('/academy')) {
@@ -316,6 +320,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             <div className="nav-item">
               <Link
                 href="/contact"
+                prefetch={false}
                 className={`nav-link ${activeRoute === 'contact' ? 'is-active' : ''}`}
                 data-route="contact"
                 onPointerEnter={(e) => updateBlob(e.currentTarget)}
@@ -373,7 +378,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
         data-lenis-prevent
       >
         <div className="m-head">
-          <Link href="/" className="brand" onClick={() => setMobileOpen(false)}>
+          <Link href="/" prefetch={false} className="brand" onClick={() => setMobileOpen(false)}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <picture>
                 <source srcSet="/images/logo-emblem-crop-white.webp" type="image/webp" />
@@ -396,7 +401,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
         </div>
 
         <nav className="m-nav" aria-label="Mobile">
-          <Link href="/" onClick={() => setMobileOpen(false)}>
+          <Link href="/" prefetch={false} onClick={() => setMobileOpen(false)}>
             Home
           </Link>
 
@@ -412,13 +417,13 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             <div>
               <ul>
                 <li>
-                  <Link href="/services" onClick={() => setMobileOpen(false)}>
+                  <Link href="/services" prefetch={false} onClick={() => setMobileOpen(false)}>
                     All Services
                   </Link>
                 </li>
                 {SERVICES_LIST.map((s) => (
                   <li key={s.slug}>
-                    <Link href={`/services/${s.slug}`} onClick={() => setMobileOpen(false)}>
+                    <Link href={`/services/${s.slug}`} prefetch={false} onClick={() => setMobileOpen(false)}>
                       {s.name}
                     </Link>
                   </li>
@@ -427,7 +432,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             </div>
           </div>
 
-          <Link href="/products" onClick={() => setMobileOpen(false)}>
+          <Link href="/products" prefetch={false} onClick={() => setMobileOpen(false)}>
             Products
           </Link>
 
@@ -443,7 +448,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             <div>
               <ul>
                 <li>
-                  <Link href="/academy" onClick={() => setMobileOpen(false)}>
+                  <Link href="/academy" prefetch={false} onClick={() => setMobileOpen(false)}>
                     All Programmes
                   </Link>
                 </li>
@@ -451,6 +456,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
                   <li key={c.slug}>
                     <Link
                       href={`/academy#course-${c.slug}`}
+                      prefetch={false}
                       onClick={() => {
                         setMobileOpen(false);
                         if (typeof window !== 'undefined' && window.location.pathname.startsWith('/academy')) {
@@ -468,6 +474,7 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
 
           <Link
             href="/contact"
+            prefetch={false}
             onClick={() => setMobileOpen(false)}
           >
             Contact

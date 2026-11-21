@@ -88,9 +88,9 @@ export default function LogoPanel({ scrolled = false, onLogoClick }: LogoPanelPr
           }}
         >
           <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-            <source srcSet="/images/logo-emblem-crop.webp" type="image/webp" />
+            <source srcSet="/images/logo-emblem-crop-white.webp" type="image/webp" />
             <img
-              src="/images/logo-emblem-crop.png"
+              src="/images/logo-emblem-crop-white.png"
               alt="Spark Emblem"
               width={54}
               height={40}

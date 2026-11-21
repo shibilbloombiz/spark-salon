@@ -40,9 +40,9 @@ export default function SparkLogo({
     >
       {variant !== 'text-only' && (
         <picture>
-          <source srcSet="/images/loading/logo.webp" type="image/webp" />
+          <source srcSet="/images/loading/logo-white.webp" type="image/webp" />
           <img
-            src="/images/loading/logo.png"
+            src="/images/loading/logo-white.png"
             alt="BYJU SPARK INTERNATIONAL SALON"
             width={h * 2}
             height={h}

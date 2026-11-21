@@ -226,16 +226,19 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
             }}
           >
             <div className="spark-brand-logo-wrap">
-              <img
-                src="/images/logo-emblem-crop.png"
-                alt="Spark Logo"
-                className="spark-brand-logo"
-                loading="eager"
-                decoding="async"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/images/loading/logo.png';
-                }}
-              />
+              <picture>
+                <source srcSet="/images/logo-emblem-crop-white.webp" type="image/webp" />
+                <img
+                  src="/images/logo-emblem-crop-white.png"
+                  alt="Spark Logo"
+                  className="spark-brand-logo"
+                  loading="eager"
+                  decoding="async"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/images/loading/logo-white.png';
+                  }}
+                />
+              </picture>
             </div>
             <div className="spark-brand-text">
               <span className="spark-brand-name">Spark</span>
@@ -617,14 +620,17 @@ export default function Navbar({ onOpenBooking, isRevealed = true }: NavbarProps
                 className="spark-nav-brand"
                 onClick={() => setMobileOpen(false)}
               >
-                <img
-                  src="/images/logo-emblem-crop.png"
-                  alt="Spark Logo"
-                  style={{ height: '32px', width: 'auto', display: 'block', objectFit: 'contain' }}
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = '/images/loading/logo.png';
-                  }}
-                />
+                <picture>
+                  <source srcSet="/images/logo-emblem-crop-white.webp" type="image/webp" />
+                  <img
+                    src="/images/logo-emblem-crop-white.png"
+                    alt="Spark Logo"
+                    style={{ height: '32px', width: 'auto', display: 'block', objectFit: 'contain' }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/images/loading/logo-white.png';
+                    }}
+                  />
+                </picture>
                 <div className="spark-brand-text">
                   <span className="spark-brand-name" style={{ fontSize: '20px' }}>
                     Spark

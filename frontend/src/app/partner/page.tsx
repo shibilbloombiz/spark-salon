@@ -64,20 +64,9 @@ _Sent via Spark Salon Official Website (Partner With Us)_`;
     <div style={{ backgroundColor: 'var(--paper)', minHeight: '100vh', color: 'var(--ink)' }} data-cursor-theme="light">
       <main>
         {/* ==================================================================
-            1. SIGNATURE PAGE HEAD WITH MARBLE SLOT
+            1. SIGNATURE PAGE HEAD
             ================================================================== */}
         <section className="page-head">
-          <div className="marble-slot" aria-hidden="true">
-            <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-              <g filter="url(#marble)">
-                <rect width="1000" height="800" fill="#ffffff" />
-                <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-                <ellipse cx="700" cy="530" rx="260" ry="230" fill="#0c0c0c" />
-                <ellipse cx="840" cy="170" rx="170" ry="140" fill="#c8102e" />
-                <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff" />
-              </g>
-            </svg>
-          </div>
           <div className="wrap">
             <p className="eyebrow">Partnership</p>
             <h1 className="h-display">Grow with Spark</h1>

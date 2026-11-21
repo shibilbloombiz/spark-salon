@@ -303,14 +303,6 @@ export default function AcademyPage() {
       {/* 3. Main Hero Header with Abstract Marble Slot */}
       <main id="academy">
         <section className="head">
-          <div
-            className="marble-slot"
-            aria-hidden="true"
-            style={{
-              background: 'radial-gradient(circle at 75% 35%, rgba(200, 16, 46, 0.22) 0%, rgba(12, 12, 12, 0.08) 50%, transparent 80%)',
-            }}
-          />
-
           <div className="wrap">
             <p className="eyebrow">Academy</p>
             <h1 className="h-display">All courses</h1>
@@ -790,10 +782,9 @@ export default function AcademyPage() {
           position: absolute;
           left: 0;
           top: -26px;
-          width: 200%;
+          width: 100%;
           height: 28px;
           display: flex;
-          animation: wave-x 5s linear infinite;
         }
         .lq-wave svg {
           display: block;
@@ -1078,7 +1069,6 @@ export default function AcademyPage() {
         .enquire:hover::before,
         .enquire:focus-visible::before {
           top: -35%;
-          animation: morph 4s ease-in-out infinite;
         }
         .note {
           font-size: 12px;

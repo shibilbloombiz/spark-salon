@@ -106,19 +106,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* Shared SVG filter for the liquid marble backgrounds */}
-        <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true" focusable="false">
-          <defs>
-            <filter id="marble" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
-              <feTurbulence type="fractalNoise" baseFrequency="0.0045 0.008" numOctaves={3} seed={7} result="noise">
-                <animate attributeName="baseFrequency" dur="18s" values="0.0045 0.008;0.007 0.0035;0.0045 0.008" repeatCount="indefinite" />
-              </feTurbulence>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale={340} xChannelSelector="R" yChannelSelector="G" result="disp" />
-              <feGaussianBlur in="disp" stdDeviation={8} />
-            </filter>
-          </defs>
-        </svg>
-
         <SmoothScrollProvider>
           <SiteShell>{children}</SiteShell>
         </SmoothScrollProvider>

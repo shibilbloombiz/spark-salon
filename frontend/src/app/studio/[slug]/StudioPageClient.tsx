@@ -639,7 +639,6 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
 
         {/* SECTION 08 — Ready When You Are CTA Band */}
         <div className="cta-band section">
-          <span className="liquid-cap" aria-hidden="true" />
           <div className="wrap">
             <div className="cta-copy">
               <p className="eyebrow">Ready when you are</p>

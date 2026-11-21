@@ -497,15 +497,6 @@ export default function ContactPage() {
             {/* Right Column: Dark Hours Card + Designed Social Channels Card (eliminates blank space) */}
             <div className="contact-right-stack">
               <aside className="side">
-                <div className="marble-slot" aria-hidden="true">
-                  <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-                    <g filter="url(#marble)">
-                      <rect width="1000" height="800" fill="#0c0c0c" />
-                      <ellipse cx="260" cy="260" rx="260" ry="200" fill="#c8102e" />
-                      <ellipse cx="720" cy="560" rx="200" ry="180" fill="#c8102e" opacity="0.7" />
-                    </g>
-                  </svg>
-                </div>
                 <div className="side-inner">
                   <h3>Hours</h3>
                   <ul>
@@ -628,15 +619,6 @@ export default function ContactPage() {
         <section className="section" id="visit" style={{ paddingTop: '24px', paddingBottom: '24px' }}>
           <div className="wrap">
             <div className="map-frame">
-              <div className="marble-slot" aria-hidden="true">
-                <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-                  <g filter="url(#marble)">
-                    <rect width="1000" height="800" fill="#0c0c0c" />
-                    <ellipse cx="200" cy="200" rx="240" ry="200" fill="#c8102e" />
-                    <ellipse cx="800" cy="600" rx="260" ry="200" fill="#ffffff" opacity="0.14" />
-                  </g>
-                </svg>
-              </div>
               <span className="pin" aria-hidden="true" />
               <div className="caption">
                 <h3>Find the salon</h3>

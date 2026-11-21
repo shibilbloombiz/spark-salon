@@ -892,18 +892,6 @@ export default function AdminDashboardClient() {
         </svg>
 
         <section className="login" id="login">
-          <div className="marble-slot" aria-hidden="true">
-            <svg viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice">
-              <g filter="url(#marble-static)">
-                <rect width="1000" height="800" fill="#ffffff" />
-                <ellipse cx="300" cy="250" rx="300" ry="220" fill="#c8102e" />
-                <ellipse cx="700" cy="530" rx="260" ry="230" fill="#0c0c0c" />
-                <ellipse cx="840" cy="170" rx="170" ry="140" fill="#c8102e" />
-                <ellipse cx="520" cy="430" rx="110" ry="100" fill="#ffffff" />
-              </g>
-            </svg>
-          </div>
-
           <form className="login-card" id="loginForm" onSubmit={handleLogin} noValidate>
             <p className="eyebrow">Spark admin</p>
             <h1>Sign in</h1>

@@ -133,7 +133,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeChapter}
-                initial={{ opacity: 0, y: 14 }}
+                initial={{ opacity: 1, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -14, filter: 'blur(6px)' }}
                 transition={{ duration: 0.22, ease: 'easeOut' }}
@@ -141,7 +141,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
               >
                 {/* Top Brand Tag with BlurText */}
                 <motion.div
-                  initial={{ opacity: 0, y: 16, filter: 'blur(6px)' }}
+                  initial={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   animate={
                     isRevealed
                       ? { opacity: 1, y: 0, filter: 'blur(0px)' }
@@ -161,6 +161,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
                     threshold={0.01}
                     delay={25}
                     ready={true}
+                    initialVisible={true}
                   />
                 </motion.div>
 
@@ -175,6 +176,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
                   direction="top"
                   threshold={0.01}
                   ready={true}
+                  initialVisible={true}
                 />
 
                 {/* Body Description in Jost */}
@@ -185,6 +187,7 @@ const HeroOverlay = forwardRef<HeroOverlayHandle, HeroOverlayProps>(function Her
                   delay={18}
                   text={currentSlide.subtitle}
                   ready={true}
+                  initialVisible={true}
                 />
               </motion.div>
             </AnimatePresence>

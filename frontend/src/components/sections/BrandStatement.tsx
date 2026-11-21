@@ -196,11 +196,13 @@ export default function BrandStatement() {
       }
     }
 
-    measure();
-    const initProg = getProgress();
-    targetRv = currentRv = initProg.rv;
-    targetP = currentP = initProg.p;
-    draw(currentRv, currentP);
+    const rafId = requestAnimationFrame(() => {
+      measure();
+      const initProg = getProgress();
+      targetRv = currentRv = initProg.rv;
+      targetP = currentP = initProg.p;
+      draw(currentRv, currentP);
+    });
 
     window.addEventListener('scroll', onScroll, { passive: true });
     const win = window as any;
@@ -222,6 +224,7 @@ export default function BrandStatement() {
     window.addEventListener('resize', onResize);
 
     return () => {
+      cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', onScroll);
       if (win.lenis && typeof win.lenis.off === 'function') {
         win.lenis.off('scroll', onScroll);

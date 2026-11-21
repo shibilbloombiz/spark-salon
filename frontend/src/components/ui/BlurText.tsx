@@ -19,6 +19,7 @@ export interface BlurTextProps {
   stepDuration?: number;
   once?: boolean;
   ready?: boolean;
+  initialVisible?: boolean;
   // Polymorphic & style extensions
   as?: React.ElementType;
   style?: React.CSSProperties;
@@ -69,6 +70,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
   stepDuration = 0.42,
   once: onceProp,
   ready = true,
+  initialVisible = false,
   as: Component = 'p',
   style,
   spanClassName = '',
@@ -104,7 +106,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
     return text.split('');
   }, [text, animateBy]);
 
-  const [inView, setInView] = useState(false);
+  const [inView, setInView] = useState(() => Boolean(initialVisible));
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -250,7 +252,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
           <motion.span
             className={combinedSpanClass}
             key={index}
-            initial={fromSnapshot}
+            initial={initialVisible ? { filter: 'blur(0px)', opacity: 1, y: 0 } : fromSnapshot}
             animate={shouldAnimate ? animateKeyframes : fromSnapshot}
             transition={spanTransition}
             style={{

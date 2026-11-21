@@ -41,10 +41,13 @@ function LenisGsapSync() {
     // Disable lagSmoothing so GSAP and Lenis remain strictly locked 1:1 without hitch or lag
     gsap.ticker.lagSmoothing(0);
 
-    // Initial recalculation of trigger boundaries
-    ScrollTrigger.refresh();
+    // Recalculate trigger boundaries once DOM finishes initial paint
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 120);
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('scroll', onScroll);
       gsap.ticker.remove(tickerUpdate);
       if (typeof unbind === 'function') {

@@ -7,8 +7,8 @@ import { SparkSalonHero } from '@/components/hero';
 import BrandStatement from '@/components/sections/BrandStatement';
 import { useSiteShell } from '@/components/layout/SiteShell';
 
-const RealevateServicesSection = dynamic(
-  () => import('@/components/sections/RealevateServicesSection'),
+const SparkServicesShowcase = dynamic(
+  () => import('@/components/sections/SparkServicesShowcase'),
   {
     loading: () => <div style={{ minHeight: '100vh', backgroundColor: 'var(--paper, #f4f2f1)' }} />,
   }
@@ -99,8 +99,8 @@ export default function HomePage() {
       {/* 03 — BRAND STATEMENT (matching scroll effect.png) */}
       <BrandStatement />
 
-      {/* 04 — SERVICES SHOWCASE (Realevate-inspired cinematic scroll experience) */}
-      <RealevateServicesSection />
+      {/* 04 — SERVICES SHOWCASE (Exact Reference Design from SPARK Services Showcase.html) */}
+      <SparkServicesShowcase />
 
       {/* 05 — LATEST WORKS SPIRAL HELIX GALLERY */}
       <SpiralGallery />

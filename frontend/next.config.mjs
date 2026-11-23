@@ -98,32 +98,12 @@ const nextConfig = {
         destination: `${BACKEND_URL}/api/artists`,
       },
       {
-        source: '/api/products/:path*',
-        destination: `${BACKEND_URL}/api/products/:path*`,
-      },
-      {
-        source: '/api/products',
-        destination: `${BACKEND_URL}/api/products`,
-      },
-      {
-        source: '/api/academy/:path*',
-        destination: `${BACKEND_URL}/api/academy/:path*`,
-      },
-      {
-        source: '/api/academy',
-        destination: `${BACKEND_URL}/api/academy`,
-      },
-      {
         source: '/api/media',
         destination: `${BACKEND_URL}/api/media`,
       },
       {
         source: '/api/pages/:path*',
         destination: `${BACKEND_URL}/api/pages/:path*`,
-      },
-      {
-        source: '/api/settings',
-        destination: `${BACKEND_URL}/api/settings`,
       },
       {
         source: '/uploads/:path*',

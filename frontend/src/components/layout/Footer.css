@@ -317,9 +317,6 @@
 
 /* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
-  .site-footer .wave .wave-track {
-    animation: none !important;
-  }
   .f-mega {
     transition: none !important;
   }

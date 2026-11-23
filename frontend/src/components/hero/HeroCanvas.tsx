@@ -166,6 +166,7 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, HeroCanvasProps>(function HeroCa
   // When loader completes any frame, redraw if the arriving frame is closer to target than the currently painted frame
   useEffect(() => {
     if (!loader) return;
+    drawCurrent();
     const unsub = loader.onFrameLoaded((index: number) => {
       if (currentProgressRef.current < 0.99) {
         const target = currentFrameTargetRef.current;
@@ -189,10 +190,17 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, HeroCanvasProps>(function HeroCa
     if (!container || !canvas) return;
 
     const rect = container.getBoundingClientRect();
-    const newWidth = Math.round(rect.width);
-    const newHeight = Math.round(rect.height);
+    let newWidth = Math.round(rect.width);
+    let newHeight = Math.round(rect.height);
 
-    if (newWidth <= 0 || newHeight <= 0) return;
+    if (newWidth <= 0 || newHeight <= 0) {
+      if (typeof window !== 'undefined') {
+        newWidth = window.innerWidth;
+        newHeight = window.innerHeight;
+      } else {
+        return;
+      }
+    }
 
     // Check if dimensions truly changed (prevents iOS address bar spurious micro-shifts)
     if (newWidth === cssDimsRef.current.width && newHeight === cssDimsRef.current.height) {

@@ -248,16 +248,17 @@ a {
 .cta-band .luxury-container {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
 }
 .cta-band .cta-copy {
   max-width: min(56ch, 50vw);
 }
 .cta-band .cta-actions {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 40%;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,14 +288,14 @@ a {
 }
 @media (max-width: 900px) {
   .cta-band {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 28px;
+    padding: 60px 0;
   }
   .cta-band .wrap,
   .cta-band .luxury-container {
+    flex-direction: column;
     text-align: center;
+    justify-content: center;
+    gap: 24px;
   }
   .cta-band .cta-copy {
     max-width: 100%;
@@ -304,11 +305,7 @@ a {
     margin-right: auto;
   }
   .cta-band .cta-actions {
-    position: relative;
     width: 100%;
-    top: auto;
-    right: auto;
-    bottom: auto;
     justify-content: center;
   }
 }

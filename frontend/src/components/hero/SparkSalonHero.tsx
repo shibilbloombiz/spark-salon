@@ -34,7 +34,7 @@ export default function SparkSalonHero({
   const [reducedMotion, setReducedMotion] = useState(false);
 
   // Initialize frame sequence & loader
-  const { loaderRef, loaderState } = useHeroFrameSequence({
+  const { loader, loaderRef, loaderState } = useHeroFrameSequence({
     config: HERO_FRAME_SET,
   });
 
@@ -54,7 +54,7 @@ export default function SparkSalonHero({
    */
   const initScrollTrigger = useCallback(() => {
     const container = containerRef.current;
-    if (!container || reducedMotion || typeof window === 'undefined') return;
+    if (!container || typeof window === 'undefined') return;
 
     // Clean up any existing instances first
     if (scrollTriggerRef.current) {
@@ -100,7 +100,7 @@ export default function SparkSalonHero({
 
           if (priorityFrame !== lastPriorityFrame) {
             lastPriorityFrame = priorityFrame;
-            loaderRef.current?.setPriorityFrame(priorityFrame);
+            (loader || loaderRef.current)?.setPriorityFrame(priorityFrame);
           }
         }
 
@@ -125,22 +125,22 @@ export default function SparkSalonHero({
       ScrollTrigger.sort();
       ScrollTrigger.refresh();
     };
-  }, [reducedMotion, loaderRef, onComplete]);
+  }, [loader, loaderRef, onComplete]);
 
   // Set up ScrollTrigger immediately on mount so pin runway is stable from frame 1
   useEffect(() => {
-    if (reducedMotion) return;
     const cleanup = initScrollTrigger();
     return () => {
       if (cleanup) cleanup();
     };
-  }, [reducedMotion, initScrollTrigger]);
+  }, [initScrollTrigger]);
 
   // Refresh ScrollTrigger when critical window loads or when hero is revealed from preloader
   useEffect(() => {
     if (loaderState.isCriticalWindowLoaded || isRevealed) {
       const timer = setTimeout(() => {
         ScrollTrigger.refresh();
+        canvasRef.current?.renderProgress(0);
       }, 80);
       return () => clearTimeout(timer);
     }
@@ -148,7 +148,7 @@ export default function SparkSalonHero({
 
   // Direct sync with Lenis smooth scroll for real-time response during scrub
   useEffect(() => {
-    if (reducedMotion || typeof window === 'undefined') return;
+    if (typeof window === 'undefined') return;
 
     const lenis = (window as any).lenis;
     if (!lenis) return;
@@ -164,7 +164,7 @@ export default function SparkSalonHero({
     return () => {
       lenis.off?.('scroll', handleLenisScroll);
     };
-  }, [reducedMotion]);
+  }, []);
 
   // Handle viewport resize to update ScrollTrigger pin distance
   useEffect(() => {
@@ -205,7 +205,7 @@ export default function SparkSalonHero({
       >
         <HeroCanvas
           ref={canvasRef}
-          loader={loaderRef.current}
+          loader={loader || loaderRef.current}
           config={HERO_FRAME_SET}
         />
       </div>

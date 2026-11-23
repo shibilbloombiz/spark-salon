@@ -1421,6 +1421,11 @@ dialog:not(#apptDlg)::backdrop {
 .cta-band .wrap {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
 }
 
 .cta-band .cta-copy {
@@ -1438,11 +1443,7 @@ dialog:not(#apptDlg)::backdrop {
 }
 
 .cta-band .cta-actions {
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 40%;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1481,17 +1482,16 @@ dialog:not(#apptDlg)::backdrop {
     gap: 28px;
   }
   .cta-band .wrap {
+    flex-direction: column;
     text-align: center;
+    justify-content: center;
+    gap: 24px;
   }
   .cta-band .cta-copy {
     max-width: 100%;
   }
   .cta-band .cta-actions {
-    position: relative;
     width: 100%;
-    top: auto;
-    right: auto;
-    bottom: auto;
     justify-content: center;
   }
 }

@@ -46,17 +46,17 @@ export default function FinalCta({ onOpenBooking }: FinalCtaProps = {}) {
             Experience bespoke hair transformations, clinical dermatology, and soothing luxury rituals at Kerala&apos;s premier salon.
           </p>
         </div>
-      </div>
 
-      <div className="cta-actions">
-        <button
-          className="btn cta-band-btn"
-          data-open="appt"
-          onClick={handleBooking}
-          type="button"
-        >
-          Book Appointment
-        </button>
+        <div className="cta-actions">
+          <button
+            className="btn cta-band-btn"
+            data-open="appt"
+            onClick={handleBooking}
+            type="button"
+          >
+            Book Appointment
+          </button>
+        </div>
       </div>
     </section>
   );

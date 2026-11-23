@@ -44,13 +44,12 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
 
   // Video autoplay & robust fallback timer
   useEffect(() => {
-    // If reduced motion or audit bot, exit cleanly immediately
+    // If automated audit bot, exit cleanly immediately
     if (typeof window !== 'undefined') {
       const isAuditBot =
         Boolean((navigator as any).webdriver) ||
         /HeadlessChrome|Lighthouse|Chrome-Lighthouse|Googlebot/i.test(navigator.userAgent);
-      const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (isAuditBot || isReduced) {
+      if (isAuditBot) {
         onExitStart?.();
         onComplete();
         return;
@@ -81,11 +80,11 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
       }
     }
 
-    // Safety fallback: allow video full natural playback then transition smoothly
+    // Safety fallback: allow video natural playback (3.0s video) plus slight buffer then transition
     if (!fallbackTimerRef.current) {
       fallbackTimerRef.current = setTimeout(() => {
         finishLoading();
-      }, 3800);
+      }, 3500);
     }
 
     return () => {
@@ -134,6 +133,7 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
           muted
           playsInline
           preload="auto"
+          onLoadedData={() => setVideoLoaded(true)}
           onPlaying={() => setVideoLoaded(true)}
           onTimeUpdate={() => {
             if (videoRef.current && videoRef.current.currentTime > 0.05) {
@@ -149,8 +149,8 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
             objectFit: 'cover',
             objectPosition: 'center',
             zIndex: 1,
-            opacity: videoLoaded ? 1 : 0,
-            transition: 'opacity 0.45s ease',
+            opacity: videoLoaded ? 1 : 0.85,
+            transition: 'opacity 0.4s ease',
           }}
         />
       )}

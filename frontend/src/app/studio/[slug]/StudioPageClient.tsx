@@ -650,16 +650,16 @@ export default function StudioPageClient({ service, site }: StudioPageClientProp
               <p className="eyebrow">Ready when you are</p>
               <h2 className="h-section">Book your next visit.</h2>
             </div>
-          </div>
-          <div className="cta-actions">
-            <button
-              className="btn cta-band-btn"
-              type="button"
-              data-open="appt"
-              onClick={(e) => openAppt({ trigger: e.currentTarget, event: e.nativeEvent })}
-            >
-              Book Appointment
-            </button>
+            <div className="cta-actions">
+              <button
+                className="btn cta-band-btn"
+                type="button"
+                data-open="appt"
+                onClick={(e) => openAppt({ trigger: e.currentTarget, event: e.nativeEvent })}
+              >
+                Book Appointment
+              </button>
+            </div>
           </div>
         </div>
       </main>

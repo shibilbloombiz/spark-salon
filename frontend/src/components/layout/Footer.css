@@ -57,7 +57,7 @@
 }
 
 .site-footer .wave .wave-back path {
-  fill: #8b0a1e;
+  fill: var(--red, #8b0a1e);
   opacity: 0.9;
 }
 

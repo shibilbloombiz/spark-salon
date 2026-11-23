@@ -36,8 +36,7 @@ function checkIsAuditOrBot(): boolean {
   try {
     return Boolean(
       (navigator as any).webdriver ||
-      /HeadlessChrome|Lighthouse|Googlebot/i.test(navigator.userAgent) ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      /HeadlessChrome|Lighthouse|Googlebot/i.test(navigator.userAgent)
     );
   } catch {
     return false;

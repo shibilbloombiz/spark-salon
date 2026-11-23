@@ -14,6 +14,7 @@ export function useHeroFrameSequence({
   onFrameChange,
 }: UseHeroFrameSequenceOptions = {}) {
   const loaderRef = useRef<HeroFrameLoader | null>(null);
+  const [loader, setLoader] = useState<HeroFrameLoader | null>(null);
   const currentFrameIndexRef = useRef(0);
   const lastRenderedIndexRef = useRef<number | null>(null);
 
@@ -27,19 +28,21 @@ export function useHeroFrameSequence({
 
   // Initialize loader once on mount
   useEffect(() => {
-    const loader = new HeroFrameLoader(config);
-    loaderRef.current = loader;
+    const l = new HeroFrameLoader(config);
+    loaderRef.current = l;
+    setLoader(l);
 
-    const unsubscribeProgress = loader.onProgress((state) => {
+    const unsubscribeProgress = l.onProgress((state) => {
       setLoaderState(state);
     });
 
-    loader.loadCriticalWindow();
+    l.loadCriticalWindow();
 
     return () => {
       unsubscribeProgress();
-      loader.destroy();
+      l.destroy();
       loaderRef.current = null;
+      setLoader(null);
     };
   }, [config]);
 
@@ -82,6 +85,7 @@ export function useHeroFrameSequence({
   }, []);
 
   return {
+    loader,
     loaderRef,
     loaderState,
     currentFrameIndexRef,

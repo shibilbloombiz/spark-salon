@@ -62,7 +62,7 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, HeroCanvasProps>(function HeroCa
 
       let ctx = ctxRef.current;
       if (!ctx) {
-        ctx = canvas.getContext('2d', { alpha: false });
+        ctx = canvas.getContext('2d', { alpha: true });
         if (!ctx) return;
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = 'medium';
@@ -139,6 +139,7 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, HeroCanvasProps>(function HeroCa
         config.frameCount - 1,
         Math.max(0, Math.round(clamped * (config.frameCount - 1)))
       );
+      currentFrameTargetRef.current = targetIndex;
 
       const frameImg = loader.getNearestFrame(targetIndex);
       drawFrameWithBlend(frameImg, null, 0.0);

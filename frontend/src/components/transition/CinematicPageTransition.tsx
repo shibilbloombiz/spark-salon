@@ -14,7 +14,7 @@ import './CinematicPageTransition.css';
 
 /* ==========================================================================
    CINEMATIC PAGE TRANSITION SYSTEM
-   Inspired by The Sugar Coated Cult & Luxury Awwwards Digital Ateliers
+   Inspired by The Sugar Coated Cult & Luxury Editorial Ateliers
    Tailored for SPARK Salon & Beauty Mall Design Identity
    ========================================================================== */
 
@@ -43,14 +43,12 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
   const router = useRouter();
   const [, startReactTransition] = useTransition();
 
-  // Pathname representation for change detection
+  // Track active pathname
   const prevPathnameRef = useRef<string>(pathname);
 
   const [stage, setStage] = useState<TransitionStage>('idle');
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
-  // Pending destination URL
-  const pendingUrlRef = useRef<string | null>(null);
   const safetyTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isPopStateRef = useRef<boolean>(false);
   const isNavigatingRef = useRef<boolean>(false);
@@ -99,12 +97,10 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
     setIsTransitioning(false);
     isNavigatingRef.current = false;
     isPopStateRef.current = false;
-    pendingUrlRef.current = null;
 
     if (contentWrapperRef.current) {
       contentWrapperRef.current.classList.remove('is-exiting');
       contentWrapperRef.current.classList.add('is-entering');
-      // Remove entrance animation class after entrance completes
       setTimeout(() => {
         contentWrapperRef.current?.classList.remove('is-entering');
       }, 550);
@@ -128,7 +124,6 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
 
       isNavigatingRef.current = true;
       setIsTransitioning(true);
-      pendingUrlRef.current = targetHref;
 
       // Phase 1 & 2: Current page exit + Curtain Covering
       setStage('covering');
@@ -138,7 +133,7 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
         contentWrapperRef.current.classList.add('is-exiting');
       }
 
-      // Safety timeout: Never leave user on stuck overlay if route hangs or network drops
+      // Safety timeout: Never leave user on stuck overlay if route compilation is slow (3s)
       clearSafetyTimer();
       safetyTimerRef.current = setTimeout(() => {
         if (isNavigatingRef.current) {
@@ -146,26 +141,12 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
           setStage('revealing');
           setTimeout(finishTransition, 480);
         }
-      }, 1400);
+      }, 3000);
 
       // Phase 3: At cover apex (~360ms), update Next.js router
       setTimeout(() => {
         setStage('covered');
         resetScrollToTop();
-
-        // Optional Native View Transitions API support where available
-        if (typeof document !== 'undefined' && 'startViewTransition' in document) {
-          try {
-            (document as any).startViewTransition(() => {
-              startReactTransition(() => {
-                router.push(targetHref);
-              });
-            });
-            return;
-          } catch {
-            // Fallback to standard router push
-          }
-        }
 
         startReactTransition(() => {
           router.push(targetHref);
@@ -179,7 +160,7 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
    * Detect route change completion
    */
   useEffect(() => {
-    // If pathname has changed
+    // When pathname changes
     if (prevPathnameRef.current !== pathname) {
       prevPathnameRef.current = pathname;
 
@@ -267,22 +248,25 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
       // Must be internal (same origin)
       if (url.origin !== window.location.origin) return;
 
-      // Ignore hash links on the same path (e.g. #services, #contact)
-      if (
-        url.pathname === window.location.pathname &&
-        url.search === window.location.search &&
-        url.hash
-      ) {
-        return;
-      }
+      // If clicking a link on the exact same pathname:
+      if (url.pathname === window.location.pathname) {
+        // If it has a hash (e.g. #services, #contact, #booking):
+        // Allow Lenis or native smooth scroll without running curtain
+        if (url.hash) {
+          const targetEl = document.querySelector(url.hash);
+          if (targetEl) {
+            e.preventDefault();
+            const lenis = (window as any).lenis;
+            if (lenis && typeof lenis.scrollTo === 'function') {
+              lenis.scrollTo(targetEl as HTMLElement, { duration: 1.2, offset: 0 });
+            } else {
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          }
+          return;
+        }
 
-      // If clicking the logo/home link while already on the exact same page without hash,
-      // smooth scroll to top instead of triggering a full transition
-      if (
-        url.pathname === window.location.pathname &&
-        url.search === window.location.search &&
-        !url.hash
-      ) {
+        // Same URL without hash: smooth scroll to top
         e.preventDefault();
         const lenis = (window as any).lenis;
         if (lenis && typeof lenis.scrollTo === 'function') {
@@ -298,17 +282,16 @@ export default function CinematicPageTransition({ children }: CinematicPageTrans
         return;
       }
 
-      // Valid internal navigation target: intercept and trigger cinematic transition!
+      // Valid internal navigation target to another page: intercept and trigger cinematic transition!
       e.preventDefault();
-      e.stopPropagation();
 
       const targetPath = url.pathname + url.search + url.hash;
       startTransitionTo(targetPath);
     };
 
-    // Use capturing phase so we intercept before Next.js default Link behavior
-    document.addEventListener('click', handleGlobalClick, true);
-    return () => document.removeEventListener('click', handleGlobalClick, true);
+    // Standard bubbling phase on document
+    document.addEventListener('click', handleGlobalClick, false);
+    return () => document.removeEventListener('click', handleGlobalClick, false);
   }, [startTransitionTo]);
 
   // Expose context value

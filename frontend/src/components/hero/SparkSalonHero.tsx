@@ -115,6 +115,10 @@ export default function SparkSalonHero({
     ScrollTrigger.sort();
     ScrollTrigger.refresh();
 
+    // Render initial progress 0 immediately
+    canvasRef.current?.renderProgress(0);
+    overlayRef.current?.updateProgress(0);
+
     return () => {
       st.kill(true);
       scrollTriggerRef.current = null;
@@ -123,14 +127,21 @@ export default function SparkSalonHero({
     };
   }, [reducedMotion, loaderRef, onComplete]);
 
-  // Set up ScrollTrigger once critical window is ready
+  // Set up ScrollTrigger immediately on mount so pin runway is stable from frame 1
   useEffect(() => {
-    if (!loaderState.isCriticalWindowLoaded || reducedMotion) return;
+    if (reducedMotion) return;
     const cleanup = initScrollTrigger();
     return () => {
       if (cleanup) cleanup();
     };
-  }, [loaderState.isCriticalWindowLoaded, reducedMotion, initScrollTrigger]);
+  }, [reducedMotion, initScrollTrigger]);
+
+  // Refresh ScrollTrigger when critical window loads
+  useEffect(() => {
+    if (loaderState.isCriticalWindowLoaded) {
+      ScrollTrigger.refresh();
+    }
+  }, [loaderState.isCriticalWindowLoaded]);
 
   // Handle viewport resize to update ScrollTrigger pin distance
   useEffect(() => {
@@ -163,9 +174,9 @@ export default function SparkSalonHero({
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: isRevealed ? 1 : 0.5,
-          transform: isRevealed ? 'scale(1)' : 'scale(1.03)',
-          transition: 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          opacity: isRevealed ? 1 : 0.85,
+          transform: isRevealed ? 'scale(1)' : 'scale(1.01)',
+          transition: 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
           pointerEvents: 'none',
         }}
       >

@@ -1,0 +1,595 @@
+/* ==========================================================================
+   SPARK ATELIER — REALEVATE-INSPIRED SCROLL-DRIVEN SERVICES SHOWCASE
+   Strict Vertical Order:
+   1. Centered Large Service Image (TOP)
+   2. Oversized Moving Service Heading (Directly UNDER Image)
+   3. Short Service Description (Underneath Heading)
+   4. Explore Service Button (Underneath Description)
+   Reference: https://realevate.agency/
+   ========================================================================== */
+
+/* Outer Scroll Track: provides the scroll runway for 9 services */
+.realevate-services-track {
+  position: relative;
+  width: 100%;
+  min-height: 850vh; /* Smooth, luxurious scroll length for all 9 services */
+  background-color: var(--paper, #f4f2f1);
+  color: var(--ink, #0c0c0c);
+}
+
+/* Pinned Fullscreen Showcase Stage */
+.realevate-sticky-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--paper, #f4f2f1);
+  padding: clamp(12px, 1.8vh, 24px) 20px;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+/* Subtle luxury atmospheric background glow */
+.realevate-sticky-stage::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(800px, 90vw);
+  height: min(700px, 80vh);
+  background: radial-gradient(circle, rgba(200, 16, 46, 0.035) 0%, rgba(244, 242, 241, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Stage Header (Category Eyebrow & Number Counter)
+   -------------------------------------------------------------------------- */
+.realevate-stage-header {
+  position: absolute;
+  top: clamp(14px, 2.2vh, 28px);
+  left: clamp(20px, 4vw, 64px);
+  right: clamp(20px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.realevate-header-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.realevate-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--red, #c8102e);
+  box-shadow: 0 0 10px rgba(200, 16, 46, 0.5);
+  animation: pulseDot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.35); opacity: 0.7; }
+}
+
+.realevate-tagline {
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink, #0c0c0c);
+}
+
+.realevate-index-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-serif, "Cormorant Garamond", serif);
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+.realevate-num-current {
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 600;
+  color: var(--red, #c8102e);
+}
+
+.realevate-num-divider {
+  font-size: 13px;
+  color: rgba(12, 12, 12, 0.3);
+}
+
+.realevate-num-total {
+  font-size: clamp(13px, 1.1vw, 15px);
+  color: rgba(12, 12, 12, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   1. Centered Service Image (TOP)
+   -------------------------------------------------------------------------- */
+.realevate-image-stage {
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(24px, 3.8vh, 46px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.realevate-image-viewport {
+  position: relative;
+  width: clamp(220px, 21vw, 330px);
+  height: clamp(280px, 34vh, 420px);
+  aspect-ratio: 3 / 4;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px -12px rgba(12, 12, 12, 0.22),
+              0 0 0 1px rgba(12, 12, 12, 0.06);
+  background-color: #0c0c0c;
+}
+
+/* Each Image Card is positioned absolute inside the viewport for slit-scan scroll */
+.realevate-image-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: opacity 180ms linear;
+}
+
+.realevate-service-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.realevate-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 12, 12, 0.08) 0%,
+    rgba(12, 12, 12, 0) 35%,
+    rgba(12, 12, 12, 0.45) 100%
+  );
+  pointer-events: none;
+}
+
+.realevate-image-caption {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  right: 16px;
+  color: #ffffff;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.realevate-caption-title {
+  display: block;
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --------------------------------------------------------------------------
+   2. Oversized Moving Service Heading (Directly UNDER the image)
+   -------------------------------------------------------------------------- */
+.realevate-marquee-container {
+  position: relative;
+  z-index: 2;
+  width: 100vw;
+  overflow: hidden;
+  margin-top: clamp(8px, 1.8vh, 18px);
+  margin-bottom: clamp(6px, 1.4vh, 14px);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.realevate-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  /* Continuous infinite right-to-left marquee */
+  animation: realevateMarqueeScroll 26s linear infinite;
+}
+
+@keyframes realevateMarqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.realevate-marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.realevate-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.realevate-marquee-text {
+  font-family: var(--font-serif, "Cormorant Garamond", "Times New Roman", serif);
+  font-size: clamp(38px, 5.2vw, 76px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink, #0c0c0c);
+  transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.realevate-marquee-bullet {
+  display: inline-block;
+  font-size: 0.42em;
+  line-height: 1;
+  color: var(--red, #c8102e);
+  margin: 0 clamp(16px, 2.2vw, 36px);
+  transform: translateY(-0.15em);
+}
+
+/* --------------------------------------------------------------------------
+   3. Short Service Description Underneath Heading
+   -------------------------------------------------------------------------- */
+.realevate-desc-container {
+  position: relative;
+  z-index: 2;
+  max-width: min(540px, 88vw);
+  text-align: center;
+  margin-bottom: clamp(10px, 1.8vh, 18px);
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: clamp(48px, 5.5vh, 64px);
+}
+
+.realevate-description {
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.55;
+  color: var(--muted, rgba(12, 12, 12, 0.68));
+  margin: 0 0 clamp(8px, 1.2vh, 12px) 0;
+  animation: realevateDescFadeIn 340ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes realevateDescFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.realevate-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.realevate-chip {
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background-color: rgba(12, 12, 12, 0.04);
+  color: rgba(12, 12, 12, 0.72);
+  border: 1px solid rgba(12, 12, 12, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   4. Explore Service Button Underneath Description
+   -------------------------------------------------------------------------- */
+.realevate-actions-container {
+  position: relative;
+  z-index: 2;
+  margin-bottom: clamp(12px, 2vh, 22px);
+}
+
+.realevate-explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background-color: transparent;
+  color: var(--ink, #0c0c0c);
+  border: 1px solid var(--ink, #0c0c0c);
+  text-decoration: none;
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(12, 12, 12, 0.04);
+  transition: all 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, background-color, color;
+}
+
+.realevate-btn-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.realevate-explore-btn:hover,
+.realevate-explore-btn:focus-visible {
+  background-color: var(--ink, #0c0c0c);
+  color: #ffffff;
+  border-color: var(--ink, #0c0c0c);
+  box-shadow: 0 10px 24px -6px rgba(12, 12, 12, 0.32);
+  transform: translateY(-2px);
+}
+
+.realevate-explore-btn:hover .realevate-btn-arrow,
+.realevate-explore-btn:focus-visible .realevate-btn-arrow {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Bottom Service Indicator Navigation
+   -------------------------------------------------------------------------- */
+.realevate-progress-nav {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 999px;
+  border: 1px solid rgba(12, 12, 12, 0.08);
+  box-shadow: 0 6px 20px rgba(12, 12, 12, 0.05);
+}
+
+.realevate-dot-btn {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.realevate-dot-inner {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(12, 12, 12, 0.28);
+  transition: all 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.realevate-dot-btn:hover .realevate-dot-inner {
+  background-color: var(--ink, #0c0c0c);
+  transform: scale(1.4);
+}
+
+.realevate-dot-btn.is-active .realevate-dot-inner {
+  width: 18px;
+  border-radius: 4px;
+  background-color: var(--red, #c8102e);
+  box-shadow: 0 0 10px rgba(200, 16, 46, 0.45);
+}
+
+.realevate-dot-tooltip {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 4px 8px;
+  background-color: var(--ink, #0c0c0c);
+  color: #ffffff;
+  font-family: var(--font-sans, "Jost", sans-serif);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 180ms ease;
+}
+
+.realevate-dot-btn:hover .realevate-dot-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Adaptations
+   -------------------------------------------------------------------------- */
+
+/* Laptop / Medium Desktops (1024px – 1199px) */
+@media (max-width: 1199px) {
+  .realevate-services-track {
+    min-height: 750vh;
+  }
+  .realevate-image-viewport {
+    width: clamp(210px, 22vw, 290px);
+    height: clamp(270px, 32vh, 370px);
+  }
+  .realevate-marquee-text {
+    font-size: clamp(34px, 5vw, 64px);
+  }
+}
+
+/* Tablet (768px – 1023px) */
+@media (max-width: 1023px) {
+  .realevate-services-track {
+    min-height: 650vh;
+  }
+  .realevate-image-viewport {
+    width: clamp(190px, 26vw, 260px);
+    height: clamp(250px, 30vh, 340px);
+  }
+  .realevate-marquee-text {
+    font-size: clamp(30px, 5.5vw, 54px);
+  }
+  .realevate-desc-container {
+    max-width: 480px;
+  }
+  .realevate-description {
+    font-size: 13.5px;
+  }
+  .realevate-chips-row {
+    display: none; /* Hide secondary chips on tablets to guarantee no vertical overflow */
+  }
+}
+
+/* Mobile & Small Handhelds (320px – 767px) */
+@media (max-width: 767px) {
+  .realevate-services-track {
+    min-height: 520vh;
+  }
+
+  .realevate-sticky-stage {
+    padding: 12px 14px;
+    justify-content: center;
+  }
+
+  .realevate-stage-header {
+    top: 14px;
+    left: 16px;
+    right: 16px;
+  }
+
+  .realevate-tagline {
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+  }
+
+  .realevate-image-stage {
+    margin-top: 36px;
+  }
+
+  .realevate-image-viewport {
+    width: clamp(170px, 46vw, 230px);
+    height: clamp(220px, 28vh, 290px);
+    border-radius: 4px;
+  }
+
+  .realevate-marquee-container {
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }
+
+  .realevate-marquee-text {
+    font-size: clamp(26px, 7vw, 42px);
+    letter-spacing: 0.03em;
+  }
+
+  .realevate-marquee-bullet {
+    margin: 0 16px;
+  }
+
+  .realevate-desc-container {
+    max-width: 92vw;
+    min-height: auto;
+    margin-bottom: 12px;
+  }
+
+  .realevate-description {
+    font-size: 12.5px;
+    line-height: 1.45;
+    margin-bottom: 0;
+  }
+
+  .realevate-chips-row {
+    display: none;
+  }
+
+  .realevate-actions-container {
+    margin-bottom: 12px;
+  }
+
+  .realevate-explore-btn {
+    padding: 10px 22px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+
+  .realevate-progress-nav {
+    gap: 6px;
+    padding: 4px 10px;
+  }
+
+  .realevate-dot-btn {
+    width: 18px;
+    height: 18px;
+  }
+
+  .realevate-dot-inner {
+    width: 5px;
+    height: 5px;
+  }
+
+  .realevate-dot-btn.is-active .realevate-dot-inner {
+    width: 12px;
+  }
+
+  .realevate-dot-tooltip {
+    display: none;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .realevate-marquee-track {
+    animation-duration: 60s;
+  }
+  .realevate-image-card {
+    transition: none;
+  }
+}

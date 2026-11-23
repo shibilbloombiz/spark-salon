@@ -7,9 +7,12 @@ import { SparkSalonHero } from '@/components/hero';
 import BrandStatement from '@/components/sections/BrandStatement';
 import { useSiteShell } from '@/components/layout/SiteShell';
 
-const StudioList = dynamic(() => import('@/components/sections/StudioList'), {
-  loading: () => <div style={{ minHeight: '600px', backgroundColor: 'var(--paper, #f4f2f1)' }} />,
-});
+const RealevateServicesSection = dynamic(
+  () => import('@/components/sections/RealevateServicesSection'),
+  {
+    loading: () => <div style={{ minHeight: '100vh', backgroundColor: 'var(--paper, #f4f2f1)' }} />,
+  }
+);
 const SpiralGallery = dynamic(() => import('@/components/sections/SpiralGallery'), {
   loading: () => <div style={{ minHeight: '600px', backgroundColor: '#ececec' }} />,
 });
@@ -97,8 +100,8 @@ export default function HomePage() {
       {/* 03 — BRAND STATEMENT (matching scroll effect.png) */}
       <BrandStatement />
 
-      {/* 04 — SERVICES LIST */}
-      <StudioList />
+      {/* 04 — SERVICES SHOWCASE (Realevate-inspired cinematic scroll experience) */}
+      <RealevateServicesSection />
 
       {/* 05 — LATEST WORKS SPIRAL HELIX GALLERY */}
       <SpiralGallery />

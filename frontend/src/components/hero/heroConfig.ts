@@ -30,11 +30,11 @@ export const HERO_FRAME_SET: HeroFrameSet = {
   posterPath: '/hero/poster.webp',
 };
 
-// Critical window: first 2 frames required before unmasking loader (frame 0 is preloaded with fetchpriority="high")
-export const CRITICAL_WINDOW_FRAME_COUNT = 2;
+// Critical window: first 6 frames required before unmasking loader (frame 0 is preloaded with fetchpriority="high")
+export const CRITICAL_WINDOW_FRAME_COUNT = 6;
 
 // Concurrency cap for background image fetching & decoding (keeps network & CPU free for 120fps scrolling)
-export const BACKGROUND_LOAD_CONCURRENCY = typeof window !== 'undefined' && window.innerWidth < 768 ? 2 : 3;
+export const BACKGROUND_LOAD_CONCURRENCY = typeof window !== 'undefined' && window.innerWidth < 768 ? 4 : 8;
 
 // Per-breakpoint ScrollTrigger configuration
 export const BREAKPOINTS: HeroBreakpointConfig[] = [

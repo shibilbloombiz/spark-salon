@@ -68,7 +68,7 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
-            setVideoLoaded(true);
+            // Autoplay succeeded
           })
           .catch((err) => {
             console.warn('[Preloader] Video autoplay was prevented; using animated emblem fallback:', err);
@@ -81,11 +81,11 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
       }
     }
 
-    // Safety fallback: if video is playing, allow it full natural duration up to 4.2 seconds
+    // Safety fallback: allow video full natural playback then transition smoothly
     if (!fallbackTimerRef.current) {
       fallbackTimerRef.current = setTimeout(() => {
         finishLoading();
-      }, 4200);
+      }, 3800);
     }
 
     return () => {
@@ -134,7 +134,12 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
           muted
           playsInline
           preload="auto"
-          onLoadedData={() => setVideoLoaded(true)}
+          onPlaying={() => setVideoLoaded(true)}
+          onTimeUpdate={() => {
+            if (videoRef.current && videoRef.current.currentTime > 0.05) {
+              setVideoLoaded(true);
+            }
+          }}
           onEnded={handleEnded}
           style={{
             position: 'absolute',
@@ -144,8 +149,8 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
             objectFit: 'cover',
             objectPosition: 'center',
             zIndex: 1,
-            opacity: videoLoaded ? 1 : 0.85,
-            transition: 'opacity 0.4s ease',
+            opacity: videoLoaded ? 1 : 0,
+            transition: 'opacity 0.45s ease',
           }}
         />
       )}
@@ -160,7 +165,7 @@ export default function Preloader({ onComplete, onExitStart }: PreloaderProps) {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '16px',
-          opacity: !videoLoaded || videoFailed ? 1 : 0,
+          opacity: videoLoaded && !videoFailed ? 0 : 1,
           transition: 'opacity 0.5s ease',
           pointerEvents: 'none',
         }}

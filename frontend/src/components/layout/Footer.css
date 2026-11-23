@@ -31,6 +31,7 @@
   height: 90px;
   overflow: hidden;
   pointer-events: none;
+  z-index: 5;
 }
 
 .site-footer .wave .wave-track {
@@ -56,7 +57,8 @@
 }
 
 .site-footer .wave .wave-back path {
-  fill: var(--red, #c8102e);
+  fill: #8b0a1e;
+  opacity: 0.9;
 }
 
 .site-footer .wave .wave-front path {

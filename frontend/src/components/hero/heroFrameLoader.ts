@@ -32,9 +32,8 @@ export class HeroFrameLoader {
   private totalFailed = 0;
 
   constructor(private config = HERO_FRAME_SET) {
-    // Only queue immediate next lookahead buffer (6..14) instead of all 220 frames upfront!
-    // Remaining frames are queued dynamically on-demand as the user scrolls.
-    const initialLookahead = Math.min(this.config.frameCount, CRITICAL_WINDOW_FRAME_COUNT + 8);
+    // Queue initial lookahead buffer (frames up to 35)
+    const initialLookahead = Math.min(this.config.frameCount, CRITICAL_WINDOW_FRAME_COUNT + 30);
     for (let i = CRITICAL_WINDOW_FRAME_COUNT; i < initialLookahead; i++) {
       this.queue.push(i);
     }
@@ -138,11 +137,12 @@ export class HeroFrameLoader {
       }
     });
 
-    // Populate a moving lookahead buffer: priority to frames in direction of scroll and immediate vicinity
-    const LOOKAHEAD_WINDOW = 14;
+    // Populate a prioritized moving lookahead buffer: priority to frames in direction of scroll and immediate vicinity
+    const LOOKAHEAD_WINDOW = 32;
+    const LOOKBEHIND_WINDOW = 8;
     const neededFrames: number[] = [];
     for (
-      let i = Math.max(0, this.currentTargetIndex - 2);
+      let i = Math.max(0, this.currentTargetIndex - LOOKBEHIND_WINDOW);
       i <= Math.min(this.config.frameCount - 1, this.currentTargetIndex + LOOKAHEAD_WINDOW);
       i++
     ) {
@@ -151,8 +151,12 @@ export class HeroFrameLoader {
       }
     }
 
-    // Sort by proximity to currentTargetIndex
-    neededFrames.sort((a, b) => Math.abs(a - this.currentTargetIndex) - Math.abs(b - this.currentTargetIndex));
+    // Sort by proximity to currentTargetIndex with forward scroll preference
+    neededFrames.sort((a, b) => {
+      const distA = a >= this.currentTargetIndex ? (a - this.currentTargetIndex) * 0.9 : Math.abs(a - this.currentTargetIndex);
+      const distB = b >= this.currentTargetIndex ? (b - this.currentTargetIndex) * 0.9 : Math.abs(b - this.currentTargetIndex);
+      return distA - distB;
+    });
     this.queue = neededFrames;
 
     this.pumpBackgroundQueue();
@@ -289,6 +293,24 @@ export class HeroFrameLoader {
           this.activeConcurrency = Math.max(0, this.activeConcurrency - 1);
           this.pumpBackgroundQueue();
         });
+    }
+
+    // When priority queue is clear and concurrency has capacity, progressively stream remaining frames
+    if (this.queue.length === 0 && this.activeConcurrency === 0 && !this.destroyed) {
+      this.bufferRemainingFrames();
+    }
+  }
+
+  private bufferRemainingFrames(): void {
+    if (this.destroyed || this.totalLoaded >= this.config.frameCount) return;
+    for (let i = 0; i < this.config.frameCount; i++) {
+      if (!this.cache.has(i) && !this.inFlight.has(i)) {
+        this.queue.push(i);
+        if (this.queue.length >= 24) break;
+      }
+    }
+    if (this.queue.length > 0) {
+      this.pumpBackgroundQueue();
     }
   }
 

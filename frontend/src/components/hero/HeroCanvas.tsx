@@ -163,12 +163,18 @@ const HeroCanvas = forwardRef<HeroCanvasHandle, HeroCanvasProps>(function HeroCa
     [renderFrame, renderProgress, drawCurrent]
   );
 
-  // When loader completes any frame, only redraw if that specific frame is the current target and Hero is in view
+  // When loader completes any frame, redraw if the arriving frame is closer to target than the currently painted frame
   useEffect(() => {
     if (!loader) return;
     const unsub = loader.onFrameLoaded((index: number) => {
-      if (currentProgressRef.current < 0.99 && index === currentFrameTargetRef.current) {
-        drawCurrent();
+      if (currentProgressRef.current < 0.99) {
+        const target = currentFrameTargetRef.current;
+        const currentDiff = Math.abs(lastRenderedIndexRef.current - target);
+        const newDiff = Math.abs(index - target);
+        // Redraw if newly loaded frame is strictly closer to target or within immediate vicinity
+        if (newDiff < currentDiff || newDiff <= 6 || lastRenderedIndexRef.current === -1) {
+          drawCurrent();
+        }
       }
     });
     return unsub;

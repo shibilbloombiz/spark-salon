@@ -136,12 +136,35 @@ export default function SparkSalonHero({
     };
   }, [reducedMotion, initScrollTrigger]);
 
-  // Refresh ScrollTrigger when critical window loads
+  // Refresh ScrollTrigger when critical window loads or when hero is revealed from preloader
   useEffect(() => {
-    if (loaderState.isCriticalWindowLoaded) {
-      ScrollTrigger.refresh();
+    if (loaderState.isCriticalWindowLoaded || isRevealed) {
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 80);
+      return () => clearTimeout(timer);
     }
-  }, [loaderState.isCriticalWindowLoaded]);
+  }, [loaderState.isCriticalWindowLoaded, isRevealed]);
+
+  // Direct sync with Lenis smooth scroll for real-time response during scrub
+  useEffect(() => {
+    if (reducedMotion || typeof window === 'undefined') return;
+
+    const lenis = (window as any).lenis;
+    if (!lenis) return;
+
+    const handleLenisScroll = () => {
+      const st = scrollTriggerRef.current;
+      if (st && st.progress < 0.999) {
+        canvasRef.current?.renderProgress(st.progress);
+      }
+    };
+
+    lenis.on?.('scroll', handleLenisScroll);
+    return () => {
+      lenis.off?.('scroll', handleLenisScroll);
+    };
+  }, [reducedMotion]);
 
   // Handle viewport resize to update ScrollTrigger pin distance
   useEffect(() => {

@@ -81,7 +81,7 @@ export default function HomePage() {
       )}
 
       {/* 02 — CINEMATIC SCROLL-DRIVEN FRAME-SEQUENCE HERO */}
-      <div id="hero">
+      <div className="spark-hero-mount-wrapper">
         <SparkSalonHero
           isRevealed={isRevealed}
           onOpenBooking={() => handleOpenBooking('hair')}
